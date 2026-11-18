@@ -16,6 +16,10 @@ Upload folder `assets/` ke DAM di `/content/dam/livin/` dengan struktur yang sam
 Jika lokasi DAM berbeda, cari-ganti `/content/dam/livin/` di ketiga file.
 
 ## Catatan
+- **Aman untuk filter XSS AEM (AntiSamy):** tag HTML5 (`main`, `section`, `article`, `header`, `nav`, `footer`) sudah diganti `<div>`
+  dengan class `lv-<tag>` + atribut `role`, `<noscript>` dibuang, dan ikon `<svg>` inline (Google Play / App Store) dipindah ke CSS.
+  Sebelumnya filter AEM membuang `<main>` beserta seluruh isinya, sehingga yang tampil hanya navbar.
+- Jika terjadi error JS, konten tetap ditampilkan (animasi dimatikan) agar halaman tidak blank.
 - `livin.css` memuat *preflight* (reset dasar) Tailwind, sama seperti versi asli; reset ini berlaku global, jadi
   sebaiknya halaman memakai template kosong (tanpa header/footer AEM lain) agar tampilannya identik.
 - Parameter URL `?tone=classic` dan `?static` tetap berfungsi.
