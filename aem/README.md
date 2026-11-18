@@ -16,6 +16,9 @@ Upload folder `assets/` ke DAM di `/content/dam/livin/` dengan struktur yang sam
 Jika lokasi DAM berbeda, cari-ganti `/content/dam/livin/` di ketiga file.
 
 ## Catatan
+- **Jangan taruh HTML di komponen `custom-css-js`.** Komponen itu menyembunyikan isinya (`visibility:hidden`, tinggi 0).
+  Sebaiknya pakai komponen Embed/HTML biasa. Sebagai pengaman, `livin.js` membuka kembali pembungkus yang
+  menyembunyikan `#livin-root` (hanya ancestor-nya, lihat baris `unhidden ancestors` di `?livindebug`).
 - **Markup cadangan di `livin.js`:** sanitizer HTML AEM bisa membuang sebagian isi `livin.html` (kasus nyata: hanya navbar
   yang tersisa, `#hero` hilang). JS membawa salinan markup lengkap dan memasangnya ulang ke `#livin-root` bila konten
   hilang (atau membuat `#livin-root` sendiri di `.cmp-embed`/`body` bila wrapper ikut hilang).

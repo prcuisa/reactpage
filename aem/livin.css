@@ -59,7 +59,7 @@
    scoped Livin' rules (preflight is 1,0,1, components 1,1,0). SVG/img keep their presentation attributes. */
 #livin-root :where(:not(svg, svg *, img)) { all: revert; }
 /* root = old <html>+<body>: fixed base values, independent of the AEM page (html{font-size:62.5%}, body{line-height}...) */
-#livin-root { font-size: 16px; line-height: 1.5; font-weight: 400; font-style: normal; letter-spacing: normal; text-align: left; text-transform: none; text-indent: 0; word-spacing: normal; white-space: normal; direction: ltr; margin: 0; padding: 0; }
+#livin-root { visibility: visible; opacity: 1; display: block; position: relative; font-size: 16px; line-height: 1.5; font-weight: 400; font-style: normal; letter-spacing: normal; text-align: left; text-transform: none; text-indent: 0; word-spacing: normal; white-space: normal; direction: ltr; margin: 0; padding: 0; }
 #livin-root :where(div,span,p,a,ul,ol,li,small,b,strong,em,i,button,img,h1,h2,h3,h4,figure,label) { line-height: inherit; font-family: inherit; letter-spacing: inherit; text-transform: inherit; text-align: inherit; float: none; display: revert; width: revert; height: revert; max-width: revert; min-height: revert; position: revert; background: revert; border: revert; box-shadow: revert; text-decoration: inherit; color: inherit; }
 #livin-root :where(h1,h2,h3,h4,b,strong,small) { font-size: inherit; font-weight: inherit; }
 #livin-root :where(b,strong) { font-weight: bolder; } #livin-root :where(small) { font-size: 80%; }

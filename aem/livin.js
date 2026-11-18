@@ -35,7 +35,28 @@
       d.className = 'no-js bg-white text-charcoal font-sans antialiased'; d.setAttribute('data-tone', 'corp'); d.innerHTML = MARKUP; d.__lvRebuilt = 1;
     }
   }
-  function boot0() { ensureMarkup(); flags(); }
+  // The wrapper component may hide its content (e.g. AEM "custom-css-js": visibility:hidden, height 0,
+  // out of flow). Undo that on the ancestors of #livin-root only.
+  function unhide() {
+    var d = root(), fixed = [];
+    for (var e = d && d.parentElement; e && e !== document.documentElement; e = e.parentElement) {
+      var c = getComputedStyle(e), st = e.style, f = '';
+      if (c.display === 'none') { st.setProperty('display', 'block', 'important'); f += 'display '; }
+      if (c.visibility !== 'visible') { st.setProperty('visibility', 'visible', 'important'); f += 'visibility '; }
+      if (parseFloat(c.opacity) < 1) { st.setProperty('opacity', '1', 'important'); f += 'opacity '; }
+      if (e !== document.body && (c.position === 'absolute' || c.position === 'fixed')) { st.setProperty('position', 'static', 'important'); f += 'position '; }
+      if (e !== document.body && (parseFloat(c.height) < 2 || parseFloat(c.maxHeight) < 2)) { st.setProperty('height', 'auto', 'important'); st.setProperty('max-height', 'none', 'important'); f += 'height '; }
+      if (c.overflow !== 'visible' && e !== document.body) { st.setProperty('overflow', 'visible', 'important'); f += 'overflow '; }
+      if (c.clipPath !== 'none' || c.clip !== 'auto') { st.setProperty('clip-path', 'none', 'important'); st.setProperty('clip', 'auto', 'important'); f += 'clip '; }
+      if (c.transform !== 'none') { st.setProperty('transform', 'none', 'important'); f += 'transform '; }
+      if (f) fixed.push((typeof e.className === 'string' && e.className.split(' ')[0] || e.tagName) + '{' + f.trim() + '}');
+    }
+    var b = getComputedStyle(document.body), h = getComputedStyle(document.documentElement);
+    if (b.overflowY === 'hidden') { document.body.style.setProperty('overflow-y', 'auto', 'important'); fixed.push('body{overflow}'); }
+    if (h.overflowY === 'hidden') { document.documentElement.style.setProperty('overflow-y', 'auto', 'important'); fixed.push('html{overflow}'); }
+    window.__lvUnhidden = fixed;
+  }
+  function boot0() { ensureMarkup(); unhide(); flags(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot0); else boot0();
   // Failsafe: if the hero is still invisible 4s after DOM ready, drop motion so content always shows
   function failsafe() {
@@ -59,8 +80,9 @@
     add('livin.css rules', css);
     add('gsap (bundle)', window.__lvGsap ? window.__lvGsap.version : 'none'); add('window.gsap', window.gsap ? (window.gsap.version || '?') + (window.gsap === window.__lvGsap ? ' (ours)' : ' (OTHER)') : 'none');
     add('ready', window.__livinReady); add('framed', framed); add('viewport', innerWidth + 'x' + innerHeight + ' scrollH ' + document.documentElement.scrollHeight);
-    var anc = [], e = d && d.parentElement; while (e && e !== document.body) { var cs = getComputedStyle(e); if (cs.overflow !== 'visible' || cs.transform !== 'none' || e.offsetHeight < 50) anc.push((e.className || e.tagName) + '[h' + e.offsetHeight + ' ov:' + cs.overflow + ' tf:' + (cs.transform !== 'none') + ']'); e = e.parentElement; }
+    var anc = [], e = d && d.parentElement; while (e && e !== document.body) { var cs = getComputedStyle(e); if (cs.overflow !== 'visible' || cs.transform !== 'none' || e.offsetHeight < 50 || cs.visibility !== 'visible' || cs.position !== 'static') anc.push((e.className || e.tagName) + '[h' + e.offsetHeight + ' ov:' + cs.overflow + ' pos:' + cs.position + ' vis:' + cs.visibility + ' tf:' + (cs.transform !== 'none') + ']'); e = e.parentElement; }
     add('ancestors', anc.join(' > ') || 'ok');
+    add('unhidden ancestors', (window.__lvUnhidden || []).join(' ') || 'none');
     add('errors', (window.__lvErrors || []).join(' | ') || 'none');
     var pre = document.createElement('pre'); pre.textContent = out.join('\n');
     pre.setAttribute('style', 'position:fixed;z-index:2147483647;left:8px;bottom:8px;max-width:90vw;max-height:60vh;overflow:auto;background:#111;color:#0f0;font:12px/1.4 monospace;padding:10px;white-space:pre-wrap;border-radius:6px');
