@@ -5,6 +5,7 @@
  *  3. Install the motion system via gsap.matchMedia so every trigger, tween
  *     and listener is cleaned up automatically on breakpoint / preference change.
  */
+import { reportMissingRoot, checkStructure, checkVisibility, report } from './diagnostics.js';
 import { gsap as GSAP } from 'gsap';
 import { ScrollTrigger as ST } from 'gsap/ScrollTrigger';
 import { createIcons } from 'lucide';
@@ -28,7 +29,8 @@ const FINE = '(hover: hover) and (pointer: fine)';
 function boot() {
   // One instance per root; a second include of script.js must not re-bind listeners
   const root = document.querySelector('.livin');
-  if (!root || root.dataset.livinInit) return;
+  if (!root) { reportMissingRoot(); return; }
+  if (root.dataset.livinInit) return;
   root.dataset.livinInit = 'true';
   initEnv(root);
   // `?static` forces the reduced-motion path for QA screenshots
@@ -41,6 +43,10 @@ function boot() {
   const refs = buildExperience();
   createIcons({ icons: ICONS });
   renderQR(LINKS.qrTarget);
+
+  // Self-check (console report; ?livindebug shows a panel). Visibility is checked once animations settle.
+  checkStructure(root);
+  setTimeout(() => { checkVisibility(root); report(root); }, 3500);
 
   const globalCleanups = [initNavigation({ reduced }), pauseOffscreen()];
   const gsap = GSAP, ScrollTrigger = ST;
