@@ -16,11 +16,15 @@ Upload folder `assets/` ke DAM di `/content/dam/livin/` dengan struktur yang sam
 Jika lokasi DAM berbeda, cari-ganti `/content/dam/livin/` di ketiga file.
 
 ## Catatan
+- **CSS ter-scope penuh ke `#livin-root`.** Setiap rule diawali `#livin-root`; aturan `html`/`:root`/`body` dipindah ke
+  `#livin-root`, dan state class (`motion`, `has-cursor`, `data-tone`) dipasang JS di `#livin-root`, bukan di `<html>`.
+  Keyframes diberi prefix `lv-`, semua `rem` diubah ke `px` (kebal terhadap `html{font-size:62.5%}` dari tema AEM),
+  dan ada lapisan pelindung agar CSS tag global AEM (`div{}`, `ul{}`, `h1{}`) tidak masuk ke halaman.
+  Jangan ubah/hapus `id="livin-root"` pada `<div>` pembungkus.
 - **Aman untuk filter XSS AEM (AntiSamy):** tag HTML5 (`main`, `section`, `article`, `header`, `nav`, `footer`) sudah diganti `<div>`
   dengan class `lv-<tag>` + atribut `role`, `<noscript>` dibuang, dan ikon `<svg>` inline (Google Play / App Store) dipindah ke CSS.
   Sebelumnya filter AEM membuang `<main>` beserta seluruh isinya, sehingga yang tampil hanya navbar.
 - Jika terjadi error JS, konten tetap ditampilkan (animasi dimatikan) agar halaman tidak blank.
-- `livin.css` memuat *preflight* (reset dasar) Tailwind, sama seperti versi asli; reset ini berlaku global, jadi
-  sebaiknya halaman memakai template kosong (tanpa header/footer AEM lain) agar tampilannya identik.
+- Navbar Livin' memakai `position: fixed` di atas halaman; jika template AEM punya header sendiri, keduanya akan bertumpuk.
 - Parameter URL `?tone=classic` dan `?static` tetap berfungsi.
 - Folder sumber desain (`assets/screenshots/frame*`, `tabungan/`) tidak disertakan karena tidak dipakai halaman.
