@@ -3,13 +3,22 @@
 ;(function () {
   function root() { return document.getElementById('livin-root'); }
   var search = location.search;
-  var reduce = /[?&]static/.test(search) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  // Inside an iframe = AEM editor / preview: the frame grows with the content and scrolling happens in the
+  // parent window, so viewport units and scroll-driven animation can't work there -> fixed vh + static mode.
+  var framed = false; try { framed = window.self !== window.top; } catch (e) { framed = true; }
+  var reduce = framed || /[?&]static/.test(search) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function topHeight() { try { return window.top.innerHeight; } catch (e) { return 0; } }
   window.__livinStatic = reduce;
   function flags() {
     var d = root(); if (!d || d.__lvFlags) return; d.__lvFlags = 1;
     d.classList.remove('no-js'); d.classList.add('js');
     var tone = new URLSearchParams(search).get('tone');
     d.setAttribute('data-tone', tone === 'classic' ? 'classic' : 'corp');
+    if (framed) {
+      d.classList.add('lv-framed');
+      var setVh = function () { var h = topHeight() || (window.screen && window.screen.availHeight) || 800; d.style.setProperty('--lv-vh', Math.min(Math.max(h, 500), 1200) / 100 + 'px'); };
+      setVh(); try { window.top.addEventListener('resize', setVh); } catch (e) {}
+    }
     if (!reduce) d.classList.add('motion');
     // Safety net: if the motion engine fails to boot, reveal everything.
     setTimeout(function () { if (!window.__livinReady) d.classList.remove('motion'); }, 3000);

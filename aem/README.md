@@ -16,6 +16,10 @@ Upload folder `assets/` ke DAM di `/content/dam/livin/` dengan struktur yang sam
 Jika lokasi DAM berbeda, cari-ganti `/content/dam/livin/` di ketiga file.
 
 ## Catatan
+- **Editor/Preview AEM (iframe):** editor AEM memuat halaman dalam iframe yang tingginya mengikuti konten, sehingga
+  `100vh` membengkak tanpa batas (dulu: hanya navbar yang terlihat, sisanya putih). Semua `vh/svh` kini memakai
+  `var(--lv-vh)`; di dalam iframe JS menguncinya ke tinggi layar asli dan menonaktifkan animasi scroll (class `lv-framed`).
+  Animasi penuh tetap jalan di halaman publish / `?wcmmode=disabled`.
 - **CSS ter-scope penuh ke `#livin-root`.** Setiap rule diawali `#livin-root`; aturan `html`/`:root`/`body` dipindah ke
   `#livin-root`, dan state class (`motion`, `has-cursor`, `data-tone`) dipasang JS di `#livin-root`, bukan di `<html>`.
   Keyframes diberi prefix `lv-`, semua `rem` diubah ke `px` (kebal terhadap `html{font-size:62.5%}` dari tema AEM),
