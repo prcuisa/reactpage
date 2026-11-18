@@ -16,6 +16,11 @@ Upload folder `assets/` ke DAM di `/content/dam/livin/` dengan struktur yang sam
 Jika lokasi DAM berbeda, cari-ganti `/content/dam/livin/` di ketiga file.
 
 ## Catatan
+- **Isolasi dari CSS situs:** `#livin-root :where(:not(svg, svg *, img)) { all: revert }` membatalkan semua rule class/tag
+  situs AEM (mis. `.hero{}`, `.footer{}`, `.display{}`) di dalam halaman Livin'. Rule tanpa `!important` dari situs tidak bisa masuk.
+- **GSAP privat:** halaman memakai GSAP dari bundle sendiri (`window.__lvGsap`), tidak terganggu GSAP/library lain di situs.
+- **Failsafe:** jika 4 detik setelah DOM siap hero masih tak terlihat, animasi dimatikan dan konten dipaksa tampil.
+- **Diagnosa:** tambahkan `?livindebug` di URL → panel hijau di kiri bawah berisi status (CSS, JS, tinggi tiap section, error).
 - **Editor/Preview AEM (iframe):** editor AEM memuat halaman dalam iframe yang tingginya mengikuti konten, sehingga
   `100vh` membengkak tanpa batas (dulu: hanya navbar yang terlihat, sisanya putih). Semua `vh/svh` kini memakai
   `var(--lv-vh)`; di dalam iframe JS menguncinya ke tinggi layar asli dan menonaktifkan animasi scroll (class `lv-framed`).
