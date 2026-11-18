@@ -1,6 +1,6 @@
 /*! Livin' by Mandiri — script.js
  * Page code (js/*.js) + GSAP 3.12.5 & ScrollTrigger, Lucide 0.460.0 (icon subset), qrcodejs 1.0.0.
- * Single IIFE, no globals; boots once per .livin root on DOMContentLoaded. Readable sources: js/ in the repo.
+ * Single IIFE, no globals; boots once per .livin root on DOMContentLoaded. Readable sources: src-js/.
  */
 (()=>{function sr(i){if(i===void 0)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return i}function tl(i,e){i.prototype=Object.create(e.prototype),i.prototype.constructor=i,i.__proto__=e}/*!
  * GSAP 3.12.5
