@@ -16,6 +16,9 @@ Upload folder `assets/` ke DAM di `/content/dam/livin/` dengan struktur yang sam
 Jika lokasi DAM berbeda, cari-ganti `/content/dam/livin/` di ketiga file.
 
 ## Catatan
+- **Markup cadangan di `livin.js`:** sanitizer HTML AEM bisa membuang sebagian isi `livin.html` (kasus nyata: hanya navbar
+  yang tersisa, `#hero` hilang). JS membawa salinan markup lengkap dan memasangnya ulang ke `#livin-root` bila konten
+  hilang (atau membuat `#livin-root` sendiri di `.cmp-embed`/`body` bila wrapper ikut hilang).
 - **Isolasi dari CSS situs:** `#livin-root :where(:not(svg, svg *, img)) { all: revert }` membatalkan semua rule class/tag
   situs AEM (mis. `.hero{}`, `.footer{}`, `.display{}`) di dalam halaman Livin'. Rule tanpa `!important` dari situs tidak bisa masuk.
 - **GSAP privat:** halaman memakai GSAP dari bundle sendiri (`window.__lvGsap`), tidak terganggu GSAP/library lain di situs.
