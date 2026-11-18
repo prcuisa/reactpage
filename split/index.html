@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Livin' by Mandiri — Lebih dari Sekadar Perbankan</title>
+  <meta name="description" content="Livin' by Mandiri: satu aplikasi untuk kebutuhan finansial dan berbagai pengalaman dalam keseharian. Download Livin' di Google Play, App Store, dan AppGallery." />
+  <meta name="theme-color" content="#FFFFFF" />
+  <meta name="color-scheme" content="only light" />
+  <meta property="og:title" content="Livin' by Mandiri — Lebih dari Sekadar Perbankan" />
+  <meta property="og:description" content="Satu aplikasi untuk kebutuhan finansial dan berbagai pengalaman dalam keseharian." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preload" as="image" href="assets/screenshots/livin-home.svg" />
+</head>
+
+<body>
+<!-- .livin = page root block (was <body>/<html> state). HTL: wrap the page/components in this element. -->
+<div class="livin livin--no-js" data-tone="corp">
+    <a href="#main" class="skip-link">Langsung ke konten utama</a>
+
+    <!-- Desktop cursor follower (hidden on touch / reduced motion) -->
+    <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"></span></div>
+
+    <!-- ============================================================ -->
+    <!-- NAVIGATION                                                    -->
+    <!-- ============================================================ -->
+    <header class="nav" id="nav">
+      <div class="nav__inner livin__container">
+        <a href="#hero" class="brand" aria-label="Livin' by Mandiri — kembali ke atas">
+          <span class="brand__mark" aria-hidden="true">l</span>
+          <span class="brand__text">livin'<small>by mandiri</small></span>
+        </a>
+
+        <nav class="nav__links" aria-label="Navigasi utama">
+          <a href="#positioning" class="nav__link">Tentang</a>
+          <a href="#experience" class="nav__link">Pengalaman</a>
+          <a href="#solutions" class="nav__link">Solusi</a>
+          <a href="#promo" class="nav__link">Promo</a>
+          <a href="#edukasi" class="nav__link">Edukasi</a>
+        </nav>
+
+        <div class="nav__actions">
+          <a href="#download" class="btn btn--primary btn--sm nav__cta" data-magnetic>
+            <i data-lucide="download" aria-hidden="true"></i><span>Download Livin'</span>
+          </a>
+          <button class="burger" id="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile menu -->
+    <div class="mmenu" id="mobile-menu" aria-hidden="true" inert>
+      <div class="mmenu__bg"></div>
+      <nav class="mmenu__panel" aria-label="Navigasi seluler">
+        <ul class="mmenu__list">
+          <li><a href="#positioning" class="mmenu__link"><span>01</span>Tentang Livin'</a></li>
+          <li><a href="#experience" class="mmenu__link"><span>02</span>Pengalaman</a></li>
+          <li><a href="#solutions" class="mmenu__link"><span>03</span>Solusi</a></li>
+          <li><a href="#promo" class="mmenu__link"><span>04</span>Promo</a></li>
+          <li><a href="#edukasi" class="mmenu__link"><span>05</span>Edukasi</a></li>
+        </ul>
+        <a href="#download" class="btn btn--primary btn--block mmenu__cta"><i data-lucide="download" aria-hidden="true"></i>Download Livin'</a>
+        <p class="mmenu__note">Butuh bantuan? Mandiri Call <a href="tel:14000" class="mmenu__tel">14000</a></p>
+      </nav>
+    </div>
+
+    <main id="main">
+      <!-- ============================================================ -->
+      <!-- 01. HERO                                                      -->
+      <!-- ============================================================ -->
+      <section id="hero" class="hero" data-mouse-scope aria-labelledby="hero-title">
+        <div class="hero__bg" aria-hidden="true">
+          <div class="hero__grid"></div>
+          <div class="blob blob--yellow" data-speed="0.25"></div>
+          <div class="blob blob--navy" data-speed="0.15"></div>
+          <div class="ring ring--a" data-speed="0.35"></div>
+          <div class="ring ring--b" data-speed="0.2"></div>
+        </div>
+
+        <div class="hero__inner livin__container">
+          <div class="hero__copy">
+            <p class="eyebrow" data-hero-item><span class="eyebrow__dot"></span>Livin' by Mandiri</p>
+            <h1 id="hero-title" class="display hero__title" data-split>
+              Lebih dari Sekadar <em>Perbankan.</em>
+            </h1>
+            <p class="hero__lead" data-hero-item>
+              Satu aplikasi untuk kebutuhan finansial dan berbagai pengalaman dalam keseharian.
+            </p>
+            <div class="hero__ctas" data-hero-item>
+              <a href="#download" class="btn btn--primary btn--lg" data-magnetic>
+                <i data-lucide="download" aria-hidden="true"></i><span>Download Livin'</span>
+              </a>
+              <a href="#experience" class="btn btn--ghost btn--lg">
+                <span>Jelajahi Fitur</span><i data-lucide="arrow-down-right" aria-hidden="true"></i>
+              </a>
+            </div>
+            <p class="hero__stores" data-hero-item>
+              Tersedia di <a href="#download">Google Play</a>, <a href="#download">App Store</a>, dan <a href="#download">AppGallery</a>.
+            </p>
+          </div>
+
+          <div class="hero__visual" aria-hidden="true">
+            <div class="hero__stage" data-speed="-0.08">
+              <!-- Layer 2: floating UI objects -->
+              <div class="hfloat hfloat--card" data-mouse-depth="0.9" data-hero-float>
+                <div class="hfloat__body">
+                  <img class="o-cardimg" src="assets/images/card-debit-gold.jpg" width="254" height="160" alt="" decoding="async" />
+                </div>
+              </div>
+              <div class="hfloat hfloat--notif" data-mouse-depth="1.2" data-hero-float>
+                <div class="hfloat__body glass-pill">
+                  <span class="glass-pill__icon glass-pill__icon--emerald"><i data-lucide="check"></i></span>
+                  <span><b>Transfer berhasil</b><small>Baru saja</small></span>
+                </div>
+              </div>
+              <div class="hfloat hfloat--qris" data-mouse-depth="0.7" data-hero-float>
+                <div class="hfloat__body glass-pill">
+                  <span class="glass-pill__icon glass-pill__icon--mandiri"><i data-lucide="scan-line"></i></span>
+                  <span><b>QRIS</b><small>Scan &amp; bayar</small></span>
+                </div>
+              </div>
+              <div class="hfloat hfloat--coin" data-mouse-depth="1.5" data-hero-float>
+                <div class="hfloat__body"><div class="o-coin"><span>Rp</span></div></div>
+              </div>
+              <div class="hfloat hfloat--coin2" data-mouse-depth="1.8" data-hero-float>
+                <div class="hfloat__body"><div class="o-coin o-coin--sm"><span>Rp</span></div></div>
+              </div>
+              <div class="hfloat hfloat--sukha" data-mouse-depth="1.0" data-hero-float>
+                <div class="hfloat__body glass-pill">
+                  <span class="glass-pill__icon glass-pill__icon--pink"><i data-lucide="plane"></i></span>
+                  <span><b>Livin' Sukha</b><small>Travel &amp; hiburan</small></span>
+                </div>
+              </div>
+
+              <!-- Layer 3: smartphone -->
+              <div class="hero__phone" data-mouse-depth="0.35">
+                <div class="phone phone--hero">
+                  <span class="phone__btn phone__btn--power"></span>
+                  <span class="phone__btn phone__btn--vol1"></span>
+                  <span class="phone__btn phone__btn--vol2"></span>
+                  <div class="phone__screen">
+                    <span class="phone__island"></span>
+                    <div class="screen is-active" data-render-screen="home"></div>
+                  </div>
+                  <span class="phone__glare"></span>
+                </div>
+                <div class="phone__shadow"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#stats" class="scroll-cue" aria-label="Gulir ke bagian berikutnya">
+          <span class="scroll-cue__line"></span><span class="scroll-cue__text">Scroll</span>
+        </a>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 02. NUMBERS & AWARDS                                          -->
+      <!-- ============================================================ -->
+      <section id="stats" class="stats" aria-labelledby="stats-title">
+        <div class="section-pad livin__container">
+          <div class="stats__head">
+            <p class="eyebrow eyebrow--light" data-reveal>02 — Livin' dalam Angka</p>
+            <h2 id="stats-title" class="h2 h2--light" data-split>Dipercaya untuk keseharian jutaan momen finansial.</h2>
+          </div>
+          <ul class="stats__grid" id="stats-grid" data-reveal-stagger></ul>
+          <div class="awards">
+            <p class="awards__label" data-reveal>Penghargaan</p>
+            <ul class="awards__list" id="awards-list" data-reveal-stagger></ul>
+          </div>
+          <p class="stats__note" data-reveal>Angka dan penghargaan ditampilkan hanya dari sumber resmi Bank Mandiri.</p>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 03. POSITIONING                                               -->
+      <!-- ============================================================ -->
+      <section id="positioning" class="positioning" aria-labelledby="pos-title">
+        <div class="section-pad livin__container">
+          <header class="section-head">
+            <p class="eyebrow" data-reveal>03 — Livin' Positioning</p>
+            <h2 id="pos-title" class="h2" data-split>Perbankan yang menyatu dengan cara Anda menjalani hari.</h2>
+          </header>
+
+          <!-- Pillar 01 -->
+          <article class="pillar">
+            <div class="pillar__copy">
+              <span class="pillar__num" data-reveal>01</span>
+              <h3 class="h3" data-split>Everyday Banking &amp; More.</h3>
+              <p class="pillar__text" data-reveal>Kebutuhan perbankan harian — dari cek saldo hingga transfer — tersusun ringkas dan selalu mudah dijangkau.</p>
+              <ul class="pillar__tags" data-reveal-stagger>
+                <li>Rekening</li><li>Transfer</li><li>Pembayaran</li>
+              </ul>
+            </div>
+            <div class="pillar__visual pv pv--one" aria-hidden="true">
+              <div class="pv__bg" data-speed="0.12"></div>
+              <div class="pv__card pv__card--balance" data-speed="-0.15">
+                <small>Saldo rekening</small>
+                <b>Rp ••• ••• •••</b>
+                <span class="pv__bar"><i style="width:68%"></i></span>
+              </div>
+              <img class="o-widget pv__widget pv__widget--favorit" src="assets/images/widgets/widget-favorit.png" alt="" loading="lazy" decoding="async" data-speed="-0.3" />
+              <div class="o-coin pv__coin float-a" data-speed="-0.45"><span>Rp</span></div>
+            </div>
+          </article>
+
+          <!-- Pillar 02 -->
+          <article class="pillar pillar--reverse">
+            <div class="pillar__copy">
+              <span class="pillar__num" data-reveal>02</span>
+              <h3 class="h3" data-split>Beyond Banking.</h3>
+              <p class="pillar__text" data-reveal>Lebih dari transaksi: rencanakan perjalanan, temukan hiburan, dan penuhi kebutuhan gaya hidup dalam satu aplikasi.</p>
+              <ul class="pillar__tags" data-reveal-stagger>
+                <li>Travel</li><li>Hiburan</li><li>Belanja</li><li>Kuliner</li>
+              </ul>
+            </div>
+            <div class="pillar__visual pv pv--two" aria-hidden="true">
+              <div class="pv__bg" data-speed="0.1"></div>
+              <div class="pv__tiles" data-speed="-0.12">
+                <div class="pv__tile"><i data-lucide="plane"></i><span>Travel</span></div>
+                <div class="pv__tile pv__tile--dark"><i data-lucide="clapperboard"></i><span>Hiburan</span></div>
+                <div class="pv__tile pv__tile--dark"><i data-lucide="shopping-bag"></i><span>Belanja</span></div>
+                <div class="pv__tile"><i data-lucide="utensils"></i><span>Kuliner</span></div>
+              </div>
+              <img class="o-widget pv__widget pv__widget--travoy" src="assets/images/widgets/widget-travoy.png" alt="" loading="lazy" decoding="async" data-speed="-0.35" />
+            </div>
+          </article>
+
+          <!-- Pillar 03 -->
+          <article class="pillar">
+            <div class="pillar__copy">
+              <span class="pillar__num" data-reveal>03</span>
+              <h3 class="h3" data-split>Next Level of Banking Experience.</h3>
+              <p class="pillar__text" data-reveal>Desain yang intuitif dan alur yang jelas menghadirkan cara baru menikmati layanan perbankan — lebih personal, lebih lancar.</p>
+              <ul class="pillar__tags" data-reveal-stagger>
+                <li>Intuitif</li><li>Personal</li><li>Terintegrasi</li>
+              </ul>
+            </div>
+            <div class="pillar__visual pv pv--three" aria-hidden="true">
+              <div class="pv__bg" data-speed="0.1"></div>
+              <div class="pv__orbit pv__orbit--1" data-speed="-0.08"></div>
+              <div class="pv__orbit pv__orbit--2" data-speed="-0.16"></div>
+              <div class="pv__core" data-speed="-0.22"><span>livin'</span></div>
+              <div class="pv__sat pv__sat--a float-a" data-speed="-0.4"><i data-lucide="shield-check"></i></div>
+              <div class="pv__sat pv__sat--b float-b" data-speed="-0.3"><i data-lucide="sparkles"></i></div>
+              <div class="pv__sat pv__sat--c float-c" data-speed="-0.5"><i data-lucide="fingerprint"></i></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 04. THE LIVIN' EXPERIENCE — signature sticky phone             -->
+      <!-- ============================================================ -->
+      <section id="experience" class="exp" aria-labelledby="exp-title">
+        <div class="exp__bgaccent" aria-hidden="true"></div>
+        <header class="exp__intro livin__container">
+          <p class="eyebrow" data-reveal>04 — The Livin' Experience</p>
+          <h2 id="exp-title" class="display exp__title" data-split>Satu Aplikasi.<br /><em>Banyak Pengalaman.</em></h2>
+          <p class="exp__lead" data-reveal>Tujuh pengalaman, satu genggaman. Gulir untuk melihat bagaimana Livin' menemani setiap kebutuhan Anda.</p>
+        </header>
+
+        <div class="exp__grid livin__container">
+          <div class="exp__stories" id="exp-stories">
+            <noscript><p class="exp__noscript">Aktifkan JavaScript untuk melihat tujuh pengalaman Livin'.</p></noscript>
+          </div>
+
+          <div class="exp__aside" aria-hidden="true">
+            <div class="exp__sticky">
+              <div class="exp__stage" id="exp-stage" data-mouse-scope>
+                <div class="exp__halo"></div>
+                <div class="exp__objects" id="exp-objects"></div>
+                <div class="exp__phone" data-mouse-depth="0.25">
+                  <div class="phone phone--exp">
+                    <span class="phone__btn phone__btn--power"></span>
+                    <span class="phone__btn phone__btn--vol1"></span>
+                    <span class="phone__btn phone__btn--vol2"></span>
+                    <div class="phone__screen" id="exp-screens">
+                      <span class="phone__island"></span>
+                    </div>
+                    <span class="phone__glare"></span>
+                  </div>
+                  <div class="phone__shadow"></div>
+                </div>
+                <div class="exp__chip" id="exp-chip"><span class="exp__chip-num">01</span><span class="exp__chip-label">Savings</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="exp__progress" id="exp-progress" aria-label="Navigasi pengalaman">
+          <span class="exp__count"><b id="exp-count">01</b> / 07</span>
+          <ol class="exp__dots" id="exp-dots"></ol>
+          <span class="exp__bar"><i id="exp-bar"></i></span>
+        </nav>
+        <p class="exp__disclaimer livin__container">Tampilan layar merupakan ilustrasi dan dapat berbeda dengan aplikasi.</p>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 05. FEATURED SOLUTIONS                                        -->
+      <!-- ============================================================ -->
+      <section id="solutions" class="solutions" aria-labelledby="sol-title">
+        <div class="section-pad livin__container">
+          <header class="section-head section-head--split">
+            <div>
+              <p class="eyebrow eyebrow--light" data-reveal>05 — Featured Solutions</p>
+              <h2 id="sol-title" class="h2 h2--light" data-split>Solusi pilihan untuk kebutuhan yang lebih spesifik.</h2>
+            </div>
+            <p class="section-head__aside section-head__aside--light" data-reveal>Lima solusi unggulan yang melengkapi pengalaman Livin' Anda.</p>
+          </header>
+          <div class="sol-grid" id="solutions-grid"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 06. PROMOTIONS                                                -->
+      <!-- ============================================================ -->
+      <section id="promo" class="promo" aria-labelledby="promo-title">
+        <div class="section-pad livin__container">
+          <header class="section-head section-head--split">
+            <div>
+              <p class="eyebrow" data-reveal>06 — Promo &amp; Rewards</p>
+              <h2 id="promo-title" class="h2" data-split>Lebih banyak alasan untuk Livin'.</h2>
+            </div>
+            <a href="https://www.bankmandiri.co.id/livin" class="link-arrow" target="_blank" rel="noopener" data-reveal>Lihat semua <i data-lucide="arrow-up-right"></i></a>
+          </header>
+          <div class="promo-grid" id="promo-grid" data-reveal-stagger></div>
+          <p class="promo__note" data-reveal>Syarat dan ketentuan setiap promo mengikuti informasi resmi Bank Mandiri.</p>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 07. EDUCATION                                                 -->
+      <!-- ============================================================ -->
+      <section id="edukasi" class="edu" aria-labelledby="edu-title">
+        <div class="section-pad livin__container">
+          <header class="section-head section-head--split">
+            <div>
+              <p class="eyebrow" data-reveal>07 — Edukasi</p>
+              <h2 id="edu-title" class="h2" data-split>Kenali Livin' lebih dekat.</h2>
+            </div>
+            <p class="section-head__aside" data-reveal>Panduan singkat untuk memaksimalkan setiap fitur, langsung dari kanal resmi.</p>
+          </header>
+          <div class="edu-grid" id="edu-grid" data-reveal-stagger></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 08. DOWNLOAD CTA                                              -->
+      <!-- ============================================================ -->
+      <section id="download" class="cta" aria-labelledby="cta-title" data-mouse-scope>
+        <div class="cta__bg" aria-hidden="true">
+          <div class="ring ring--cta" data-speed="0.2"></div>
+        </div>
+        <div class="cta__inner livin__container">
+          <div class="cta__copy">
+            <p class="eyebrow eyebrow--navy" data-reveal>08 — Download</p>
+            <h2 id="cta-title" class="display cta__title" data-split>Mulai Pengalaman Perbankan yang Lebih Praktis.</h2>
+            <p class="cta__lead" data-reveal>Unduh Livin' by Mandiri dan nikmati kebutuhan finansial serta berbagai pengalaman dalam satu aplikasi.</p>
+
+            <ul class="stores" id="stores" data-reveal-stagger>
+              <li>
+                <a class="store" id="store-play" href="https://play.google.com/store/apps/details?id=id.bmri.livin" target="_blank" rel="noopener" data-magnetic>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.6 1.8 13.4 12 3.6 22.2c-.4-.2-.6-.6-.6-1.1V2.9c0-.5.2-.9.6-1.1Zm11 11.4 2.5 2.5-11.7 6.7 9.2-9.2Zm0-2.4L5.4 1.6l11.7 6.7-2.5 2.5Zm3.6 3.9-2.8-2.7 2.8-2.7 3.2 1.8c.9.5.9 1.4 0 1.9l-3.2 1.7Z"/></svg>
+                  <span><small>Dapatkan di</small>Google Play</span>
+                </a>
+              </li>
+              <li>
+                <a class="store" id="store-apple" href="https://apps.apple.com/id/app/livin-by-mandiri/id1555414743" target="_blank" rel="noopener" data-magnetic>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 1.4c0 1.1-.5 2.3-1.2 3.1-.7.9-2 1.6-3 1.6-.1 0-.2 0-.3-.1v-.4c0-1.1.6-2.3 1.2-3 .8-.9 2.1-1.6 3.2-1.7l.1.5Zm4.5 15.7c0 .1-.5 1.6-1.5 3.1-.9 1.3-1.9 2.7-3.4 2.7s-1.9-.9-3.6-.9c-1.7 0-2.3.9-3.7.9-1.4 0-2.3-1.3-3.4-2.8-1.3-1.8-2.3-4.6-2.3-7.3 0-4.3 2.8-6.6 5.6-6.6 1.4 0 2.7 1 3.6 1 .9 0 2.2-1 3.9-1 .6 0 2.9.1 4.4 2.2-.1.1-2.4 1.4-2.4 4.2 0 3.3 2.8 4.4 2.9 4.5Z"/></svg>
+                  <span><small>Unduh di</small>App Store</span>
+                </a>
+              </li>
+              <li>
+                <a class="store" id="store-huawei" href="https://appgallery.huawei.com/search/Livin%20by%20Mandiri" target="_blank" rel="noopener" data-magnetic>
+                  <i data-lucide="store" aria-hidden="true"></i>
+                  <span><small>Jelajahi di</small>AppGallery</span>
+                </a>
+              </li>
+            </ul>
+
+            <div class="qr" data-reveal>
+              <div class="qr__code" id="qr-code" role="img" aria-label="Kode QR untuk mengunduh Livin' by Mandiri"></div>
+              <p><b>Pindai untuk download</b><span>Arahkan kamera ponsel Anda ke kode QR ini.</span></p>
+            </div>
+          </div>
+
+          <div class="cta__visual" aria-hidden="true">
+            <div class="cta__phone" data-mouse-depth="0.4">
+              <div class="phone phone--cta">
+                <span class="phone__btn phone__btn--power"></span>
+                <span class="phone__btn phone__btn--vol1"></span>
+                <span class="phone__btn phone__btn--vol2"></span>
+                <div class="phone__screen">
+                  <span class="phone__island"></span>
+                  <div class="screen is-active" data-render-screen="beranda"></div>
+                </div>
+                <span class="phone__glare"></span>
+              </div>
+            </div>
+            <div class="hfloat cta__float cta__float--a" data-mouse-depth="1.1"><div class="hfloat__body"><div class="o-coin"><span>Rp</span></div></div></div>
+            <div class="hfloat cta__float cta__float--b" data-mouse-depth="0.8"><div class="hfloat__body glass-pill glass-pill--solid"><span class="glass-pill__icon glass-pill__icon--navy"><i data-lucide="sparkles"></i></span><span><b>Livin'poin</b><small>Kumpulkan &amp; tukar</small></span></div></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- 09. FOOTER                                                    -->
+    <!-- ============================================================ -->
+    <footer class="footer">
+      <div class="footer__inner livin__container">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <a href="#hero" class="brand brand--light" aria-label="Livin' by Mandiri">
+              <span class="brand__mark" aria-hidden="true">l</span>
+              <span class="brand__text">livin'<small>by mandiri</small></span>
+            </a>
+            <p>Lebih dari Sekadar Perbankan.</p>
+          </div>
+          <nav class="footer__cols" aria-label="Tautan footer">
+            <div>
+              <h3>Jelajahi</h3>
+              <ul>
+                <li><a href="#experience">Pengalaman Livin'</a></li>
+                <li><a href="#solutions">Solusi Unggulan</a></li>
+                <li><a href="#promo">Promo &amp; Rewards</a></li>
+                <li><a href="#edukasi">Edukasi</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Download</h3>
+              <ul>
+                <li><a data-link="playStore" href="https://play.google.com/store/apps/details?id=id.bmri.livin" target="_blank" rel="noopener">Google Play</a></li>
+                <li><a data-link="appStore" href="https://apps.apple.com/id/app/livin-by-mandiri/id1555414743" target="_blank" rel="noopener">App Store</a></li>
+                <li><a data-link="appGallery" href="https://appgallery.huawei.com/search/Livin%20by%20Mandiri" target="_blank" rel="noopener">AppGallery</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Bantuan</h3>
+              <ul>
+                <li><a href="tel:14000">Mandiri Call 14000</a></li>
+                <li><a data-link="official" href="https://www.bankmandiri.co.id/livin" target="_blank" rel="noopener">bankmandiri.co.id/livin</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <div class="footer__bottom">
+          <p>© <span id="year">2026</span> PT Bank Mandiri (Persero) Tbk. PT Bank Mandiri (Persero) Tbk berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK) serta merupakan peserta penjaminan LPS.</p>
+          <p class="footer__safe"><i data-lucide="shield-check" aria-hidden="true"></i>Bank Mandiri tidak pernah meminta PIN, password, atau kode OTP Anda.</p>
+        </div>
+      </div>
+    </footer>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
