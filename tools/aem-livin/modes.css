@@ -1,0 +1,102 @@
+/* Light (default): tampilan desain asli. Token CMS ada di blok 1. */
+#appX {
+  --lv-bg: var(--lv-cms-light-bg);
+  --lv-text: var(--lv-cms-light-font);
+  color-scheme: light;
+}
+
+/* Dark & Half: section terang ikut warna section CMS gelap */
+#appX.lv-theme-dark {
+  --lv-bg: var(--lv-cms-dark-bg);
+  --lv-text: var(--lv-cms-dark-font);
+  --lv-text-dim: #b8b0a5;
+  --lv-surface: #161616;          /* kartu di atas section gelap */
+  --lv-surface-hi: #202020;
+  --lv-line-dark: rgb(243 241 236 / .12);
+  background: var(--lv-bg);
+  color: var(--lv-text);
+  color-scheme: dark;
+}
+#appX.lv-theme-half {
+  --lv-bg: var(--lv-cms-half-bg);
+  --lv-text: var(--lv-cms-half-font);
+}
+
+/* Section terang -> balik token tinta & permukaan */
+#appX.lv-theme-dark :is(.lv-nav, .lv-mmenu__panel, .lv-hero, .lv-positioning, .lv-exp, .lv-promo, .lv-edu, .lv-cta) {
+  --lv-navy: var(--lv-text);
+  --lv-navy-ink: var(--lv-text);
+  --lv-navy-2: #d9d5cc;
+  --lv-navy-deep: var(--lv-text);
+  --lv-charcoal: var(--lv-text);
+  --lv-muted: var(--lv-text-dim);
+  --lv-white: var(--lv-bg);
+  --lv-soft: var(--lv-surface);
+  --lv-page-base-color-light: var(--lv-bg);
+  --lv-navy-rgb: 243 241 236;
+  --lv-ink-rgb: 243 241 236;
+  --lv-line: var(--lv-line-dark);
+  --lv-active-text: #3cc4ef;      /* teks aksen kecil di atas #0A0A0A (>= 4.5:1) */
+  --lv-active-large: #3cc4ef;
+  --lv-shadow-rgb: 0 0 0;
+  --lv-shadow-lg: 0 40px 80px -30px rgb(0 0 0 / .8);
+  --lv-shadow-md: 0 18px 40px -18px rgb(0 0 0 / .7);
+}
+
+/* UI produk (ponsel, kartu melayang, mockup) tetap terang seperti aplikasinya */
+#appX.lv-theme-dark :is(.lv-phone, .lv-hfloat, .lv-obj, .lv-mobj, .lv-pv__card, .lv-pv__tile, .lv-pv__sat, .lv-pv__widget, .lv-qr__code, .lv-exp__chip, .lv-glass-pill) {
+  --lv-navy: #141414;
+  --lv-navy-ink: #141414;
+  --lv-navy-2: #2e2e2e;
+  --lv-navy-deep: #1c1c1c;
+  --lv-charcoal: #141414;
+  --lv-muted: #5f6368;
+  --lv-white: #ffffff;
+  --lv-soft: #f5f6f7;
+  --lv-navy-rgb: 20 20 20;
+  --lv-ink-rgb: 20 20 20;
+  --lv-line: rgb(20 20 20 / .09);
+  --lv-active-text: #00799f;
+  --lv-active-large: #0090c0;
+  color: #141414;
+}
+#appX.lv-theme-dark .lv-pv__tile--dark { color: #fff; }
+
+/* Latar section terang (warna hardcoded di desain) */
+#appX.lv-theme-dark :is(.lv-hero, .lv-positioning, .lv-exp, .lv-promo, .lv-edu) { background: var(--lv-bg); }
+#appX.lv-theme-dark .lv-cta { background: radial-gradient(circle at 78% 40%, rgb(var(--lv-active-rgb) / .16), transparent 48%), var(--lv-bg); }
+#appX.lv-theme-dark .lv-exp__bgaccent { opacity: .35; }
+#appX.lv-theme-dark .lv-hero__grid { opacity: .25; }
+#appX.lv-theme-dark .lv-blob--yellow { opacity: .55; }
+
+/* Nav & menu */
+#appX.lv-theme-dark .lv-nav.lv-is-scrolled { background: rgb(10 10 10 / .86); }
+#appX.lv-theme-dark .lv-burger { background: var(--lv-text); }
+#appX.lv-theme-dark .lv-burger span { background: var(--lv-bg); }
+
+/* Tombol: utama jadi terang di atas latar gelap */
+#appX.lv-theme-dark .lv-btn--primary { background: var(--lv-text); color: var(--lv-bg); box-shadow: 0 12px 28px -14px rgb(0 0 0 / .8); }
+#appX.lv-theme-dark .lv-btn--primary:hover,
+#appX.lv-theme-dark .lv-btn--primary:focus-visible { color: #fff; }
+#appX.lv-theme-dark .lv-btn--ghost { box-shadow: inset 0 0 0 1.5px rgb(243 241 236 / .35); color: var(--lv-text); }
+#appX.lv-theme-dark .lv-btn--ghost:hover,
+#appX.lv-theme-dark .lv-btn--ghost:focus-visible { box-shadow: inset 0 0 0 1.5px var(--lv-active); color: var(--lv-active-text); background: transparent; }
+
+/* Kartu & chip di section terang */
+#appX.lv-theme-dark :is(.lv-pillar__tags li, .lv-story__points li) { background: var(--lv-surface-hi); color: var(--lv-text); box-shadow: none; }
+#appX.lv-theme-dark .lv-vcard,
+#appX.lv-theme-dark .lv-promo-card { background: var(--lv-surface); box-shadow: inset 0 0 0 1px var(--lv-line-dark); }
+#appX.lv-theme-dark .lv-qr { background: var(--lv-surface); box-shadow: inset 0 0 0 1px var(--lv-line-dark); }
+#appX.lv-theme-dark .lv-qr span { color: var(--lv-text-dim); }
+#appX.lv-theme-dark .lv-store { background: var(--lv-surface-hi); color: var(--lv-text); box-shadow: inset 0 0 0 1px var(--lv-line-dark); }
+#appX.lv-theme-dark .lv-store:hover,
+#appX.lv-theme-dark .lv-store:focus-visible { background: var(--lv-active); color: #0a0a0a; }
+#appX.lv-theme-dark .lv-exp__chip-num { background: #141414; color: #fff; }
+#appX.lv-theme-dark .lv-pillar__num { color: #0a0a0a; }
+#appX.lv-theme-dark .lv-link-arrow { color: var(--lv-text); }
+#appX.lv-theme-dark .lv-hero__stores a { color: var(--lv-active-text); }
+#appX.lv-theme-dark .lv-eyebrow,
+#appX.lv-theme-dark .lv-eyebrow--navy { color: var(--lv-active-text); }
+#appX.lv-theme-dark .lv-skip-link { background: var(--lv-text); color: var(--lv-bg); }
+/* label di atas artwork promo: pill terang, teks tetap gelap */
+#appX.lv-theme-dark .lv-promo-art__label { color: #141414; }
