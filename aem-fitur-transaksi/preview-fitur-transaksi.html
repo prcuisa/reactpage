@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="id" data-theme="half">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fitur Transaksi Preview</title>
+<style>
+body{margin:0;font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;background:#fff}
+html[data-theme="dark"] body{background:#141414}
+.pv-bar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;background:#111;color:#eee;font-size:13px}
+.pv-bar button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid #444;background:#1c1c1c;color:#eee;cursor:pointer}
+.pv-bar button.on{background:#01a4d8;border-color:#01a4d8;color:#001}
+.pv-note{color:#f5c26b}
+.pv-pad{height:40vh}
+</style>
+<style>
+/* ============================================================
+   FITUR TRANSAKSI LIVIN (HIGH-TECH MOTION) - Styles
+   Scope: :is(#appFiturTransaksi, .ft-app) | prefix ft- | var --ft-* | keyframes ft*
+   Color mode ikut CMS (atribut data-theme di tag html): Light / Dark / Half
+   ============================================================ */
+
+/* ---------- 1. Isolasi dari CSS template AEM ---------- */
+:is(#appFiturTransaksi, .ft-app) :where(:not(svg, svg *, img)) { all: revert; }
+
+/* ---------- 2. Reset dasar ---------- */
+:is(#appFiturTransaksi, .ft-app) *,
+:is(#appFiturTransaksi, .ft-app) *::before,
+:is(#appFiturTransaksi, .ft-app) *::after { box-sizing: border-box; font-family: inherit; }
+:is(#appFiturTransaksi, .ft-app) :where(h1, h2, h3, h4, h5, h6) { font-family: inherit; text-transform: none; margin: 0; padding: 0; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
+:is(#appFiturTransaksi, .ft-app) :where(p) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
+:is(#appFiturTransaksi, .ft-app) :where(a, a:hover, a:focus, a:visited, a:active) { color: inherit; text-decoration: inherit; }
+:is(#appFiturTransaksi, .ft-app) :where(img) { margin: 0; border: 0; display: block; }
+:is(#appFiturTransaksi, .ft-app) :where(ul, ol, li) { margin: 0; padding: 0; list-style: none; }
+:is(#appFiturTransaksi, .ft-app) :where(ul, ol, li)::before,
+:is(#appFiturTransaksi, .ft-app) :where(ul, ol, li)::marker { content: none; }
+:is(#appFiturTransaksi, .ft-app) :where(div) { display: block; }
+
+/* ---------- 3. Root + token ---------- */
+:is(#appFiturTransaksi, .ft-app) {
+  display: block; position: relative; margin: 0; padding: 0;
+  font-size: 16px; line-height: 1.5; text-align: left; text-transform: none;
+  letter-spacing: normal; visibility: visible;
+
+  --ft-cms-light-bg: #F3F1EC;
+  --ft-cms-light-font: #1A1A1A;
+  --ft-cms-dark-bg: #0A0A0A;
+  --ft-cms-dark-font: #F3F1EC;
+  --ft-cms-half-bg: #0A0A0A;
+  --ft-cms-half-font: #F3F1EC;
+
+  --ft-max-width: 1500px;
+  --ft-radius: 20px;
+
+  /* Light (default) */
+  --ft-bg: var(--ft-cms-light-bg);
+  --ft-text: var(--ft-cms-light-font);
+  --ft-surface: #FFFFFF;
+  --ft-title: #0B2F5B;
+  --ft-eyebrow: #007596;
+  --ft-ink: #141414;
+  --ft-muted: #5F6368;
+  --ft-desc: #45484E;
+  --ft-dim: #5B5750;
+  --ft-line: rgba(26, 26, 26, 0.10);
+  --ft-line-hi: rgba(0, 61, 121, 0.28);
+  --ft-accent: #005FA8;
+  --ft-accent-2: #F5B400;
+  --ft-cyan: #01A4D8;
+  --ft-tag-bg: rgba(0, 95, 168, 0.08);
+  --ft-tag-text: #00508E;
+  --ft-icon-bg: linear-gradient(140deg, rgba(1, 164, 216, 0.14), rgba(0, 61, 121, 0.08));
+  --ft-icon-color: #00508E;
+  --ft-cta-bg: transparent;
+  --ft-cta-text: #1A1A1A;
+  --ft-cta-hover-bg: #0B2F5B;
+  --ft-cta-hover-text: #FFFFFF;
+  --ft-spot: rgba(1, 164, 216, 0.12);
+  --ft-scan: rgba(1, 164, 216, 0.55);
+  --ft-shadow: 0 1px 2px rgba(11, 47, 91, 0.04), 0 8px 24px -16px rgba(11, 47, 91, 0.18);
+  --ft-shadow-hi: 0 2px 6px rgba(11, 47, 91, 0.06), 0 28px 48px -24px rgba(11, 47, 91, 0.38);
+
+  /* runtime (diisi JS) */
+  --ft-rx: 0deg;
+  --ft-ry: 0deg;
+  --ft-mx: 50%;
+  --ft-my: 0%;
+
+  color: var(--ft-text);
+  background: var(--ft-bg);
+  color-scheme: light;
+}
+
+/* Dark & Half */
+:is(#appFiturTransaksi, .ft-app).ft-theme-dark {
+  --ft-bg: var(--ft-cms-dark-bg);
+  --ft-text: var(--ft-cms-dark-font);
+  --ft-surface: #121417;
+  --ft-title: #F3F1EC;
+  --ft-eyebrow: #8FD7F5;
+  --ft-ink: var(--ft-text);
+  --ft-muted: var(--ft-desc);
+  --ft-desc: #BDB8B0;
+  --ft-dim: #A9A39A;
+  --ft-line: rgba(243, 241, 236, 0.10);
+  --ft-line-hi: rgba(61, 181, 232, 0.45);
+  --ft-accent: #3DB5E8;
+  --ft-cyan: #3DB5E8;
+  --ft-tag-bg: rgba(61, 181, 232, 0.12);
+  --ft-tag-text: #8FD7F5;
+  --ft-icon-bg: linear-gradient(140deg, rgba(61, 181, 232, 0.20), rgba(61, 181, 232, 0.04));
+  --ft-icon-color: #8FD7F5;
+  --ft-cta-bg: rgba(243, 241, 236, 0.03);
+  --ft-cta-text: #F3F1EC;
+  --ft-cta-hover-bg: #F3F1EC;
+  --ft-cta-hover-text: #0A0A0A;
+  --ft-spot: rgba(61, 181, 232, 0.14);
+  --ft-scan: rgba(143, 215, 245, 0.7);
+  --ft-shadow: 0 1px 0 rgba(243, 241, 236, 0.04) inset, 0 10px 30px -18px rgba(0, 0, 0, 0.9);
+  --ft-shadow-hi: 0 1px 0 rgba(243, 241, 236, 0.06) inset, 0 30px 60px -28px rgba(0, 0, 0, 1), 0 0 40px -12px rgba(61, 181, 232, 0.35);
+  color-scheme: dark;
+}
+:is(#appFiturTransaksi, .ft-app).ft-theme-half {
+  --ft-bg: var(--ft-cms-half-bg);
+  --ft-text: var(--ft-cms-half-font);
+}
+
+/* ---------- 4. Section + latar teknologi ---------- */
+:is(#appFiturTransaksi, .ft-app) .ft-section {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 24px 80px;
+  background: var(--ft-bg);
+  color: var(--ft-text);
+  isolation: isolate;
+}
+
+:is(#appFiturTransaksi, .ft-app) .ft-wrap { position: relative; width: 100%; max-width: var(--ft-max-width); margin: 0 auto; }
+
+/* ---------- 5. Header ---------- */
+:is(#appFiturTransaksi, .ft-app) .ft-head { margin: 0 0 40px; }
+:is(#appFiturTransaksi, .ft-app) .ft-eyebrow {
+  display: block; margin: 0 0 20px; padding: 0;
+  font-size: 12.48px; font-weight: 700; line-height: 1.5; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ft-eyebrow);
+}
+:is(#appFiturTransaksi, .ft-app) .ft-title {
+  margin: 0; max-width: 18ch;
+  font-size: clamp(32px, 20.8px + 2.8vw, 57.6px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em;
+  color: var(--ft-ink);
+}
+:is(#appFiturTransaksi, .ft-app) .ft-lede { margin: 24px 0 0; max-width: 46ch; font-size: clamp(16.32px, 15.2px + 0.35vw, 20px); line-height: 1.5; color: var(--ft-muted); }
+
+/* ---------- 6. Grid ---------- */
+:is(#appFiturTransaksi, .ft-app) .ft-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-item { display: flex; min-width: 0; perspective: 1000px; }
+
+/* ---------- 7. Kartu ---------- */
+:is(#appFiturTransaksi, .ft-app) .ft-card {
+  position: relative; flex: 1 1 auto; display: flex;
+  border-radius: var(--ft-radius);
+  padding: 1px;                      /* ruang untuk ring berputar */
+  background: var(--ft-line);
+  box-shadow: var(--ft-shadow);
+  overflow: hidden;
+  transform: rotateX(var(--ft-rx)) rotateY(var(--ft-ry)) translateY(0);
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease, background-color 0.3s ease;
+  will-change: transform;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__ring {
+  position: absolute; left: 50%; top: 50%; width: 200%; aspect-ratio: 1 / 1;
+  margin: -100% 0 0 -100%;
+  background: conic-gradient(from 0deg, transparent 0deg, var(--ft-cyan) 50deg, var(--ft-accent-2) 90deg, transparent 140deg, transparent 360deg);
+  opacity: 0;
+  font-size: 0; line-height: 0; color: transparent;
+  transition: opacity 0.4s ease;
+  animation: ftSpin 3.2s linear infinite;
+  animation-play-state: paused;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__body {
+  position: relative; z-index: 1; flex: 1 1 auto;
+  display: flex; flex-direction: column;
+  padding: 26px 24px 24px;
+  border-radius: calc(var(--ft-radius) - 1px);
+  background: var(--ft-surface);
+  overflow: hidden;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__spot {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(260px circle at var(--ft-mx) var(--ft-my), var(--ft-spot), transparent 70%);
+  opacity: 0; transition: opacity 0.35s ease;
+  font-size: 0; line-height: 0; color: transparent;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__scan {
+  position: absolute; left: 0; right: 0; top: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--ft-scan), transparent);
+  box-shadow: 0 0 12px 1px var(--ft-scan);
+  opacity: 0;
+  font-size: 0; line-height: 0; color: transparent;
+}
+
+:is(#appFiturTransaksi, .ft-app) .ft-card__top {
+  position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin: 0 0 22px;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--ft-icon-bg);
+  border: 1px solid var(--ft-line);
+  color: var(--ft-icon-color);
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__icon .ft-ic { width: 22px; height: 22px; }
+:is(#appFiturTransaksi, .ft-app) .ft-card__meta { display: inline-flex; align-items: center; gap: 10px; }
+:is(#appFiturTransaksi, .ft-app) .ft-card__tag {
+  display: inline-block; padding: 4px 10px; border-radius: 999px;
+  background: var(--ft-tag-bg); color: var(--ft-tag-text);
+  font-size: 11px; font-weight: 600; line-height: 1.4; letter-spacing: 0.06em; text-transform: uppercase;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__idx {
+  font-size: 12px; font-weight: 600; line-height: 1.4; letter-spacing: 0.08em;
+  color: var(--ft-dim); font-variant-numeric: tabular-nums;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__title {
+  position: relative; margin: 0 0 10px;
+  font-size: 19px; line-height: 1.3; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--ft-title);
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__desc {
+  position: relative; margin: 0 0 24px;
+  font-size: 14px; line-height: 1.6; color: var(--ft-desc);
+}
+
+/* CTA (link menutupi seluruh kartu lewat ::after) */
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta {
+  position: static; margin-top: auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 0 8px 0 18px; min-height: 50px;
+  border: 1px solid var(--ft-line); border-radius: 12px;
+  background: var(--ft-cta-bg);
+  color: var(--ft-cta-text);
+  font-size: 15px; font-weight: 600; line-height: 1.2;
+  text-decoration: none;
+  background-image: linear-gradient(var(--ft-cta-hover-bg), var(--ft-cta-hover-bg));
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 0% 100%;
+  transition: color 0.35s ease, border-color 0.35s ease, background-size 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta::after {
+  content: ""; position: absolute; inset: 0; z-index: 3; border-radius: calc(var(--ft-radius) - 1px);
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta-label { position: relative; }
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta-ic {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--ft-text); color: var(--ft-bg);
+  overflow: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta-ic .ft-ic {
+  width: 16px; height: 16px;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:is(#appFiturTransaksi, .ft-app) .ft-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- 8. Hover / fokus ---------- */
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover,
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-kbd {
+  transform: rotateX(var(--ft-rx)) rotateY(var(--ft-ry)) translateY(-6px);
+  box-shadow: var(--ft-shadow-hi);
+  background: var(--ft-line-hi);
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__ring,
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-kbd .ft-card__ring { opacity: 1; animation-play-state: running; }
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__spot { opacity: 1; }
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__scan { animation: ftScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__icon,
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-kbd .ft-card__icon {
+  transform: translateZ(0) translateY(-2px) rotate(-6deg);
+  box-shadow: 0 10px 24px -10px var(--ft-cyan);
+}
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__cta,
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta:focus-visible { color: var(--ft-cta-hover-text); border-color: transparent; }
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__cta,
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta:focus-visible { background-size: 100% 100%; }
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__cta-ic,
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta:focus-visible .ft-card__cta-ic { background: var(--ft-cyan); color: #0A0A0A; }
+:is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__cta-ic .ft-ic { animation: ftArrow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta:focus-visible { outline: none; }
+:is(#appFiturTransaksi, .ft-app) .ft-card__cta:focus-visible::after { outline: 2px solid var(--ft-cyan); outline-offset: -3px; }
+
+/* ---------- 9. Motion masuk (kelas ft-motion ditambah JS) ---------- */
+:is(#appFiturTransaksi, .ft-app).ft-motion .ft-head,
+:is(#appFiturTransaksi, .ft-app).ft-motion .ft-item { opacity: 0; }
+:is(#appFiturTransaksi, .ft-app).ft-motion .ft-head.ft-is-in {
+  opacity: 1;
+  animation: ftRise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+:is(#appFiturTransaksi, .ft-app).ft-motion .ft-item.ft-is-in {
+  opacity: 1;
+  animation: ftBoot 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--ft-i, 0) * 90ms);
+}
+:is(#appFiturTransaksi, .ft-app).ft-motion .ft-item.ft-is-in .ft-card__scan {
+  animation: ftScanOnce 1.1s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  animation-delay: calc(var(--ft-i, 0) * 90ms + 250ms);
+}
+:is(#appFiturTransaksi, .ft-app).ft-motion .ft-item.ft-is-in .ft-card__idx {
+  animation: ftFlicker 0.9s steps(1, end) backwards;
+  animation-delay: calc(var(--ft-i, 0) * 90ms + 300ms);
+}
+:is(#appFiturTransaksi, .ft-app).ft-motion .ft-item.ft-is-in .ft-card.ft-is-hover .ft-card__scan { animation: ftScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+/* Mode statis (iframe editor AEM / ?static): tanpa animasi berjalan */
+
+/* ---------- 10. Keyframes ---------- */
+@keyframes ftSpin { to { transform: rotate(360deg); } }
+@keyframes ftRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes ftBoot {
+  0% { opacity: 0; transform: translateY(28px) scale(0.97); filter: blur(8px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+@keyframes ftScan { 0% { top: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes ftScanOnce { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes ftFlicker { 0% { opacity: 0; } 20% { opacity: 1; } 35% { opacity: 0.2; } 50% { opacity: 1; } 65% { opacity: 0.4; } 80% { opacity: 1; } }
+@keyframes ftArrow {
+  0% { transform: translate(0, 0); }
+  45% { transform: translate(18px, -18px); }
+  46% { transform: translate(-18px, 18px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- 11. Ikon (CSS mask, pengganti svg inline) ---------- */
+:is(#appFiturTransaksi, .ft-app) .ft-ic {
+  display: inline-block; flex: 0 0 auto;
+  width: 20px; height: 20px;
+  font-size: 0; line-height: 0; color: inherit;
+  background-color: currentColor;
+  -webkit-mask: var(--ft-ic-img) center / contain no-repeat;
+  mask: var(--ft-ic-img) center / contain no-repeat;
+}
+
+:is(#appFiturTransaksi, .ft-app) .ft-ic--valas { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3a13.5 13.5 0 0 1 0 18a13.5 13.5 0 0 1 0-18z'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--rupiah { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h15'/%3E%3Cpath d='M15 4l4 4-4 4'/%3E%3Cpath d='M20 16H5'/%3E%3Cpath d='M9 12l-4 4 4 4'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--qrbayar { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7' rx='1.2'/%3E%3Crect x='14' y='3' width='7' height='7' rx='1.2'/%3E%3Crect x='3' y='14' width='7' height='7' rx='1.2'/%3E%3Cpath d='M14 14h3v3h-3z'/%3E%3Cpath d='M20.5 14v.01'/%3E%3Cpath d='M14 20.5h.01'/%3E%3Cpath d='M17.5 20.5H21V17'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--qrterima { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7.5V5a2 2 0 0 1 2-2h2.5'/%3E%3Cpath d='M16.5 3H19a2 2 0 0 1 2 2v2.5'/%3E%3Cpath d='M21 16.5V19a2 2 0 0 1-2 2h-2.5'/%3E%3Cpath d='M7.5 21H5a2 2 0 0 1-2-2v-2.5'/%3E%3Cpath d='M12 7v9'/%3E%3Cpath d='M8.5 12.5L12 16l3.5-3.5'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--qristap { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5.5' cy='12' r='1.6'/%3E%3Cpath d='M9.5 8.5a5 5 0 0 1 0 7'/%3E%3Cpath d='M13 6a8.5 8.5 0 0 1 0 12'/%3E%3Cpath d='M16.5 3.5a12 12 0 0 1 0 17'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--topup { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='15' rx='2.5'/%3E%3Cpath d='M12 9v7'/%3E%3Cpath d='M8.5 12.5h7'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--emoney { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='5' width='15' height='14' rx='2.5'/%3E%3Cpath d='M6 9h5'/%3E%3Cpath d='M6 15h3'/%3E%3Cpath d='M19.5 9a4 4 0 0 1 0 6'/%3E%3Cpath d='M21.5 7a7 7 0 0 1 0 10'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--taptopay { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3.5' y='3' width='10' height='18' rx='2.2'/%3E%3Cpath d='M7.5 17.5h2'/%3E%3Cpath d='M17 9a4 4 0 0 1 0 6'/%3E%3Cpath d='M19.5 6.5a7.5 7.5 0 0 1 0 11'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--tagih { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3h12v18l-3-2-3 2-3-2-3 2z'/%3E%3Cpath d='M9 8h6'/%3E%3Cpath d='M9 12h6'/%3E%3Cpath d='M9 16h3'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--tunai { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='6' width='19' height='12' rx='2'/%3E%3Ccircle cx='12' cy='12' r='2.5'/%3E%3Cpath d='M6 9.5v5'/%3E%3Cpath d='M18 9.5v5'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--travoy { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 16l1.4-5.2A2.5 2.5 0 0 1 8.8 9h6.4a2.5 2.5 0 0 1 2.4 1.8L19 16'/%3E%3Crect x='3' y='16' width='18' height='4' rx='1.5'/%3E%3Cpath d='M7 18h.01'/%3E%3Cpath d='M17 18h.01'/%3E%3Cpath d='M12 3v3'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--quick { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2.5L4.5 14H11l-1 7.5L18.5 10H12z'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--token { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--virtual { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='2.5' width='12' height='19' rx='2.5'/%3E%3Crect x='8.5' y='7' width='7' height='5' rx='1'/%3E%3Cpath d='M11 18h2'/%3E%3C/svg%3E"); }
+:is(#appFiturTransaksi, .ft-app) .ft-ic--arrow { --ft-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7'/%3E%3Cpath d='M8.5 7H17v8.5'/%3E%3C/svg%3E"); }
+
+/* ---------- 12. Responsive ---------- */
+@media (max-width: 1199px) {
+  :is(#appFiturTransaksi, .ft-app) .ft-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 899px) {
+  :is(#appFiturTransaksi, .ft-app) .ft-section { padding: 56px 20px 64px; }
+  :is(#appFiturTransaksi, .ft-app) .ft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+}
+@media (max-width: 599px) {
+  :is(#appFiturTransaksi, .ft-app) .ft-section { padding: 48px 16px 56px; }
+  :is(#appFiturTransaksi, .ft-app) .ft-head { margin: 0 0 28px; }
+  :is(#appFiturTransaksi, .ft-app) .ft-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  :is(#appFiturTransaksi, .ft-app) .ft-card__body { padding: 22px 20px 20px; }
+}
+
+/* Perangkat sentuh: tanpa tilt, ring tampil tipis supaya tetap terasa "hidup" */
+@media (hover: none) {
+  :is(#appFiturTransaksi, .ft-app) .ft-card__ring { opacity: 0.55; animation-play-state: running; animation-duration: 6s; }
+}
+
+/* ---------- 13. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :is(#appFiturTransaksi, .ft-app) *,
+  :is(#appFiturTransaksi, .ft-app) *::before,
+  :is(#appFiturTransaksi, .ft-app) *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  :is(#appFiturTransaksi, .ft-app).ft-motion .ft-head,
+  :is(#appFiturTransaksi, .ft-app).ft-motion .ft-item { opacity: 1; }
+  :is(#appFiturTransaksi, .ft-app) .ft-card,
+  :is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover { transform: none; }
+  :is(#appFiturTransaksi, .ft-app) .ft-card.ft-is-hover .ft-card__ring { opacity: 1; }
+}
+</style>
+</head>
+<body>
+<div class="pv-bar"><span>Preview mode:</span><button data-m="">Auto</button><button data-m="light">Light</button><button data-m="dark">Dark</button><button data-m="half" class="on">Half</button></div>
+<!-- ============================================================
+     FITUR TRANSAKSI LIVIN (HIGH-TECH MOTION) - HTML Structure
+     Copy-paste ke komponen HTML di halaman AEM (bukan custom-css-js)
+     (tanpa tag html, head, body; font mengikuti CMS)
+     ============================================================ -->
+<div id="appFiturTransaksi" class="ft-app ft-el-section ft-r-region">
+  <div class="ft-section">
+    <div class="ft-wrap">
+      <div class="ft-head">
+        <p class="ft-eyebrow">Fitur Transaksi Livin&rsquo;</p>
+        <h2 id="ftTitle" class="ft-title ft-id--ftTitle">Semua transaksi, dalam satu genggaman</h2>
+        <p class="ft-lede">Transfer, bayar dengan QR, isi saldo, hingga tarik tunai tanpa kartu. Pilih fitur transaksi Livin&rsquo; yang Anda butuhkan.</p>
+      </div>
+      <ul class="ft-grid ft-r-list">
+        <li class="ft-item ft-x-i--0">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--valas">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Transfer</span><span class="ft-card__idx">01</span></span>
+              </div>
+              <h3 class="ft-card__title">Transfer Valas</h3>
+              <p class="ft-card__desc">Kirim dana dalam mata uang asing ke rekening di luar negeri langsung dari Livin&rsquo;, dengan kurs yang terlihat sebelum Anda konfirmasi.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/transfer-valas.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Transfer Valas</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--1">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--rupiah">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Transfer</span><span class="ft-card__idx">02</span></span>
+              </div>
+              <h3 class="ft-card__title">Transfer Rupiah</h3>
+              <p class="ft-card__desc">Kirim uang ke sesama rekening Mandiri maupun bank lain kapan saja, dengan pilihan metode transfer sesuai kebutuhan.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/transfer-rupiah.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Transfer Rupiah</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--2">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--qrbayar">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">QRIS</span><span class="ft-card__idx">03</span></span>
+              </div>
+              <h3 class="ft-card__title">QR Bayar</h3>
+              <p class="ft-card__desc">Bayar belanja di merchant berlogo QRIS cukup dengan memindai kode QR, tanpa uang tunai dan tanpa kartu.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/qr-bayar.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> QR Bayar</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--3">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--qrterima">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">QRIS</span><span class="ft-card__idx">04</span></span>
+              </div>
+              <h3 class="ft-card__title">QR Terima Transfer</h3>
+              <p class="ft-card__desc">Tampilkan kode QR dari aplikasi untuk menerima transfer dengan cepat, tanpa perlu menyebutkan nomor rekening.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/qr-terima-transfer.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> QR Terima Transfer</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--4">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--qristap">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Nirsentuh</span><span class="ft-card__idx">05</span></span>
+              </div>
+              <h3 class="ft-card__title">QRIS Tap</h3>
+              <p class="ft-card__desc">Bayar di merchant yang mendukung QRIS Tap cukup dengan menempelkan ponsel ber-NFC ke perangkat pembayaran.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/qris-tap.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> QRIS Tap</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--5">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--topup">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Isi saldo</span><span class="ft-card__idx">06</span></span>
+              </div>
+              <h3 class="ft-card__title">Top-up</h3>
+              <p class="ft-card__desc">Isi saldo dompet digital dan berbagai layanan favorit Anda langsung dari rekening, hanya dalam beberapa langkah.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/top-up.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Top-up</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--6">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--emoney">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Isi saldo</span><span class="ft-card__idx">07</span></span>
+              </div>
+              <h3 class="ft-card__title">e-money</h3>
+              <p class="ft-card__desc">Cek dan isi ulang saldo kartu Mandiri e-money cukup dengan menempelkan kartu ke ponsel yang mendukung NFC.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/e-money.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> e-money</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--7">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--taptopay">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Nirsentuh</span><span class="ft-card__idx">08</span></span>
+              </div>
+              <h3 class="ft-card__title">Tap to Pay</h3>
+              <p class="ft-card__desc">Bayar secara nirsentuh dengan menempelkan ponsel ke mesin pembayaran yang mendukung, tanpa perlu mengeluarkan kartu.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/tap-to-pay.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Tap to Pay</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--8">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--tagih">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Transfer</span><span class="ft-card__idx">09</span></span>
+              </div>
+              <h3 class="ft-card__title">Tagih Uang</h3>
+              <p class="ft-card__desc">Kirim permintaan pembayaran ke teman atau keluarga, misalnya untuk patungan, dan pantau siapa saja yang sudah membayar.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/tagih-uang.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Tagih Uang</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--9">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--tunai">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Tunai</span><span class="ft-card__idx">10</span></span>
+              </div>
+              <h3 class="ft-card__title">Setor Tarik</h3>
+              <p class="ft-card__desc">Setor dan tarik tunai di ATM atau mesin setor tunai Mandiri tanpa kartu, cukup dengan kode dari aplikasi.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/setor-tarik.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Setor Tarik</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--10">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--travoy">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Perjalanan</span><span class="ft-card__idx">11</span></span>
+              </div>
+              <h3 class="ft-card__title">Travoy GO</h3>
+              <p class="ft-card__desc">Nikmati kemudahan layanan perjalanan tol Travoy GO yang terhubung langsung dengan rekening Anda di Livin&rsquo;.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/travoy-go.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Travoy GO</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--11">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--quick">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Akses cepat</span><span class="ft-card__idx">12</span></span>
+              </div>
+              <h3 class="ft-card__title">Quick Pick</h3>
+              <p class="ft-card__desc">Simpan transaksi yang sering Anda lakukan sebagai pintasan, sehingga transaksi rutin bisa selesai lebih cepat.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/quick-pick.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Quick Pick</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--12">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--token">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Keamanan</span><span class="ft-card__idx">13</span></span>
+              </div>
+              <h3 class="ft-card__title">Token Online</h3>
+              <p class="ft-card__desc">Otorisasi transaksi dengan token yang sudah tersedia di aplikasi, tanpa perlu membawa perangkat token terpisah.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/token-online.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Token Online</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ft-item ft-x-i--13">
+          <div class="ft-card">
+            <span class="ft-card__ring ft-r-hide">&#8203;</span>
+            <div class="ft-card__body">
+              <span class="ft-card__spot ft-r-hide">&#8203;</span>
+              <span class="ft-card__scan ft-r-hide">&#8203;</span>
+              <div class="ft-card__top">
+                <span class="ft-card__icon ft-r-hide"><span class="ft-ic ft-ic--virtual">&#8203;</span></span>
+                <span class="ft-card__meta ft-r-hide"><span class="ft-card__tag">Kartu</span><span class="ft-card__idx">14</span></span>
+              </div>
+              <h3 class="ft-card__title">Virtual Card</h3>
+              <p class="ft-card__desc">Gunakan kartu virtual untuk belanja online dengan lebih aman, tanpa harus memakai data kartu fisik Anda.</p>
+              <a class="ft-card__cta" href="/content/corpweb/main/id/produk-digital/livin/fitur-transaksi/virtual-card.html"><span class="ft-card__cta-label">Lihat selengkapnya<span class="ft-sr"> Virtual Card</span></span><span class="ft-card__cta-ic ft-r-hide"><span class="ft-ic ft-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="pv-pad"></div>
+<script>
+(function(){var bs=document.querySelectorAll('.pv-bar button');for(var i=0;i<bs.length;i++)bs[i].addEventListener('click',function(){for(var k=0;k<bs.length;k++)bs[k].classList.remove('on');this.classList.add('on');var m=this.getAttribute('data-m');var d=document.documentElement;if(m)d.setAttribute('data-theme',m);else d.setAttribute('data-theme',matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');});})();
+</script>
+<script>
+/* ============================================================
+   FITUR TRANSAKSI LIVIN (HIGH-TECH MOTION) - Script (ES5)
+   Root: #appFiturTransaksi / .ft-app | semua query lewat root
+   Color mode ikut atribut data-theme di tag html (light/dark/half)
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var ROOT_ID = 'appFiturTransaksi';
+  var BUILD = '2026-11-20';
+  var TAG = '[FiturTransaksi]';
+
+  /* Peta pemulih atribut aria/role (AEM bisa membuang aria-*, role) */
+  var ARIA_MAP = {
+    'ft-r-region': { 'role': 'region', 'aria-labelledby': 'ftTitle' },
+    'ft-r-list': { 'role': 'list' },
+    'ft-r-hide': { 'aria-hidden': 'true' }
+  };
+
+  function findRoot() {
+    return document.getElementById(ROOT_ID) || document.querySelector('.ft-app');
+  }
+
+  function toArray(list) {
+    var out = [];
+    for (var i = 0; i < list.length; i++) out.push(list[i]);
+    return out;
+  }
+
+  function hasClass(el, c) {
+    return (' ' + el.className + ' ').indexOf(' ' + c + ' ') > -1;
+  }
+
+  function addClass(el, c) {
+    if (el.classList) el.classList.add(c);
+    else if (!hasClass(el, c)) el.className += ' ' + c;
+  }
+
+  function removeClass(el, c) {
+    if (el.classList) el.classList.remove(c);
+    else el.className = (' ' + el.className + ' ').replace(' ' + c + ' ', ' ').replace(/^\s+|\s+$/g, '');
+  }
+
+  function toggleClass(el, c, on) {
+    if (on) addClass(el, c); else removeClass(el, c);
+  }
+
+  function allWithin(root) {
+    return [root].concat(toArray(root.querySelectorAll('*')));
+  }
+
+  /* ---------- Pemulih atribut (A3 - A5) ---------- */
+  function restoreIds(root) {
+    var els = allWithin(root);
+    for (var i = 0; i < els.length; i++) {
+      var m = (' ' + els[i].className + ' ').match(/ ft-id--([A-Za-z0-9_-]+) /);
+      if (m && !els[i].id) els[i].id = m[1];
+    }
+  }
+
+  function restoreData(root) {
+    var els = allWithin(root);
+    var re = / ft-x-([A-Za-z0-9_]+)(?:--([A-Za-z0-9_-]+))? /g;
+    for (var i = 0; i < els.length; i++) {
+      var cls = ' ' + els[i].className.split(/\s+/).join('  ') + ' ';
+      var m;
+      re.lastIndex = 0;
+      while ((m = re.exec(cls)) !== null) {
+        var name = 'data-' + m[1].replace(/_x/g, '-').toLowerCase();
+        var val = m[2] === undefined ? '' : m[2].replace(/([0-9])p([0-9])/g, '$1.$2');
+        if (!els[i].hasAttribute(name)) els[i].setAttribute(name, val);
+      }
+    }
+  }
+
+  function restoreAria(root) {
+    for (var key in ARIA_MAP) {
+      if (!ARIA_MAP.hasOwnProperty(key)) continue;
+      var els = hasClass(root, key) ? [root] : [];
+      els = els.concat(toArray(root.querySelectorAll('.' + key)));
+      for (var i = 0; i < els.length; i++) {
+        var attrs = ARIA_MAP[key];
+        for (var a in attrs) {
+          if (attrs.hasOwnProperty(a) && !els[i].hasAttribute(a)) els[i].setAttribute(a, attrs[a]);
+        }
+      }
+    }
+  }
+
+  /* ---------- Color mode ---------- */
+  function parseRgb(str) {
+    var m = str && str.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s\/]+([\d.]+%?))?/);
+    if (!m) return null;
+    var a = m[4] === undefined ? 1 : (m[4].indexOf('%') > -1 ? parseFloat(m[4]) / 100 : parseFloat(m[4]));
+    return { r: +m[1], g: +m[2], b: +m[3], a: a };
+  }
+
+  function luminance(c) {
+    function ch(v) { v = v / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+    return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b);
+  }
+
+  function isCmsDark(root) {
+    var el = root.parentElement;
+    while (el) {
+      var c = parseRgb(window.getComputedStyle(el).backgroundColor);
+      if (c && c.a >= 0.5) return luminance(c) < 0.35;
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  function forcedMode(root) {
+    var m = (' ' + root.className + ' ').match(/ ft-mode-(light|dark|half) /);
+    return m ? m[1] : '';
+  }
+
+  function cmsTheme() {
+    var t = (document.documentElement.getAttribute('data-theme') || '').toLowerCase();
+    return (t === 'light' || t === 'dark' || t === 'half') ? t : '';
+  }
+
+  function setMode(root, mode) {
+    toggleClass(root, 'ft-theme-dark', mode === 'dark' || mode === 'half');
+    toggleClass(root, 'ft-theme-half', mode === 'half');
+  }
+
+  function initTheme(root) {
+    var timer = null;
+    function apply() {
+      var forced = forcedMode(root);
+      setMode(root, forced || cmsTheme() || (isCmsDark(root) ? 'dark' : 'light'));
+    }
+    function schedule() { apply(); clearTimeout(timer); timer = setTimeout(apply, 400); }
+    apply();
+    if ('MutationObserver' in window) {
+      var opts = { attributes: true, attributeFilter: ['class', 'style', 'data-theme', 'data-mode', 'data-color-scheme', 'data-bs-theme'] };
+      var mo = new MutationObserver(schedule);
+      mo.observe(document.documentElement, opts);
+      if (document.body) mo.observe(document.body, opts);
+      /* class paksa ft-mode-* ditambah/dicabut saat runtime */
+      var moRoot = new MutationObserver(function () {
+        var want = forcedMode(root);
+        if (want !== root.getAttribute('data-ft-forced')) {
+          root.setAttribute('data-ft-forced', want);
+          apply();
+        }
+      });
+      moRoot.observe(root, { attributes: true, attributeFilter: ['class'] });
+    }
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) mq.addEventListener('change', schedule);
+      else if (mq.addListener) mq.addListener(schedule);
+    }
+    window.addEventListener('load', schedule);
+  }
+
+  /* ---------- Lingkungan: iframe editor, static, reduced motion ---------- */
+  function inIframe() {
+    try { return window.self !== window.top; } catch (e) { return true; }
+  }
+
+  function prefersReduced() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
+  function initEnv(root) {
+    var isStatic = inIframe() || /[?&]static\b/.test(window.location.search) || prefersReduced();
+    toggleClass(root, 'ft-static', isStatic);
+    return isStatic;
+  }
+
+  /* ---------- Motion masuk (reveal bertahap) ---------- */
+  function initReveal(root, isStatic) {
+    var items = toArray(root.querySelectorAll('.ft-item'));
+    var head = root.querySelector('.ft-head');
+    var targets = head ? [head].concat(items) : items;
+
+    for (var i = 0; i < items.length; i++) {
+      var idx = items[i].getAttribute('data-i');
+      items[i].style.setProperty('--ft-i', idx !== null && idx !== '' ? idx : String(i));
+    }
+
+    if (isStatic || !('IntersectionObserver' in window)) return;
+
+    addClass(root, 'ft-motion');
+
+    /* failsafe: bila observer tidak pernah jalan, tampilkan semua */
+    var failsafe = setTimeout(function () {
+      if (!root.querySelector('.ft-is-in')) removeClass(root, 'ft-motion');
+    }, 3000);
+
+    var pending = targets.slice();
+    var ticking = false;
+
+    function reveal(el) {
+      addClass(el, 'ft-is-in');
+      io.unobserve(el);
+      clearTimeout(failsafe);
+    }
+
+    /* scroll loncat (anchor / End): elemen yang sudah terlewati juga ditampilkan */
+    function sweep() {
+      ticking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var rest = [];
+      for (var s = 0; s < pending.length; s++) {
+        if (pending[s].getBoundingClientRect().top < vh - 40) reveal(pending[s]);
+        else rest.push(pending[s]);
+      }
+      pending = rest;
+      if (!pending.length) {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(sweep);
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) {
+        if (entries[k].isIntersecting) onScroll();
+      }
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    for (var j = 0; j < targets.length; j++) io.observe(targets[j]);
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+  }
+
+  /* ---------- Tilt 3D + spotlight ikut kursor ---------- */
+  function initTilt(root, isStatic) {
+    var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var cards = toArray(root.querySelectorAll('.ft-card'));
+    var MAX = 6;
+
+    function bind(card) {
+      var raf = 0;
+      var px = 0.5;
+      var py = 0;
+
+      function paint() {
+        raf = 0;
+        card.style.setProperty('--ft-mx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--ft-my', (py * 100).toFixed(1) + '%');
+        if (fine && !isStatic) {
+          card.style.setProperty('--ft-rx', ((0.5 - py) * MAX).toFixed(2) + 'deg');
+          card.style.setProperty('--ft-ry', ((px - 0.5) * MAX).toFixed(2) + 'deg');
+        }
+      }
+
+      function onMove(e) {
+        var r = card.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        px = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        py = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+        if (!raf) raf = (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(paint);
+      }
+
+      function onLeave() {
+        card.style.setProperty('--ft-rx', '0deg');
+        card.style.setProperty('--ft-ry', '0deg');
+      }
+
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', onLeave);
+
+      /* state hover/fokus lewat class (bukan :hover / :focus-within), supaya
+         kartu terakhir yang diklik atau di-tap tidak tertahan dalam efek hover */
+      card.addEventListener('mouseenter', function () { if (fine) addClass(card, 'ft-is-hover'); });
+      card.addEventListener('mouseleave', function () { removeClass(card, 'ft-is-hover'); });
+      card.addEventListener('focusin', function (e) {
+        var t = e.target;
+        var kbd = lastKey;
+        try { kbd = t.matches(':focus-visible'); } catch (err) { kbd = lastKey; }
+        toggleClass(card, 'ft-is-kbd', !!kbd);
+      });
+      card.addEventListener('focusout', function () { removeClass(card, 'ft-is-kbd'); });
+      card.addEventListener('click', function () { removeClass(card, 'ft-is-kbd'); });
+    }
+
+    var lastKey = false;
+    document.addEventListener('keydown', function () { lastKey = true; }, true);
+    document.addEventListener('mousedown', function () { lastKey = false; }, true);
+    document.addEventListener('touchstart', function () { lastKey = false; }, true);
+
+    /* kembali lewat tombol Back (bfcache): bersihkan sisa state */
+    window.addEventListener('pageshow', function () {
+      for (var k = 0; k < cards.length; k++) {
+        removeClass(cards[k], 'ft-is-hover');
+        removeClass(cards[k], 'ft-is-kbd');
+        cards[k].style.setProperty('--ft-rx', '0deg');
+        cards[k].style.setProperty('--ft-ry', '0deg');
+      }
+    });
+
+    for (var i = 0; i < cards.length; i++) bind(cards[i]);
+  }
+
+  /* ---------- Init ---------- */
+  function init() {
+    var root = findRoot();
+    if (!root) {
+      console.error(TAG + ' Element #' + ROOT_ID + ' / .ft-app tidak ditemukan. Tempel HTML di komponen HTML (bukan custom-css-js).');
+      return;
+    }
+    if (root.getAttribute('data-ft-ready') === '1') return;
+    root.setAttribute('data-ft-ready', '1');
+    if (!root.id) {
+      root.id = ROOT_ID;
+      console.warn(TAG + ' id root dibuang AEM; fallback .ft-app aktif');
+    }
+
+    restoreIds(root);
+    restoreData(root);
+    restoreAria(root);
+
+    initTheme(root);
+    var isStatic = initEnv(root);
+
+    initReveal(root, isStatic);
+    initTilt(root, isStatic);
+
+    console.info(TAG + ' build ' + BUILD + ' - OK');
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+</script>
+</body>
+</html>
