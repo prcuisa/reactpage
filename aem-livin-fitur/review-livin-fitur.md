@@ -104,3 +104,11 @@ Belum dibuat. Bila perlu: CSS & JS sama; terjemahkan judul, lede, filter, tag, d
 1. Isi URL kartu (T-1).
 2. Pasang, hard reload, cek console `[LivinFitur] build 2026-11-20 - OK` dan class `lf-is-fit` di logo (S-1).
 3. Konfirmasi biru filter aktif (S-2).
+
+## Revisi: hover tertahan setelah klik
+**Masalah:** kartu terakhir yang diklik tetap dalam efek hover (naik, ring berputar), karena CSS memakai `:focus-within` dan link tetap fokus setelah diklik. Di HP, `:hover` juga tertahan setelah tap.
+**Perbaikan:** efek hover kartu sekarang lewat class yang diatur JS:
+- `*-is-hover`: ditambah saat kursor masuk (hanya perangkat dengan mouse), dicabut saat kursor keluar.
+- `*-is-kbd`: hanya saat fokus dari keyboard (`:focus-visible`), dicabut saat blur atau klik.
+- Saat kembali lewat tombol Back (bfcache), semua state direset.
+**Diuji:** hover, klik, kursor keluar, Tab keyboard, klik di luar, dan tap di HP. Tidak ada kartu yang tertahan.

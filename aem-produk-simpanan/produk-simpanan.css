@@ -287,28 +287,28 @@
 }
 
 /* ---------- 8. Hover / fokus ---------- */
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover,
-:is(#appProdukSimpanan, .ps-app) .ps-card:focus-within {
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover,
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-kbd {
   transform: rotateX(var(--ps-rx)) rotateY(var(--ps-ry)) translateY(-6px);
   box-shadow: var(--ps-shadow-hi);
   background: var(--ps-line-hi);
 }
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__ring,
-:is(#appProdukSimpanan, .ps-app) .ps-card:focus-within .ps-card__ring { opacity: 1; animation-play-state: running; }
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__spot { opacity: 1; }
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__scan { animation: psScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__icon,
-:is(#appProdukSimpanan, .ps-app) .ps-card:focus-within .ps-card__icon {
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__ring,
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-kbd .ps-card__ring { opacity: 1; animation-play-state: running; }
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__spot { opacity: 1; }
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__scan { animation: psScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__icon,
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-kbd .ps-card__icon {
   transform: translateZ(0) translateY(-2px) rotate(-6deg);
   box-shadow: 0 10px 24px -10px var(--ps-cyan);
 }
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__cta,
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__cta,
 :is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible { color: var(--ps-cta-hover-text); border-color: transparent; }
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__cta,
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__cta,
 :is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible { background-size: 100% 100%; }
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__cta-ic,
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__cta-ic,
 :is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible .ps-card__cta-ic { background: var(--ps-cyan); color: #0A0A0A; }
-:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__cta-ic .ps-ic { animation: psArrow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+:is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__cta-ic .ps-ic { animation: psArrow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
 :is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible { outline: none; }
 :is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible::after { outline: 2px solid var(--ps-cyan); outline-offset: -3px; }
 
@@ -332,7 +332,7 @@
   animation: psFlicker 0.9s steps(1, end) backwards;
   animation-delay: calc(var(--ps-i, 0) * 90ms + 300ms);
 }
-:is(#appProdukSimpanan, .ps-app).ps-motion .ps-item.ps-is-in .ps-card:hover .ps-card__scan { animation: psScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:is(#appProdukSimpanan, .ps-app).ps-motion .ps-item.ps-is-in .ps-card.ps-is-hover .ps-card__scan { animation: psScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
 
 /* Mode statis (iframe editor AEM / ?static): tanpa animasi berjalan */
 :is(#appProdukSimpanan, .ps-app).ps-static .ps-bg__grid,
@@ -412,6 +412,6 @@
   :is(#appProdukSimpanan, .ps-app).ps-motion .ps-head,
   :is(#appProdukSimpanan, .ps-app).ps-motion .ps-item { opacity: 1; }
   :is(#appProdukSimpanan, .ps-app) .ps-card,
-  :is(#appProdukSimpanan, .ps-app) .ps-card:hover { transform: none; }
-  :is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__ring { opacity: 1; }
+  :is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover { transform: none; }
+  :is(#appProdukSimpanan, .ps-app) .ps-card.ps-is-hover .ps-card__ring { opacity: 1; }
 }

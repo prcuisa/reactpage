@@ -69,3 +69,11 @@ Belum dibuat. Bila perlu: pakai CSS & JS yang sama, terjemahkan deskripsi + labe
 2. Putuskan header dipakai atau tidak (S-1), cek label kategori (S-2).
 3. Perbaiki copy Tabungan Rencana (S-3).
 4. Pasang, hard reload, cek console `[ProdukSimpanan] build 2026-11-20 - OK`.
+
+## Revisi: hover tertahan setelah klik
+**Masalah:** kartu terakhir yang diklik tetap dalam efek hover (naik, ring berputar), karena CSS memakai `:focus-within` dan link tetap fokus setelah diklik. Di HP, `:hover` juga tertahan setelah tap.
+**Perbaikan:** efek hover kartu sekarang lewat class yang diatur JS:
+- `*-is-hover`: ditambah saat kursor masuk (hanya perangkat dengan mouse), dicabut saat kursor keluar.
+- `*-is-kbd`: hanya saat fokus dari keyboard (`:focus-visible`), dicabut saat blur atau klik.
+- Saat kembali lewat tombol Back (bfcache), semua state direset.
+**Diuji:** hover, klik, kursor keluar, Tab keyboard, klik di luar, dan tap di HP. Tidak ada kartu yang tertahan.

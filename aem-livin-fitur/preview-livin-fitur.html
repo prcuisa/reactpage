@@ -286,22 +286,22 @@ html[data-theme="dark"] body{background:#141414}
 :is(#appLivinFitur, .lf-app) .lf-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ---------- 9. Hover / fokus ---------- */
-:is(#appLivinFitur, .lf-app) .lf-card:hover,
-:is(#appLivinFitur, .lf-app) .lf-card:focus-within {
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover,
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-kbd {
   transform: rotateX(var(--lf-rx)) rotateY(var(--lf-ry)) translateY(-6px);
   box-shadow: var(--lf-shadow-hi);
   background: var(--lf-line-hi);
 }
-:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__ring,
-:is(#appLivinFitur, .lf-app) .lf-card:focus-within .lf-card__ring { opacity: 1; animation-play-state: running; }
-:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__spot { opacity: 1; }
-:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-logo,
-:is(#appLivinFitur, .lf-app) .lf-card:focus-within .lf-logo { transform: translateY(-2px) rotate(-4deg); box-shadow: inset 0 0 0 1px var(--lf-logo-line), 0 12px 26px -12px var(--lf-blue); }
-:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-logo__halo { animation: lfSheen 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
-:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__cta-label,
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover .lf-card__ring,
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-kbd .lf-card__ring { opacity: 1; animation-play-state: running; }
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover .lf-card__spot { opacity: 1; }
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover .lf-logo,
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-kbd .lf-logo { transform: translateY(-2px) rotate(-4deg); box-shadow: inset 0 0 0 1px var(--lf-logo-line), 0 12px 26px -12px var(--lf-blue); }
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover .lf-logo__halo { animation: lfSheen 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover .lf-card__cta-label,
 :is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible .lf-card__cta-label { background-size: 100% 2px; }
-:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__cta-ic,
+:is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover .lf-card__cta-ic,
 :is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible .lf-card__cta-ic { background: var(--lf-pill-on); border-color: var(--lf-pill-on); color: var(--lf-on-blue); transform: rotate(45deg); }
 :is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible { outline: none; }
 :is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible::after { outline: 2px solid var(--lf-blue); outline-offset: -3px; }
@@ -323,7 +323,7 @@ html[data-theme="dark"] body{background:#141414}
   animation: lfFlicker 0.9s steps(1, end) backwards;
   animation-delay: calc(var(--lf-i, 0) * 80ms + 300ms);
 }
-:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card:hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card.lf-is-hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
 
 
 /* ---------- 11. Keyframes ---------- */
@@ -376,8 +376,8 @@ html[data-theme="dark"] body{background:#141414}
   :is(#appLivinFitur, .lf-app).lf-motion .lf-head,
   :is(#appLivinFitur, .lf-app).lf-motion .lf-item { opacity: 1; }
   :is(#appLivinFitur, .lf-app) .lf-card,
-  :is(#appLivinFitur, .lf-app) .lf-card:hover { transform: none; }
-  :is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__ring { opacity: 1; }
+  :is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover { transform: none; }
+  :is(#appLivinFitur, .lf-app) .lf-card.lf-is-hover .lf-card__ring { opacity: 1; }
 }
 </style>
 </head>
@@ -784,7 +784,35 @@ html[data-theme="dark"] body{background:#141414}
 
       card.addEventListener('mousemove', onMove);
       card.addEventListener('mouseleave', onLeave);
+
+      /* state hover/fokus lewat class (bukan :hover / :focus-within), supaya
+         kartu terakhir yang diklik atau di-tap tidak tertahan dalam efek hover */
+      card.addEventListener('mouseenter', function () { if (fine) addClass(card, 'lf-is-hover'); });
+      card.addEventListener('mouseleave', function () { removeClass(card, 'lf-is-hover'); });
+      card.addEventListener('focusin', function (e) {
+        var t = e.target;
+        var kbd = lastKey;
+        try { kbd = t.matches(':focus-visible'); } catch (err) { kbd = lastKey; }
+        toggleClass(card, 'lf-is-kbd', !!kbd);
+      });
+      card.addEventListener('focusout', function () { removeClass(card, 'lf-is-kbd'); });
+      card.addEventListener('click', function () { removeClass(card, 'lf-is-kbd'); });
     }
+
+    var lastKey = false;
+    document.addEventListener('keydown', function () { lastKey = true; }, true);
+    document.addEventListener('mousedown', function () { lastKey = false; }, true);
+    document.addEventListener('touchstart', function () { lastKey = false; }, true);
+
+    /* kembali lewat tombol Back (bfcache): bersihkan sisa state */
+    window.addEventListener('pageshow', function () {
+      for (var k = 0; k < cards.length; k++) {
+        removeClass(cards[k], 'lf-is-hover');
+        removeClass(cards[k], 'lf-is-kbd');
+        cards[k].style.setProperty('--lf-rx', '0deg');
+        cards[k].style.setProperty('--lf-ry', '0deg');
+      }
+    });
 
     for (var i = 0; i < cards.length; i++) bind(cards[i]);
   }

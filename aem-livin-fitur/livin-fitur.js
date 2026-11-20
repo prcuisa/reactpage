@@ -271,7 +271,35 @@
 
       card.addEventListener('mousemove', onMove);
       card.addEventListener('mouseleave', onLeave);
+
+      /* state hover/fokus lewat class (bukan :hover / :focus-within), supaya
+         kartu terakhir yang diklik atau di-tap tidak tertahan dalam efek hover */
+      card.addEventListener('mouseenter', function () { if (fine) addClass(card, 'lf-is-hover'); });
+      card.addEventListener('mouseleave', function () { removeClass(card, 'lf-is-hover'); });
+      card.addEventListener('focusin', function (e) {
+        var t = e.target;
+        var kbd = lastKey;
+        try { kbd = t.matches(':focus-visible'); } catch (err) { kbd = lastKey; }
+        toggleClass(card, 'lf-is-kbd', !!kbd);
+      });
+      card.addEventListener('focusout', function () { removeClass(card, 'lf-is-kbd'); });
+      card.addEventListener('click', function () { removeClass(card, 'lf-is-kbd'); });
     }
+
+    var lastKey = false;
+    document.addEventListener('keydown', function () { lastKey = true; }, true);
+    document.addEventListener('mousedown', function () { lastKey = false; }, true);
+    document.addEventListener('touchstart', function () { lastKey = false; }, true);
+
+    /* kembali lewat tombol Back (bfcache): bersihkan sisa state */
+    window.addEventListener('pageshow', function () {
+      for (var k = 0; k < cards.length; k++) {
+        removeClass(cards[k], 'lf-is-hover');
+        removeClass(cards[k], 'lf-is-kbd');
+        cards[k].style.setProperty('--lf-rx', '0deg');
+        cards[k].style.setProperty('--lf-ry', '0deg');
+      }
+    });
 
     for (var i = 0; i < cards.length; i++) bind(cards[i]);
   }
