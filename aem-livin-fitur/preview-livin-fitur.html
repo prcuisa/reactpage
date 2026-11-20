@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="id" data-theme="half">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fitur Livin Preview</title>
+<style>
+body{margin:0;font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;background:#fff}
+html[data-theme="dark"] body{background:#141414}
+.pv-bar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;background:#111;color:#eee;font-size:13px}
+.pv-bar button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid #444;background:#1c1c1c;color:#eee;cursor:pointer}
+.pv-bar button.on{background:#01a4d8;border-color:#01a4d8;color:#001}
+.pv-note{color:#f5c26b}
+.pv-pad{height:40vh}
+</style>
+<style>
+/* ============================================================
+   FITUR TERBARU LIVIN (HIGH-TECH MOTION) - Styles
+   Scope: :is(#appLivinFitur, .lf-app) | prefix lf- | var --lf-* | keyframes lf*
+   Color mode ikut CMS (atribut data-theme di tag html): Light / Dark / Half
+   ============================================================ */
+
+/* ---------- 1. Isolasi dari CSS template AEM ---------- */
+:is(#appLivinFitur, .lf-app) :where(:not(svg, svg *, img)) { all: revert; }
+
+/* ---------- 2. Reset dasar ---------- */
+:is(#appLivinFitur, .lf-app) *,
+:is(#appLivinFitur, .lf-app) *::before,
+:is(#appLivinFitur, .lf-app) *::after { box-sizing: border-box; font-family: inherit; }
+:is(#appLivinFitur, .lf-app) :where(h1, h2, h3, h4, h5, h6) { font-family: inherit; text-transform: none; margin: 0; padding: 0; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
+:is(#appLivinFitur, .lf-app) :where(p) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
+:is(#appLivinFitur, .lf-app) :where(a, a:hover, a:focus, a:visited, a:active) { color: inherit; text-decoration: inherit; }
+:is(#appLivinFitur, .lf-app) :where(button) { -webkit-appearance: none; appearance: none; box-shadow: none; min-width: 0; height: auto; margin: 0; line-height: inherit; letter-spacing: normal; text-transform: none; font-family: inherit; }
+:is(#appLivinFitur, .lf-app) :where(img) { margin: 0; border: 0; display: block; max-width: none; }
+:is(#appLivinFitur, .lf-app) :where(div) { display: block; }
+
+/* ---------- 3. Root + token ---------- */
+:is(#appLivinFitur, .lf-app) {
+  display: block; position: relative; margin: 0; padding: 0;
+  font-size: 16px; line-height: 1.5; text-align: left; text-transform: none;
+  letter-spacing: normal; visibility: visible;
+
+  --lf-cms-light-bg: #F3F1EC;
+  --lf-cms-light-font: #1A1A1A;
+  --lf-cms-dark-bg: #0A0A0A;
+  --lf-cms-dark-font: #F3F1EC;
+  --lf-cms-half-bg: #0A0A0A;
+  --lf-cms-half-font: #F3F1EC;
+
+  --lf-max-width: 1200px;
+  --lf-radius: 22px;
+  --lf-logo-size: 64px;
+
+  /* Light (default): netral hangat, biru Livin, emas */
+  --lf-bg: var(--lf-cms-light-bg);
+  --lf-text: var(--lf-cms-light-font);
+  --lf-surface: #FFFFFF;
+  --lf-dim: #5F574E;
+  --lf-line: rgba(60, 45, 30, 0.10);
+  --lf-line-hi: rgba(13, 132, 189, 0.35);
+  --lf-blue: #1BA3E0;
+  --lf-blue-deep: #0B78AD;
+  --lf-on-blue: #FFFFFF;
+  --lf-pill-on: #0B78AD;              /* biru lebih gelap: teks putih 4.88:1 (#1BA3E0 hanya 2.85:1) */
+  --lf-gold: #8A6418;
+  --lf-gold-bg: rgba(217, 179, 106, 0.16);
+  --lf-gold-line: rgba(217, 179, 106, 0.40);
+  --lf-lamp: 255, 190, 110;
+  --lf-logo-bg: #EAF5FB;
+  --lf-logo-line: rgba(13, 132, 189, 0.14);
+  --lf-pill-bg: #FFFFFF;
+  --lf-arrow-bg: #F3F1EC;
+  --lf-grid-dot: rgba(60, 45, 30, 0.14);
+  --lf-orb-a: rgba(255, 190, 110, 0.22);
+  --lf-orb-b: rgba(27, 163, 224, 0.12);
+  --lf-spot: rgba(255, 190, 110, 0.20);
+  --lf-spot-2: rgba(27, 163, 224, 0.10);
+  --lf-scan: rgba(27, 163, 224, 0.6);
+  --lf-shadow: 0 1px 2px rgba(60, 45, 30, 0.04);
+  --lf-shadow-hi: 0 2px 6px rgba(60, 45, 30, 0.05), 0 28px 48px -24px rgba(60, 45, 30, 0.40);
+
+  /* runtime (diisi JS) */
+  --lf-rx: 0deg;
+  --lf-ry: 0deg;
+  --lf-mx: 50%;
+  --lf-my: 0%;
+
+  color: var(--lf-text);
+  background: var(--lf-bg);
+  color-scheme: light;
+}
+
+/* Dark & Half */
+:is(#appLivinFitur, .lf-app).lf-theme-dark {
+  --lf-bg: var(--lf-cms-dark-bg);
+  --lf-text: var(--lf-cms-dark-font);
+  --lf-surface: #131315;
+  --lf-dim: #B5ADA2;
+  --lf-line: rgba(243, 241, 236, 0.10);
+  --lf-line-hi: rgba(61, 181, 232, 0.50);
+  --lf-blue: #3DB5E8;
+  --lf-blue-deep: #8FD7F5;
+  --lf-on-blue: #06233A;
+  --lf-pill-on: #3DB5E8;
+  --lf-gold: #E3C27A;
+  --lf-gold-bg: rgba(227, 194, 122, 0.10);
+  --lf-gold-line: rgba(227, 194, 122, 0.30);
+  --lf-logo-bg: #EAF5FB;                 /* tile logo tetap terang supaya warna logo asli terbaca */
+  --lf-logo-line: rgba(243, 241, 236, 0.18);
+  --lf-pill-bg: #17171A;
+  --lf-arrow-bg: #1E1E22;
+  --lf-grid-dot: rgba(143, 215, 245, 0.12);
+  --lf-orb-a: rgba(255, 190, 110, 0.08);
+  --lf-orb-b: rgba(61, 181, 232, 0.14);
+  --lf-spot: rgba(255, 190, 110, 0.10);
+  --lf-spot-2: rgba(61, 181, 232, 0.14);
+  --lf-scan: rgba(143, 215, 245, 0.75);
+  --lf-shadow: 0 1px 0 rgba(243, 241, 236, 0.04) inset;
+  --lf-shadow-hi: 0 1px 0 rgba(243, 241, 236, 0.06) inset, 0 30px 60px -28px rgba(0, 0, 0, 1), 0 0 40px -12px rgba(61, 181, 232, 0.35);
+  color-scheme: dark;
+}
+:is(#appLivinFitur, .lf-app).lf-theme-half {
+  --lf-bg: var(--lf-cms-half-bg);
+  --lf-text: var(--lf-cms-half-font);
+}
+
+/* ---------- 4. Section + latar ---------- */
+:is(#appLivinFitur, .lf-app) .lf-section {
+  position: relative; overflow: hidden; isolation: isolate;
+  padding: clamp(64px, 9vw, 112px) clamp(20px, 5vw, 64px);
+  background: var(--lf-bg);
+  color: var(--lf-text);
+}
+:is(#appLivinFitur, .lf-app) .lf-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; font-size: 0; line-height: 0; color: transparent; }
+:is(#appLivinFitur, .lf-app) .lf-bg__grid {
+  position: absolute; inset: -40px;
+  background-image: radial-gradient(var(--lf-grid-dot) 1.2px, transparent 1.6px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  animation: lfDrift 24s linear infinite;
+}
+:is(#appLivinFitur, .lf-app) .lf-bg__orb { position: absolute; width: 560px; height: 560px; border-radius: 50%; filter: blur(60px); animation: lfFloat 16s ease-in-out infinite alternate; }
+:is(#appLivinFitur, .lf-app) .lf-bg__orb--a { top: -220px; right: -120px; background: radial-gradient(circle, var(--lf-orb-a), transparent 70%); }
+:is(#appLivinFitur, .lf-app) .lf-bg__orb--b { bottom: -240px; left: -160px; background: radial-gradient(circle, var(--lf-orb-b), transparent 70%); animation-delay: -8s; }
+:is(#appLivinFitur, .lf-app) .lf-wrap { position: relative; width: 100%; max-width: var(--lf-max-width); margin: 0 auto; }
+
+/* ---------- 5. Header ---------- */
+:is(#appLivinFitur, .lf-app) .lf-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px; margin: 0 0 40px; }
+:is(#appLivinFitur, .lf-app) .lf-crumb {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 0 0 16px; padding: 6px 14px 6px 10px;
+  border: 1px solid var(--lf-line); border-radius: 999px; background: var(--lf-pill-bg);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--lf-blue-deep);
+}
+:is(#appLivinFitur, .lf-app) .lf-crumb__dot { position: relative; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--lf-blue); font-size: 0; line-height: 0; color: transparent; }
+:is(#appLivinFitur, .lf-app) .lf-crumb__dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid var(--lf-blue); animation: lfPulse 2s cubic-bezier(0.2, 0.7, 0.2, 1) infinite; }
+:is(#appLivinFitur, .lf-app) .lf-crumb__count { color: var(--lf-dim); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+:is(#appLivinFitur, .lf-app) .lf-title {
+  margin: 0 0 16px; max-width: 14ch;
+  font-size: clamp(34px, 4.6vw, 56px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em;
+  color: var(--lf-text);
+}
+:is(#appLivinFitur, .lf-app) .lf-lede { margin: 0; max-width: 46ch; font-size: 17px; line-height: 1.6; color: var(--lf-dim); }
+
+/* ---------- 6. Filter + indikator meluncur ---------- */
+:is(#appLivinFitur, .lf-app) .lf-filters {
+  position: relative; display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 5px; border: 1px solid var(--lf-line); border-radius: 999px;
+  background: var(--lf-pill-bg);
+}
+:is(#appLivinFitur, .lf-app) .lf-filters__ind {
+  position: absolute; left: 5px; top: 5px; width: 0; height: 0;
+  border-radius: 999px; background: var(--lf-pill-on);
+  box-shadow: 0 6px 18px -6px var(--lf-pill-on);
+  font-size: 0; line-height: 0; color: transparent;
+  opacity: 0;
+  transition: left 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease;
+}
+:is(#appLivinFitur, .lf-app) .lf-filters.lf-has-ind .lf-filters__ind { opacity: 1; }
+:is(#appLivinFitur, .lf-app) .lf-filter {
+  position: relative; z-index: 1;
+  padding: 9px 16px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--lf-dim);
+  font-size: 14px; font-weight: 600; line-height: 1.4; white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.25s ease, background-color 0.25s ease;
+}
+:is(#appLivinFitur, .lf-app) .lf-filter:hover { color: var(--lf-text); }
+:is(#appLivinFitur, .lf-app) .lf-filter.lf-is-active { color: var(--lf-on-blue); background: var(--lf-pill-on); }
+:is(#appLivinFitur, .lf-app) .lf-filters.lf-has-ind .lf-filter.lf-is-active { background: transparent; }
+:is(#appLivinFitur, .lf-app) .lf-filter:focus-visible { outline: 2px solid var(--lf-blue); outline-offset: 2px; }
+
+/* ---------- 7. Grid + kartu ---------- */
+:is(#appLivinFitur, .lf-app) .lf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+:is(#appLivinFitur, .lf-app) .lf-item { display: flex; min-width: 0; perspective: 1000px; }
+:is(#appLivinFitur, .lf-app) .lf-item.lf-is-hidden { display: none; }
+
+:is(#appLivinFitur, .lf-app) .lf-card {
+  position: relative; flex: 1 1 auto; display: flex;
+  padding: 1px; border-radius: var(--lf-radius);
+  background: var(--lf-line);
+  box-shadow: var(--lf-shadow);
+  overflow: hidden;
+  transform: rotateX(var(--lf-rx)) rotateY(var(--lf-ry)) translateY(0);
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease, background-color 0.3s ease;
+  will-change: transform;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__ring {
+  position: absolute; left: 50%; top: 50%; width: 200%; aspect-ratio: 1 / 1; margin: -100% 0 0 -100%;
+  background: conic-gradient(from 0deg, transparent 0deg, var(--lf-blue) 50deg, rgb(var(--lf-lamp)) 95deg, transparent 145deg, transparent 360deg);
+  opacity: 0; font-size: 0; line-height: 0; color: transparent;
+  transition: opacity 0.4s ease;
+  animation: lfSpin 3.2s linear infinite; animation-play-state: paused;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__body {
+  position: relative; z-index: 1; flex: 1 1 auto;
+  display: flex; flex-direction: column;
+  min-height: 280px; padding: 28px;
+  border-radius: calc(var(--lf-radius) - 1px);
+  background: var(--lf-surface);
+  overflow: hidden;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__spot {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(360px circle at var(--lf-mx) var(--lf-my), var(--lf-spot), transparent 65%),
+    radial-gradient(220px circle at var(--lf-mx) var(--lf-my), var(--lf-spot-2), transparent 70%);
+  opacity: 0; transition: opacity 0.35s ease;
+  font-size: 0; line-height: 0; color: transparent;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__scan {
+  position: absolute; left: 0; right: 0; top: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--lf-scan), transparent);
+  box-shadow: 0 0 12px 1px var(--lf-scan);
+  opacity: 0; font-size: 0; line-height: 0; color: transparent;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__top { position: relative; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin: 0 0 32px; }
+:is(#appLivinFitur, .lf-app) .lf-card__meta { display: inline-flex; align-items: center; gap: 10px; }
+:is(#appLivinFitur, .lf-app) .lf-tag {
+  display: inline-block; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--lf-gold-line); background: var(--lf-gold-bg); color: var(--lf-gold);
+  font-size: 12px; font-weight: 600; line-height: 1.3;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__idx { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; line-height: 1.3; color: var(--lf-dim); font-variant-numeric: tabular-nums; }
+:is(#appLivinFitur, .lf-app) .lf-card__title { position: relative; margin: 0 0 8px; font-size: 21px; line-height: 1.25; font-weight: 700; letter-spacing: -0.01em; color: var(--lf-text); }
+:is(#appLivinFitur, .lf-app) .lf-card__desc { position: relative; margin: 0 0 28px; max-width: 32ch; font-size: 15px; line-height: 1.55; color: var(--lf-dim); }
+
+/* ---------- 8. Logo fitur: ukuran visual seragam ----------
+   Tile 64px. JS mengukur isi logo (piksel non-transparan) lalu men-skala + memusatkan
+   supaya luas visual tiap logo sama. Tanpa JS/gagal ukur: logo di-contain dalam kotak 44px. */
+:is(#appLivinFitur, .lf-app) .lf-logo {
+  position: relative; flex: 0 0 auto; display: block;
+  width: var(--lf-logo-size); height: var(--lf-logo-size);
+  border-radius: 16px;
+  background: var(--lf-logo-bg);
+  box-shadow: inset 0 0 0 1px var(--lf-logo-line);
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease;
+}
+:is(#appLivinFitur, .lf-app) .lf-logo__img {
+  position: absolute; left: 10px; top: 10px;
+  width: calc(var(--lf-logo-size) - 20px); height: calc(var(--lf-logo-size) - 20px);
+  object-fit: contain; object-position: center;
+  transform-origin: 50% 50%;
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+/* Setelah diukur JS: img memenuhi tile, transform dari JS yang menentukan ukuran */
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-fit .lf-logo__img { left: 0; top: 0; width: 100%; height: 100%; transform: translate(var(--lf-lx, 0%), var(--lf-ly, 0%)) scale(var(--lf-ls, 1)); }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-knock .lf-logo__img { mix-blend-mode: multiply; }
+/* Logo berbentuk tile penuh (punya latar sendiri): isi tile utuh */
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-tile { background: transparent; }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-tile .lf-logo__img { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform: none; }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-pending .lf-logo__img { opacity: 0; transform: scale(0.85); }
+:is(#appLivinFitur, .lf-app) .lf-logo .lf-logo__fb { position: absolute; left: 50%; top: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px; color: var(--lf-blue-deep); display: none; }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-err .lf-logo__img { display: none; }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-err .lf-logo__fb { display: inline-block; }
+:is(#appLivinFitur, .lf-app) .lf-logo__halo {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.75) 48%, transparent 66%);
+  background-size: 250% 100%; background-position: 130% 0; background-repeat: no-repeat;
+  font-size: 0; line-height: 0; color: transparent;
+}
+
+/* CTA: link menutupi seluruh kartu lewat ::after */
+:is(#appLivinFitur, .lf-app) .lf-card__cta {
+  position: static; margin-top: auto;
+  display: inline-flex; align-items: center; gap: 10px; align-self: flex-start;
+  font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--lf-text);
+  text-decoration: none;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__cta::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: calc(var(--lf-radius) - 1px); }
+:is(#appLivinFitur, .lf-app) .lf-card__cta-label { position: relative; background-image: linear-gradient(var(--lf-blue), var(--lf-blue)); background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 2px; padding-bottom: 2px; transition: background-size 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
+:is(#appLivinFitur, .lf-app) .lf-card__cta-ic {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--lf-arrow-bg); border: 1px solid var(--lf-line-hi); color: var(--lf-text);
+  overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:is(#appLivinFitur, .lf-app) .lf-card__cta-ic .lf-ic { width: 14px; height: 14px; }
+:is(#appLivinFitur, .lf-app) .lf-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---------- 9. Hover / fokus ---------- */
+:is(#appLivinFitur, .lf-app) .lf-card:hover,
+:is(#appLivinFitur, .lf-app) .lf-card:focus-within {
+  transform: rotateX(var(--lf-rx)) rotateY(var(--lf-ry)) translateY(-6px);
+  box-shadow: var(--lf-shadow-hi);
+  background: var(--lf-line-hi);
+}
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__ring,
+:is(#appLivinFitur, .lf-app) .lf-card:focus-within .lf-card__ring { opacity: 1; animation-play-state: running; }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__spot { opacity: 1; }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-logo,
+:is(#appLivinFitur, .lf-app) .lf-card:focus-within .lf-logo { transform: translateY(-2px) rotate(-4deg); box-shadow: inset 0 0 0 1px var(--lf-logo-line), 0 12px 26px -12px var(--lf-blue); }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-logo__halo { animation: lfSheen 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__cta-label,
+:is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible .lf-card__cta-label { background-size: 100% 2px; }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__cta-ic,
+:is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible .lf-card__cta-ic { background: var(--lf-pill-on); border-color: var(--lf-pill-on); color: var(--lf-on-blue); transform: rotate(45deg); }
+:is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible { outline: none; }
+:is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible::after { outline: 2px solid var(--lf-blue); outline-offset: -3px; }
+
+/* ---------- 10. Motion masuk (kelas lf-motion ditambah JS) ---------- */
+:is(#appLivinFitur, .lf-app).lf-motion .lf-head,
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item { opacity: 0; }
+:is(#appLivinFitur, .lf-app).lf-motion .lf-head.lf-is-in { opacity: 1; animation: lfRise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in {
+  opacity: 1;
+  animation: lfBoot 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--lf-i, 0) * 80ms);
+}
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card__scan {
+  animation: lfScanOnce 1.1s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  animation-delay: calc(var(--lf-i, 0) * 80ms + 250ms);
+}
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card__idx {
+  animation: lfFlicker 0.9s steps(1, end) backwards;
+  animation-delay: calc(var(--lf-i, 0) * 80ms + 300ms);
+}
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card:hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+:is(#appLivinFitur, .lf-app).lf-static .lf-bg__grid,
+:is(#appLivinFitur, .lf-app).lf-static .lf-bg__orb,
+:is(#appLivinFitur, .lf-app).lf-static .lf-crumb__dot::after { animation: none; }
+
+/* ---------- 11. Keyframes ---------- */
+@keyframes lfSpin { to { transform: rotate(360deg); } }
+@keyframes lfDrift { from { background-position: 0 0; } to { background-position: 28px 56px; } }
+@keyframes lfFloat { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-60px, 40px, 0) scale(1.12); } }
+@keyframes lfPulse { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(1.8); opacity: 0; } }
+@keyframes lfRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes lfBoot {
+  0% { opacity: 0; transform: translateY(28px) scale(0.97); filter: blur(8px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+@keyframes lfScan { 0% { top: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes lfScanOnce { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes lfFlicker { 0% { opacity: 0; } 20% { opacity: 1; } 35% { opacity: 0.2; } 50% { opacity: 1; } 65% { opacity: 0.4; } 80% { opacity: 1; } }
+@keyframes lfSheen { from { background-position: 130% 0; } to { background-position: -30% 0; } }
+
+/* ---------- 12. Ikon (CSS mask, pengganti svg inline) ---------- */
+:is(#appLivinFitur, .lf-app) .lf-ic {
+  display: inline-block; flex: 0 0 auto; width: 20px; height: 20px;
+  font-size: 0; line-height: 0; color: inherit;
+  background-color: currentColor;
+  -webkit-mask: var(--lf-ic-img) center / contain no-repeat;
+  mask: var(--lf-ic-img) center / contain no-repeat;
+}
+:is(#appLivinFitur, .lf-app) .lf-ic--arrow { --lf-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 11l6-6'/%3E%3Cpath d='M6 5h5v5'/%3E%3C/svg%3E"); }
+:is(#appLivinFitur, .lf-app) .lf-ic--spark { --lf-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z'/%3E%3Cpath d='M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z'/%3E%3C/svg%3E"); }
+
+/* ---------- 13. Responsive ---------- */
+@media (max-width: 960px) {
+  :is(#appLivinFitur, .lf-app) .lf-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  :is(#appLivinFitur, .lf-app) .lf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  :is(#appLivinFitur, .lf-app) { --lf-logo-size: 56px; }
+  :is(#appLivinFitur, .lf-app) .lf-grid { grid-template-columns: minmax(0, 1fr); }
+  :is(#appLivinFitur, .lf-app) .lf-card__body { min-height: 0; padding: 24px; }
+  :is(#appLivinFitur, .lf-app) .lf-card__top { margin-bottom: 24px; }
+  :is(#appLivinFitur, .lf-app) .lf-filters { border-radius: 18px; }
+  :is(#appLivinFitur, .lf-app) .lf-filters__ind { border-radius: 14px; }
+  :is(#appLivinFitur, .lf-app) .lf-filter { border-radius: 14px; }
+  :is(#appLivinFitur, .lf-app) .lf-lede { font-size: 16px; }
+  :is(#appLivinFitur, .lf-app) .lf-bg__orb { width: 360px; height: 360px; }
+}
+@media (hover: none) {
+  :is(#appLivinFitur, .lf-app) .lf-card__ring { opacity: 0.5; animation-play-state: running; animation-duration: 6s; }
+}
+
+/* ---------- 14. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :is(#appLivinFitur, .lf-app) *,
+  :is(#appLivinFitur, .lf-app) *::before,
+  :is(#appLivinFitur, .lf-app) *::after { animation: none !important; transition-duration: 0.01ms !important; }
+  :is(#appLivinFitur, .lf-app).lf-motion .lf-head,
+  :is(#appLivinFitur, .lf-app).lf-motion .lf-item { opacity: 1; }
+  :is(#appLivinFitur, .lf-app) .lf-card,
+  :is(#appLivinFitur, .lf-app) .lf-card:hover { transform: none; }
+  :is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__ring { opacity: 1; }
+}
+
+</style>
+</head>
+<body>
+<div class="pv-bar"><span>Preview mode:</span><button data-m="">Auto</button><button data-m="light">Light</button><button data-m="dark">Dark</button><button data-m="half" class="on">Half</button><span class="pv-note">Logo = DUMMY (sengaja beda ukuran/padding untuk tes penyamaan). Di AEM memakai logo asli dari DAM.</span></div>
+<!-- ============================================================
+     FITUR TERBARU LIVIN (HIGH-TECH MOTION) - HTML Structure
+     Copy-paste ke komponen HTML di halaman AEM (bukan custom-css-js)
+     (tanpa tag html, head, body; font mengikuti CMS)
+     ============================================================ -->
+<div id="appLivinFitur" class="lf-app lf-el-section lf-r-region">
+  <div class="lf-section">
+    <div class="lf-bg lf-r-hide">
+      <div class="lf-bg__grid">&#8203;</div>
+      <div class="lf-bg__orb lf-bg__orb--a">&#8203;</div>
+      <div class="lf-bg__orb lf-bg__orb--b">&#8203;</div>
+    </div>
+    <div class="lf-wrap">
+      <div class="lf-head">
+        <div class="lf-head__text">
+          <p class="lf-crumb"><span class="lf-crumb__dot lf-r-hide">&#8203;</span>Fitur Livin&rsquo; by Mandiri<span class="lf-crumb__count lf-r-hide">/ 06</span></p>
+          <h2 id="lfTitle" class="lf-title lf-id--lfTitle">Fitur terbaru, semua di satu aplikasi</h2>
+          <p class="lf-lede">Dari menabung emas sampai pesan makan siang, kebutuhan perbankan Anda makin mudah diurus lewat Livin&rsquo;.</p>
+        </div>
+        <div class="lf-filters lf-r-group">
+          <span class="lf-filters__ind lf-r-hide">&#8203;</span>
+          <button type="button" class="lf-filter lf-x-filter--all lf-r-on lf-is-active">Semua</button>
+          <button type="button" class="lf-filter lf-x-filter--simpan lf-r-off">Simpan &amp; investasi</button>
+          <button type="button" class="lf-filter lf-x-filter--pinjam lf-r-off">Pinjaman</button>
+          <button type="button" class="lf-filter lf-x-filter--harian lf-r-off">Gaya hidup</button>
+        </div>
+      </div>
+      <div class="lf-grid">
+        <div class="lf-item lf-x-cat--simpan lf-x-i--0">
+          <div class="lf-card">
+            <span class="lf-card__ring lf-r-hide">&#8203;</span>
+            <div class="lf-card__body">
+              <span class="lf-card__spot lf-r-hide">&#8203;</span>
+              <span class="lf-card__scan lf-r-hide">&#8203;</span>
+              <div class="lf-card__top">
+                <span class="lf-logo lf-is-pending"><span class="lf-logo__halo lf-r-hide">&#8203;</span><img class="lf-logo__img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIxNiIgZmlsbD0iI0Q5QTUyMCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIvPjwvc3ZnPgo=" alt="Logo Livin&rsquo; Tabungan Emas" width="64" height="64" loading="lazy"><span class="lf-logo__fb lf-ic lf-ic--spark lf-r-hide">&#8203;</span></span>
+                <span class="lf-card__meta lf-r-hide"><span class="lf-tag">Investasi</span><span class="lf-card__idx">01</span></span>
+              </div>
+              <h3 class="lf-card__title">Livin&rsquo; Tabungan Emas</h3>
+              <p class="lf-card__desc">Buka tabungan emas langsung dari aplikasi dan mulai investasi dengan nominal kecil.</p>
+              <a class="lf-card__cta" href="#"><span class="lf-card__cta-label">Lihat selengkapnya<span class="lf-sr"> Livin&rsquo; Tabungan Emas</span></span><span class="lf-card__cta-ic lf-r-hide"><span class="lf-ic lf-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </div>
+        <div class="lf-item lf-x-cat--harian lf-x-i--1">
+          <div class="lf-card">
+            <span class="lf-card__ring lf-r-hide">&#8203;</span>
+            <div class="lf-card__body">
+              <span class="lf-card__spot lf-r-hide">&#8203;</span>
+              <span class="lf-card__scan lf-r-hide">&#8203;</span>
+              <div class="lf-card__top">
+                <span class="lf-logo lf-is-pending"><span class="lf-logo__halo lf-r-hide">&#8203;</span><img class="lf-logo__img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNMiA0MGg5NmE0OCA0OCAwIDAgMS05NiAweiIgZmlsbD0iI0YyNkIyMSIvPjxyZWN0IHg9IjIwIiB5PSI0IiB3aWR0aD0iOCIgaGVpZ2h0PSIzNCIgcng9IjQiIGZpbGw9IiNGMjZCMjEiLz48cmVjdCB4PSI0MCIgeT0iNCIgd2lkdGg9IjgiIGhlaWdodD0iMzQiIHJ4PSI0IiBmaWxsPSIjRjI2QjIxIi8+PC9zdmc+Cg==" alt="Logo Livin&rsquo; Food" width="64" height="64" loading="lazy"><span class="lf-logo__fb lf-ic lf-ic--spark lf-r-hide">&#8203;</span></span>
+                <span class="lf-card__meta lf-r-hide"><span class="lf-tag">Gaya hidup</span><span class="lf-card__idx">02</span></span>
+              </div>
+              <h3 class="lf-card__title">Livin&rsquo; Food</h3>
+              <p class="lf-card__desc">Pesan dari berbagai resto lokal dengan harga hemat, bayar langsung dari rekening.</p>
+              <a class="lf-card__cta" href="#"><span class="lf-card__cta-label">Lihat selengkapnya<span class="lf-sr"> Livin&rsquo; Food</span></span><span class="lf-card__cta-ic lf-r-hide"><span class="lf-ic lf-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </div>
+        <div class="lf-item lf-x-cat--harian lf-x-i--2">
+          <div class="lf-card">
+            <span class="lf-card__ring lf-r-hide">&#8203;</span>
+            <div class="lf-card__body">
+              <span class="lf-card__spot lf-r-hide">&#8203;</span>
+              <span class="lf-card__scan lf-r-hide">&#8203;</span>
+              <div class="lf-card__top">
+                <span class="lf-logo lf-is-pending"><span class="lf-logo__halo lf-r-hide">&#8203;</span><img class="lf-logo__img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgODAiPjxyZWN0IHg9IjQiIHk9IjIyIiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjM2IiByeD0iMTgiIGZpbGw9IiMxQkEzRTAiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIxMCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPgo=" alt="Logo Livin&rsquo; Next-G" width="64" height="64" loading="lazy"><span class="lf-logo__fb lf-ic lf-ic--spark lf-r-hide">&#8203;</span></span>
+                <span class="lf-card__meta lf-r-hide"><span class="lf-tag">Keluarga</span><span class="lf-card__idx">03</span></span>
+              </div>
+              <h3 class="lf-card__title">Livin&rsquo; Next-G</h3>
+              <p class="lf-card__desc">Anak belajar menabung sejak dini, orang tua tetap bisa memantau setiap transaksinya.</p>
+              <a class="lf-card__cta" href="#"><span class="lf-card__cta-label">Lihat selengkapnya<span class="lf-sr"> Livin&rsquo; Next-G</span></span><span class="lf-card__cta-ic lf-r-hide"><span class="lf-ic lf-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </div>
+        <div class="lf-item lf-x-cat--simpan lf-x-i--3">
+          <div class="lf-card">
+            <span class="lf-card__ring lf-r-hide">&#8203;</span>
+            <div class="lf-card__body">
+              <span class="lf-card__spot lf-r-hide">&#8203;</span>
+              <span class="lf-card__scan lf-r-hide">&#8203;</span>
+              <div class="lf-card__top">
+                <span class="lf-logo lf-is-pending"><span class="lf-logo__halo lf-r-hide">&#8203;</span><img class="lf-logo__img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjMwIiB5PSIzMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iNiIgZmlsbD0iIzAwM0Q3OSIvPjwvc3ZnPgo=" alt="Logo Livin&rsquo; e-Deposito" width="64" height="64" loading="lazy"><span class="lf-logo__fb lf-ic lf-ic--spark lf-r-hide">&#8203;</span></span>
+                <span class="lf-card__meta lf-r-hide"><span class="lf-tag">Simpanan</span><span class="lf-card__idx">04</span></span>
+              </div>
+              <h3 class="lf-card__title">Livin&rsquo; e-Deposito</h3>
+              <p class="lf-card__desc">Buka deposito kapan saja, e-bilyet langsung terbit di aplikasi.</p>
+              <a class="lf-card__cta" href="#"><span class="lf-card__cta-label">Lihat selengkapnya<span class="lf-sr"> Livin&rsquo; e-Deposito</span></span><span class="lf-card__cta-ic lf-r-hide"><span class="lf-ic lf-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </div>
+        <div class="lf-item lf-x-cat--pinjam lf-x-i--4">
+          <div class="lf-card">
+            <span class="lf-card__ring lf-r-hide">&#8203;</span>
+            <div class="lf-card__body">
+              <span class="lf-card__spot lf-r-hide">&#8203;</span>
+              <span class="lf-card__scan lf-r-hide">&#8203;</span>
+              <div class="lf-card__top">
+                <span class="lf-logo lf-is-pending"><span class="lf-logo__halo lf-r-hide">&#8203;</span><img class="lf-logo__img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNiA2aDQwdjQwSDZ6IiBmaWxsPSIjMTNBNTM4Ii8+PGNpcmNsZSBjeD0iMzQiIGN5PSIzNCIgcj0iMTQiIGZpbGw9IiMwQjZCMjUiLz48L3N2Zz4K" alt="Logo Livin&rsquo; KA-Deposito" width="64" height="64" loading="lazy"><span class="lf-logo__fb lf-ic lf-ic--spark lf-r-hide">&#8203;</span></span>
+                <span class="lf-card__meta lf-r-hide"><span class="lf-tag">Pinjaman</span><span class="lf-card__idx">05</span></span>
+              </div>
+              <h3 class="lf-card__title">Livin&rsquo; KA-Deposito</h3>
+              <p class="lf-card__desc">Dapatkan dana tunai dengan jaminan deposito, sementara depositonya tetap berbunga.</p>
+              <a class="lf-card__cta" href="#"><span class="lf-card__cta-label">Lihat selengkapnya<span class="lf-sr"> Livin&rsquo; KA-Deposito</span></span><span class="lf-card__cta-ic lf-r-hide"><span class="lf-ic lf-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </div>
+        <div class="lf-item lf-x-cat--pinjam lf-x-i--5">
+          <div class="lf-card">
+            <span class="lf-card__ring lf-r-hide">&#8203;</span>
+            <div class="lf-card__body">
+              <span class="lf-card__spot lf-r-hide">&#8203;</span>
+              <span class="lf-card__scan lf-r-hide">&#8203;</span>
+              <div class="lf-card__top">
+                <span class="lf-logo lf-is-pending"><span class="lf-logo__halo lf-r-hide">&#8203;</span><img class="lf-logo__img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjAiIGZpbGw9IiM3QjNGRTQiLz48cGF0aCBkPSJNMzAgNjVsMjAtMzAgMjAgMzB6IiBmaWxsPSIjZmZmIi8+PC9zdmc+Cg==" alt="Logo Livin&rsquo; KA-SBN" width="64" height="64" loading="lazy"><span class="lf-logo__fb lf-ic lf-ic--spark lf-r-hide">&#8203;</span></span>
+                <span class="lf-card__meta lf-r-hide"><span class="lf-tag">Pinjaman</span><span class="lf-card__idx">06</span></span>
+              </div>
+              <h3 class="lf-card__title">Livin&rsquo; KA-SBN</h3>
+              <p class="lf-card__desc">Raih dana ekstra dengan jaminan SBN, investasi Anda tetap tumbuh untuk masa depan.</p>
+              <a class="lf-card__cta" href="#"><span class="lf-card__cta-label">Lihat selengkapnya<span class="lf-sr"> Livin&rsquo; KA-SBN</span></span><span class="lf-card__cta-ic lf-r-hide"><span class="lf-ic lf-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pv-pad"></div>
+<script>
+(function(){var bs=document.querySelectorAll('.pv-bar button');for(var i=0;i<bs.length;i++)bs[i].addEventListener('click',function(){for(var k=0;k<bs.length;k++)bs[k].classList.remove('on');this.classList.add('on');var m=this.getAttribute('data-m');var d=document.documentElement;if(m)d.setAttribute('data-theme',m);else d.setAttribute('data-theme',matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');});})();
+</script>
+<script>
+/* ============================================================
+   FITUR TERBARU LIVIN (HIGH-TECH MOTION) - Script (ES5)
+   Root: #appLivinFitur / .lf-app | semua query lewat root
+   Color mode ikut atribut data-theme di tag html (light/dark/half)
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var ROOT_ID = 'appLivinFitur';
+  var BUILD = '2026-11-20';
+  var TAG = '[LivinFitur]';
+
+  /* Peta pemulih atribut aria/role (AEM bisa membuang aria-*, role) */
+  var ARIA_MAP = {
+    'lf-r-region': { 'role': 'region', 'aria-labelledby': 'lfTitle' },
+    'lf-r-group': { 'role': 'group', 'aria-label': 'Filter kategori fitur' },
+    'lf-r-on': { 'aria-pressed': 'true' },
+    'lf-r-off': { 'aria-pressed': 'false' },
+    'lf-r-hide': { 'aria-hidden': 'true' }
+  };
+
+  function findRoot() {
+    return document.getElementById(ROOT_ID) || document.querySelector('.lf-app');
+  }
+
+  function toArray(list) {
+    var out = [];
+    for (var i = 0; i < list.length; i++) out.push(list[i]);
+    return out;
+  }
+
+  function hasClass(el, c) {
+    return (' ' + el.className + ' ').indexOf(' ' + c + ' ') > -1;
+  }
+
+  function addClass(el, c) {
+    if (el.classList) el.classList.add(c);
+    else if (!hasClass(el, c)) el.className += ' ' + c;
+  }
+
+  function removeClass(el, c) {
+    if (el.classList) el.classList.remove(c);
+    else el.className = (' ' + el.className + ' ').replace(' ' + c + ' ', ' ').replace(/^\s+|\s+$/g, '');
+  }
+
+  function toggleClass(el, c, on) {
+    if (on) addClass(el, c); else removeClass(el, c);
+  }
+
+  function allWithin(root) {
+    return [root].concat(toArray(root.querySelectorAll('*')));
+  }
+
+  /* ---------- Pemulih atribut (A3 - A5) ---------- */
+  function restoreIds(root) {
+    var els = allWithin(root);
+    for (var i = 0; i < els.length; i++) {
+      var m = (' ' + els[i].className + ' ').match(/ lf-id--([A-Za-z0-9_-]+) /);
+      if (m && !els[i].id) els[i].id = m[1];
+    }
+  }
+
+  function restoreData(root) {
+    var els = allWithin(root);
+    var re = / lf-x-([A-Za-z0-9_]+)(?:--([A-Za-z0-9_-]+))? /g;
+    for (var i = 0; i < els.length; i++) {
+      var cls = ' ' + els[i].className.split(/\s+/).join('  ') + ' ';
+      var m;
+      re.lastIndex = 0;
+      while ((m = re.exec(cls)) !== null) {
+        var name = 'data-' + m[1].replace(/_x/g, '-').toLowerCase();
+        var val = m[2] === undefined ? '' : m[2].replace(/([0-9])p([0-9])/g, '$1.$2');
+        if (!els[i].hasAttribute(name)) els[i].setAttribute(name, val);
+      }
+    }
+  }
+
+  function restoreAria(root) {
+    for (var key in ARIA_MAP) {
+      if (!ARIA_MAP.hasOwnProperty(key)) continue;
+      var els = hasClass(root, key) ? [root] : [];
+      els = els.concat(toArray(root.querySelectorAll('.' + key)));
+      for (var i = 0; i < els.length; i++) {
+        var attrs = ARIA_MAP[key];
+        for (var a in attrs) {
+          if (attrs.hasOwnProperty(a) && !els[i].hasAttribute(a)) els[i].setAttribute(a, attrs[a]);
+        }
+      }
+    }
+  }
+
+  /* ---------- Color mode ---------- */
+  function parseRgb(str) {
+    var m = str && str.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s\/]+([\d.]+%?))?/);
+    if (!m) return null;
+    var a = m[4] === undefined ? 1 : (m[4].indexOf('%') > -1 ? parseFloat(m[4]) / 100 : parseFloat(m[4]));
+    return { r: +m[1], g: +m[2], b: +m[3], a: a };
+  }
+
+  function luminance(c) {
+    function ch(v) { v = v / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+    return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b);
+  }
+
+  function isCmsDark(root) {
+    var el = root.parentElement;
+    while (el) {
+      var c = parseRgb(window.getComputedStyle(el).backgroundColor);
+      if (c && c.a >= 0.5) return luminance(c) < 0.35;
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  function forcedMode(root) {
+    var m = (' ' + root.className + ' ').match(/ lf-mode-(light|dark|half) /);
+    return m ? m[1] : '';
+  }
+
+  function cmsTheme() {
+    var t = (document.documentElement.getAttribute('data-theme') || '').toLowerCase();
+    return (t === 'light' || t === 'dark' || t === 'half') ? t : '';
+  }
+
+  function setMode(root, mode) {
+    toggleClass(root, 'lf-theme-dark', mode === 'dark' || mode === 'half');
+    toggleClass(root, 'lf-theme-half', mode === 'half');
+  }
+
+  function initTheme(root) {
+    var timer = null;
+    function apply() {
+      var forced = forcedMode(root);
+      setMode(root, forced || cmsTheme() || (isCmsDark(root) ? 'dark' : 'light'));
+    }
+    function schedule() { apply(); clearTimeout(timer); timer = setTimeout(apply, 400); }
+    apply();
+    if ('MutationObserver' in window) {
+      var opts = { attributes: true, attributeFilter: ['class', 'style', 'data-theme', 'data-mode', 'data-color-scheme', 'data-bs-theme'] };
+      var mo = new MutationObserver(schedule);
+      mo.observe(document.documentElement, opts);
+      if (document.body) mo.observe(document.body, opts);
+      /* class paksa lf-mode-* ditambah/dicabut saat runtime */
+      var moRoot = new MutationObserver(function () {
+        var want = forcedMode(root);
+        if (want !== root.getAttribute('data-lf-forced')) {
+          root.setAttribute('data-lf-forced', want);
+          apply();
+        }
+      });
+      moRoot.observe(root, { attributes: true, attributeFilter: ['class'] });
+    }
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) mq.addEventListener('change', schedule);
+      else if (mq.addListener) mq.addListener(schedule);
+    }
+    window.addEventListener('load', schedule);
+  }
+
+  /* ---------- Lingkungan: iframe editor, static, reduced motion ---------- */
+  function inIframe() {
+    try { return window.self !== window.top; } catch (e) { return true; }
+  }
+
+  function prefersReduced() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
+  function initEnv(root) {
+    var isStatic = inIframe() || /[?&]static\b/.test(window.location.search) || prefersReduced();
+    toggleClass(root, 'lf-static', isStatic);
+    return isStatic;
+  }
+
+  /* ---------- Motion masuk (reveal bertahap) ---------- */
+  function initReveal(root, isStatic) {
+    var items = toArray(root.querySelectorAll('.lf-item'));
+    var head = root.querySelector('.lf-head');
+    var targets = head ? [head].concat(items) : items;
+
+    for (var i = 0; i < items.length; i++) {
+      var idx = items[i].getAttribute('data-i');
+      items[i].style.setProperty('--lf-i', idx !== null && idx !== '' ? idx : String(i));
+    }
+
+    if (isStatic || !('IntersectionObserver' in window)) return;
+
+    addClass(root, 'lf-motion');
+
+    /* failsafe: bila observer tidak pernah jalan, tampilkan semua */
+    var failsafe = setTimeout(function () {
+      if (!root.querySelector('.lf-is-in')) removeClass(root, 'lf-motion');
+    }, 3000);
+
+    var pending = targets.slice();
+    var ticking = false;
+
+    function reveal(el) {
+      addClass(el, 'lf-is-in');
+      io.unobserve(el);
+      clearTimeout(failsafe);
+    }
+
+    /* scroll loncat (anchor / End): elemen yang sudah terlewati juga ditampilkan */
+    function sweep() {
+      ticking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var rest = [];
+      for (var s = 0; s < pending.length; s++) {
+        if (pending[s].getBoundingClientRect().top < vh - 40) reveal(pending[s]);
+        else rest.push(pending[s]);
+      }
+      pending = rest;
+      if (!pending.length) {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(sweep);
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) {
+        if (entries[k].isIntersecting) onScroll();
+      }
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    for (var j = 0; j < targets.length; j++) io.observe(targets[j]);
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+  }
+
+  /* ---------- Tilt 3D + spotlight ikut kursor ---------- */
+  function initTilt(root, isStatic) {
+    var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var cards = toArray(root.querySelectorAll('.lf-card'));
+    var MAX = 6;
+
+    function bind(card) {
+      var raf = 0;
+      var px = 0.5;
+      var py = 0;
+
+      function paint() {
+        raf = 0;
+        card.style.setProperty('--lf-mx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--lf-my', (py * 100).toFixed(1) + '%');
+        if (fine && !isStatic) {
+          card.style.setProperty('--lf-rx', ((0.5 - py) * MAX).toFixed(2) + 'deg');
+          card.style.setProperty('--lf-ry', ((px - 0.5) * MAX).toFixed(2) + 'deg');
+        }
+      }
+
+      function onMove(e) {
+        var r = card.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        px = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        py = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+        if (!raf) raf = (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(paint);
+      }
+
+      function onLeave() {
+        card.style.setProperty('--lf-rx', '0deg');
+        card.style.setProperty('--lf-ry', '0deg');
+      }
+
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', onLeave);
+    }
+
+    for (var i = 0; i < cards.length; i++) bind(cards[i]);
+  }
+
+  /* ---------- Filter kategori + indikator meluncur ---------- */
+  function initFilters(root, isStatic) {
+    var wrap = root.querySelector('.lf-filters');
+    if (!wrap) return;
+    var buttons = toArray(wrap.querySelectorAll('.lf-filter'));
+    var ind = wrap.querySelector('.lf-filters__ind');
+    var items = toArray(root.querySelectorAll('.lf-item'));
+
+    function active() {
+      for (var i = 0; i < buttons.length; i++) if (hasClass(buttons[i], 'lf-is-active')) return buttons[i];
+      return buttons[0];
+    }
+
+    function moveInd() {
+      var b = active();
+      if (!ind || !b || !b.offsetWidth) return;
+      ind.style.left = b.offsetLeft + 'px';
+      ind.style.top = b.offsetTop + 'px';
+      ind.style.width = b.offsetWidth + 'px';
+      ind.style.height = b.offsetHeight + 'px';
+      addClass(wrap, 'lf-has-ind');
+    }
+
+    function apply(btn) {
+      var f = btn.getAttribute('data-filter') || 'all';
+      var n = 0;
+      for (var i = 0; i < buttons.length; i++) {
+        var on = buttons[i] === btn;
+        toggleClass(buttons[i], 'lf-is-active', on);
+        buttons[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      moveInd();
+      var shown = [];
+      for (var j = 0; j < items.length; j++) {
+        var show = f === 'all' || items[j].getAttribute('data-cat') === f;
+        toggleClass(items[j], 'lf-is-hidden', !show);
+        if (show) {
+          items[j].style.setProperty('--lf-i', String(n++));
+          shown.push(items[j]);
+        }
+      }
+      /* putar ulang animasi masuk untuk kartu yang tampil */
+      if (!isStatic && hasClass(root, 'lf-motion')) {
+        for (var k = 0; k < shown.length; k++) removeClass(shown[k], 'lf-is-in');
+        void root.offsetWidth;
+        for (var m = 0; m < shown.length; m++) addClass(shown[m], 'lf-is-in');
+      }
+    }
+
+    for (var i = 0; i < buttons.length; i++) {
+      (function (b) {
+        b.addEventListener('click', function () { apply(b); });
+      })(buttons[i]);
+    }
+
+    moveInd();
+    var t = null;
+    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(moveInd, 80); });
+    window.addEventListener('load', moveInd);
+    /* font CMS bisa terlambat dimuat dan mengubah lebar tombol */
+    if (document.fonts && document.fonts.ready && document.fonts.ready.then) document.fonts.ready.then(moveInd);
+  }
+
+  /* ---------- Logo fitur: samakan ukuran visual ----------
+     Ukur kotak isi logo (piksel non-transparan / berbeda dari warna latar),
+     lalu skala supaya luas visual sama (akar luas = TARGET x tile) dan sisi terpanjang
+     tidak lebih dari MAX_W / MAX_H x tile, dan pusatkan secara optis. */
+  var LOGO_N = 160;
+  var LOGO_TARGET = 0.56;
+  var LOGO_MAX_W = 0.84;
+  var LOGO_MAX_H = 0.74;
+
+  function measureLogo(img) {
+    var nw = img.naturalWidth || 1;
+    var nh = img.naturalHeight || 1;
+    var cv = document.createElement('canvas');
+    cv.width = LOGO_N;
+    cv.height = LOGO_N;
+    var cx = cv.getContext('2d');
+    if (!cx) return null;
+    var r = Math.min(LOGO_N / nw, LOGO_N / nh);
+    var dw = nw * r;
+    var dh = nh * r;
+    cx.drawImage(img, (LOGO_N - dw) / 2, (LOGO_N - dh) / 2, dw, dh);
+    var d = cx.getImageData(0, 0, LOGO_N, LOGO_N).data; /* bisa throw bila cross-origin */
+
+    function px(x, y) { var i = (y * LOGO_N + x) * 4; return [d[i], d[i + 1], d[i + 2], d[i + 3]]; }
+    function bbox(test) {
+      var x0 = LOGO_N, y0 = LOGO_N, x1 = -1, y1 = -1;
+      for (var y = 0; y < LOGO_N; y++) {
+        for (var x = 0; x < LOGO_N; x++) {
+          if (test(px(x, y))) {
+            if (x < x0) x0 = x;
+            if (x > x1) x1 = x;
+            if (y < y0) y0 = y;
+            if (y > y1) y1 = y;
+          }
+        }
+      }
+      return x1 < 0 ? null : { x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1 };
+    }
+
+    var b = bbox(function (p) { return p[3] > 16; });
+    if (!b) return null;
+    var full = b.w >= LOGO_N * 0.94 && b.h >= LOGO_N * 0.94;
+    var mode = 'glyph';
+    if (full) {
+      /* logo punya latar penuh: putih -> buang latarnya, berwarna -> tampil sebagai tile */
+      var c = px(2, 2);
+      var white = c[3] > 200 && c[0] > 235 && c[1] > 235 && c[2] > 235;
+      if (!white) return { mode: 'tile' };
+      var inner = bbox(function (p) {
+        return p[3] > 16 && (Math.abs(p[0] - c[0]) + Math.abs(p[1] - c[1]) + Math.abs(p[2] - c[2])) > 36;
+      });
+      if (!inner) return { mode: 'tile' };
+      b = inner;
+      mode = 'knock';
+    }
+    var area = Math.sqrt(b.w * b.h);
+    var s = (LOGO_TARGET * LOGO_N) / area;
+    s = Math.min(s, (LOGO_MAX_W * LOGO_N) / b.w, (LOGO_MAX_H * LOGO_N) / b.h);
+    s = Math.max(0.4, Math.min(4, s));
+    var fx = (b.x + b.w / 2) / LOGO_N - 0.5;
+    var fy = (b.y + b.h / 2) / LOGO_N - 0.5;
+    return { mode: mode, s: s, tx: -fx * s * 100, ty: -fy * s * 100 };
+  }
+
+  function initLogos(root) {
+    var logos = toArray(root.querySelectorAll('.lf-logo'));
+
+    function done(box) { removeClass(box, 'lf-is-pending'); }
+
+    function fit(box, img) {
+      var m = null;
+      try { m = measureLogo(img); } catch (e) { m = null; }
+      if (m && m.mode === 'tile') addClass(box, 'lf-is-tile');
+      else if (m) {
+        box.style.setProperty('--lf-ls', m.s.toFixed(3));
+        box.style.setProperty('--lf-lx', m.tx.toFixed(2) + '%');
+        box.style.setProperty('--lf-ly', m.ty.toFixed(2) + '%');
+        addClass(box, 'lf-is-fit');
+        if (m.mode === 'knock') addClass(box, 'lf-is-knock');
+      }
+      /* m null: tetap pakai fallback CSS (contain 44px) */
+      done(box);
+    }
+
+    function bind(box) {
+      var img = box.querySelector('.lf-logo__img');
+      if (!img) { done(box); return; }
+      var settled = false;
+      function onLoad() { if (settled) return; settled = true; fit(box, img); }
+      function onErr() { if (settled) return; settled = true; addClass(box, 'lf-is-err'); done(box); }
+      img.addEventListener('load', onLoad);
+      img.addEventListener('error', onErr);
+      if (img.complete) {
+        if (img.naturalWidth || img.naturalHeight) onLoad();
+        else if (img.src) onErr();
+      }
+      /* failsafe: jangan biarkan logo tersembunyi */
+      setTimeout(function () { if (hasClass(box, 'lf-is-pending')) done(box); }, 4000);
+    }
+
+    for (var i = 0; i < logos.length; i++) bind(logos[i]);
+  }
+
+  /* ---------- Init ---------- */
+  function init() {
+    var root = findRoot();
+    if (!root) {
+      console.error(TAG + ' Element #' + ROOT_ID + ' / .lf-app tidak ditemukan. Tempel HTML di komponen HTML (bukan custom-css-js).');
+      return;
+    }
+    if (root.getAttribute('data-lf-ready') === '1') return;
+    root.setAttribute('data-lf-ready', '1');
+    if (!root.id) {
+      root.id = ROOT_ID;
+      console.warn(TAG + ' id root dibuang AEM; fallback .lf-app aktif');
+    }
+
+    restoreIds(root);
+    restoreData(root);
+    restoreAria(root);
+
+    initTheme(root);
+    var isStatic = initEnv(root);
+
+    initLogos(root);
+    initReveal(root, isStatic);
+    initFilters(root, isStatic);
+    initTilt(root, isStatic);
+
+    console.info(TAG + ' build ' + BUILD + ' - OK');
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+</script>
+</body>
+</html>

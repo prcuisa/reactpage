@@ -67,7 +67,7 @@
       re.lastIndex = 0;
       while ((m = re.exec(cls)) !== null) {
         var name = 'data-' + m[1].replace(/_x/g, '-').toLowerCase();
-        var val = m[2] === undefined ? '' : m[2].replace(/p/g, '.');
+        var val = m[2] === undefined ? '' : m[2].replace(/([0-9])p([0-9])/g, '$1.$2');
         if (!els[i].hasAttribute(name)) els[i].setAttribute(name, val);
       }
     }

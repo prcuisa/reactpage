@@ -1,0 +1,390 @@
+/* ============================================================
+   FITUR TERBARU LIVIN (HIGH-TECH MOTION) - Styles
+   Scope: :is(#appLivinFitur, .lf-app) | prefix lf- | var --lf-* | keyframes lf*
+   Color mode ikut CMS (atribut data-theme di tag html): Light / Dark / Half
+   ============================================================ */
+
+/* ---------- 1. Isolasi dari CSS template AEM ---------- */
+:is(#appLivinFitur, .lf-app) :where(:not(svg, svg *, img)) { all: revert; }
+
+/* ---------- 2. Reset dasar ---------- */
+:is(#appLivinFitur, .lf-app) *,
+:is(#appLivinFitur, .lf-app) *::before,
+:is(#appLivinFitur, .lf-app) *::after { box-sizing: border-box; font-family: inherit; }
+:is(#appLivinFitur, .lf-app) :where(h1, h2, h3, h4, h5, h6) { font-family: inherit; text-transform: none; margin: 0; padding: 0; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
+:is(#appLivinFitur, .lf-app) :where(p) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
+:is(#appLivinFitur, .lf-app) :where(a, a:hover, a:focus, a:visited, a:active) { color: inherit; text-decoration: inherit; }
+:is(#appLivinFitur, .lf-app) :where(button) { -webkit-appearance: none; appearance: none; box-shadow: none; min-width: 0; height: auto; margin: 0; line-height: inherit; letter-spacing: normal; text-transform: none; font-family: inherit; }
+:is(#appLivinFitur, .lf-app) :where(img) { margin: 0; border: 0; display: block; max-width: none; }
+:is(#appLivinFitur, .lf-app) :where(div) { display: block; }
+
+/* ---------- 3. Root + token ---------- */
+:is(#appLivinFitur, .lf-app) {
+  display: block; position: relative; margin: 0; padding: 0;
+  font-size: 16px; line-height: 1.5; text-align: left; text-transform: none;
+  letter-spacing: normal; visibility: visible;
+
+  --lf-cms-light-bg: #F3F1EC;
+  --lf-cms-light-font: #1A1A1A;
+  --lf-cms-dark-bg: #0A0A0A;
+  --lf-cms-dark-font: #F3F1EC;
+  --lf-cms-half-bg: #0A0A0A;
+  --lf-cms-half-font: #F3F1EC;
+
+  --lf-max-width: 1200px;
+  --lf-radius: 22px;
+  --lf-logo-size: 64px;
+
+  /* Light (default): netral hangat, biru Livin, emas */
+  --lf-bg: var(--lf-cms-light-bg);
+  --lf-text: var(--lf-cms-light-font);
+  --lf-surface: #FFFFFF;
+  --lf-dim: #5F574E;
+  --lf-line: rgba(60, 45, 30, 0.10);
+  --lf-line-hi: rgba(13, 132, 189, 0.35);
+  --lf-blue: #1BA3E0;
+  --lf-blue-deep: #0B78AD;
+  --lf-on-blue: #FFFFFF;
+  --lf-pill-on: #0B78AD;              /* biru lebih gelap: teks putih 4.88:1 (#1BA3E0 hanya 2.85:1) */
+  --lf-gold: #8A6418;
+  --lf-gold-bg: rgba(217, 179, 106, 0.16);
+  --lf-gold-line: rgba(217, 179, 106, 0.40);
+  --lf-lamp: 255, 190, 110;
+  --lf-logo-bg: #EAF5FB;
+  --lf-logo-line: rgba(13, 132, 189, 0.14);
+  --lf-pill-bg: #FFFFFF;
+  --lf-arrow-bg: #F3F1EC;
+  --lf-grid-dot: rgba(60, 45, 30, 0.14);
+  --lf-orb-a: rgba(255, 190, 110, 0.22);
+  --lf-orb-b: rgba(27, 163, 224, 0.12);
+  --lf-spot: rgba(255, 190, 110, 0.20);
+  --lf-spot-2: rgba(27, 163, 224, 0.10);
+  --lf-scan: rgba(27, 163, 224, 0.6);
+  --lf-shadow: 0 1px 2px rgba(60, 45, 30, 0.04);
+  --lf-shadow-hi: 0 2px 6px rgba(60, 45, 30, 0.05), 0 28px 48px -24px rgba(60, 45, 30, 0.40);
+
+  /* runtime (diisi JS) */
+  --lf-rx: 0deg;
+  --lf-ry: 0deg;
+  --lf-mx: 50%;
+  --lf-my: 0%;
+
+  color: var(--lf-text);
+  background: var(--lf-bg);
+  color-scheme: light;
+}
+
+/* Dark & Half */
+:is(#appLivinFitur, .lf-app).lf-theme-dark {
+  --lf-bg: var(--lf-cms-dark-bg);
+  --lf-text: var(--lf-cms-dark-font);
+  --lf-surface: #131315;
+  --lf-dim: #B5ADA2;
+  --lf-line: rgba(243, 241, 236, 0.10);
+  --lf-line-hi: rgba(61, 181, 232, 0.50);
+  --lf-blue: #3DB5E8;
+  --lf-blue-deep: #8FD7F5;
+  --lf-on-blue: #06233A;
+  --lf-pill-on: #3DB5E8;
+  --lf-gold: #E3C27A;
+  --lf-gold-bg: rgba(227, 194, 122, 0.10);
+  --lf-gold-line: rgba(227, 194, 122, 0.30);
+  --lf-logo-bg: #EAF5FB;                 /* tile logo tetap terang supaya warna logo asli terbaca */
+  --lf-logo-line: rgba(243, 241, 236, 0.18);
+  --lf-pill-bg: #17171A;
+  --lf-arrow-bg: #1E1E22;
+  --lf-grid-dot: rgba(143, 215, 245, 0.12);
+  --lf-orb-a: rgba(255, 190, 110, 0.08);
+  --lf-orb-b: rgba(61, 181, 232, 0.14);
+  --lf-spot: rgba(255, 190, 110, 0.10);
+  --lf-spot-2: rgba(61, 181, 232, 0.14);
+  --lf-scan: rgba(143, 215, 245, 0.75);
+  --lf-shadow: 0 1px 0 rgba(243, 241, 236, 0.04) inset;
+  --lf-shadow-hi: 0 1px 0 rgba(243, 241, 236, 0.06) inset, 0 30px 60px -28px rgba(0, 0, 0, 1), 0 0 40px -12px rgba(61, 181, 232, 0.35);
+  color-scheme: dark;
+}
+:is(#appLivinFitur, .lf-app).lf-theme-half {
+  --lf-bg: var(--lf-cms-half-bg);
+  --lf-text: var(--lf-cms-half-font);
+}
+
+/* ---------- 4. Section + latar ---------- */
+:is(#appLivinFitur, .lf-app) .lf-section {
+  position: relative; overflow: hidden; isolation: isolate;
+  padding: clamp(64px, 9vw, 112px) clamp(20px, 5vw, 64px);
+  background: var(--lf-bg);
+  color: var(--lf-text);
+}
+:is(#appLivinFitur, .lf-app) .lf-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; font-size: 0; line-height: 0; color: transparent; }
+:is(#appLivinFitur, .lf-app) .lf-bg__grid {
+  position: absolute; inset: -40px;
+  background-image: radial-gradient(var(--lf-grid-dot) 1.2px, transparent 1.6px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  animation: lfDrift 24s linear infinite;
+}
+:is(#appLivinFitur, .lf-app) .lf-bg__orb { position: absolute; width: 560px; height: 560px; border-radius: 50%; filter: blur(60px); animation: lfFloat 16s ease-in-out infinite alternate; }
+:is(#appLivinFitur, .lf-app) .lf-bg__orb--a { top: -220px; right: -120px; background: radial-gradient(circle, var(--lf-orb-a), transparent 70%); }
+:is(#appLivinFitur, .lf-app) .lf-bg__orb--b { bottom: -240px; left: -160px; background: radial-gradient(circle, var(--lf-orb-b), transparent 70%); animation-delay: -8s; }
+:is(#appLivinFitur, .lf-app) .lf-wrap { position: relative; width: 100%; max-width: var(--lf-max-width); margin: 0 auto; }
+
+/* ---------- 5. Header ---------- */
+:is(#appLivinFitur, .lf-app) .lf-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px; margin: 0 0 40px; }
+:is(#appLivinFitur, .lf-app) .lf-crumb {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 0 0 16px; padding: 6px 14px 6px 10px;
+  border: 1px solid var(--lf-line); border-radius: 999px; background: var(--lf-pill-bg);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--lf-blue-deep);
+}
+:is(#appLivinFitur, .lf-app) .lf-crumb__dot { position: relative; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--lf-blue); font-size: 0; line-height: 0; color: transparent; }
+:is(#appLivinFitur, .lf-app) .lf-crumb__dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid var(--lf-blue); animation: lfPulse 2s cubic-bezier(0.2, 0.7, 0.2, 1) infinite; }
+:is(#appLivinFitur, .lf-app) .lf-crumb__count { color: var(--lf-dim); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+:is(#appLivinFitur, .lf-app) .lf-title {
+  margin: 0 0 16px; max-width: 14ch;
+  font-size: clamp(34px, 4.6vw, 56px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em;
+  color: var(--lf-text);
+}
+:is(#appLivinFitur, .lf-app) .lf-lede { margin: 0; max-width: 46ch; font-size: 17px; line-height: 1.6; color: var(--lf-dim); }
+
+/* ---------- 6. Filter + indikator meluncur ---------- */
+:is(#appLivinFitur, .lf-app) .lf-filters {
+  position: relative; display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 5px; border: 1px solid var(--lf-line); border-radius: 999px;
+  background: var(--lf-pill-bg);
+}
+:is(#appLivinFitur, .lf-app) .lf-filters__ind {
+  position: absolute; left: 5px; top: 5px; width: 0; height: 0;
+  border-radius: 999px; background: var(--lf-pill-on);
+  box-shadow: 0 6px 18px -6px var(--lf-pill-on);
+  font-size: 0; line-height: 0; color: transparent;
+  opacity: 0;
+  transition: left 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease;
+}
+:is(#appLivinFitur, .lf-app) .lf-filters.lf-has-ind .lf-filters__ind { opacity: 1; }
+:is(#appLivinFitur, .lf-app) .lf-filter {
+  position: relative; z-index: 1;
+  padding: 9px 16px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--lf-dim);
+  font-size: 14px; font-weight: 600; line-height: 1.4; white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.25s ease, background-color 0.25s ease;
+}
+:is(#appLivinFitur, .lf-app) .lf-filter:hover { color: var(--lf-text); }
+:is(#appLivinFitur, .lf-app) .lf-filter.lf-is-active { color: var(--lf-on-blue); background: var(--lf-pill-on); }
+:is(#appLivinFitur, .lf-app) .lf-filters.lf-has-ind .lf-filter.lf-is-active { background: transparent; }
+:is(#appLivinFitur, .lf-app) .lf-filter:focus-visible { outline: 2px solid var(--lf-blue); outline-offset: 2px; }
+
+/* ---------- 7. Grid + kartu ---------- */
+:is(#appLivinFitur, .lf-app) .lf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+:is(#appLivinFitur, .lf-app) .lf-item { display: flex; min-width: 0; perspective: 1000px; }
+:is(#appLivinFitur, .lf-app) .lf-item.lf-is-hidden { display: none; }
+
+:is(#appLivinFitur, .lf-app) .lf-card {
+  position: relative; flex: 1 1 auto; display: flex;
+  padding: 1px; border-radius: var(--lf-radius);
+  background: var(--lf-line);
+  box-shadow: var(--lf-shadow);
+  overflow: hidden;
+  transform: rotateX(var(--lf-rx)) rotateY(var(--lf-ry)) translateY(0);
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease, background-color 0.3s ease;
+  will-change: transform;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__ring {
+  position: absolute; left: 50%; top: 50%; width: 200%; aspect-ratio: 1 / 1; margin: -100% 0 0 -100%;
+  background: conic-gradient(from 0deg, transparent 0deg, var(--lf-blue) 50deg, rgb(var(--lf-lamp)) 95deg, transparent 145deg, transparent 360deg);
+  opacity: 0; font-size: 0; line-height: 0; color: transparent;
+  transition: opacity 0.4s ease;
+  animation: lfSpin 3.2s linear infinite; animation-play-state: paused;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__body {
+  position: relative; z-index: 1; flex: 1 1 auto;
+  display: flex; flex-direction: column;
+  min-height: 280px; padding: 28px;
+  border-radius: calc(var(--lf-radius) - 1px);
+  background: var(--lf-surface);
+  overflow: hidden;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__spot {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(360px circle at var(--lf-mx) var(--lf-my), var(--lf-spot), transparent 65%),
+    radial-gradient(220px circle at var(--lf-mx) var(--lf-my), var(--lf-spot-2), transparent 70%);
+  opacity: 0; transition: opacity 0.35s ease;
+  font-size: 0; line-height: 0; color: transparent;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__scan {
+  position: absolute; left: 0; right: 0; top: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--lf-scan), transparent);
+  box-shadow: 0 0 12px 1px var(--lf-scan);
+  opacity: 0; font-size: 0; line-height: 0; color: transparent;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__top { position: relative; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin: 0 0 32px; }
+:is(#appLivinFitur, .lf-app) .lf-card__meta { display: inline-flex; align-items: center; gap: 10px; }
+:is(#appLivinFitur, .lf-app) .lf-tag {
+  display: inline-block; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--lf-gold-line); background: var(--lf-gold-bg); color: var(--lf-gold);
+  font-size: 12px; font-weight: 600; line-height: 1.3;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__idx { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; line-height: 1.3; color: var(--lf-dim); font-variant-numeric: tabular-nums; }
+:is(#appLivinFitur, .lf-app) .lf-card__title { position: relative; margin: 0 0 8px; font-size: 21px; line-height: 1.25; font-weight: 700; letter-spacing: -0.01em; color: var(--lf-text); }
+:is(#appLivinFitur, .lf-app) .lf-card__desc { position: relative; margin: 0 0 28px; max-width: 32ch; font-size: 15px; line-height: 1.55; color: var(--lf-dim); }
+
+/* ---------- 8. Logo fitur: ukuran visual seragam ----------
+   Tile 64px. JS mengukur isi logo (piksel non-transparan) lalu men-skala + memusatkan
+   supaya luas visual tiap logo sama. Tanpa JS/gagal ukur: logo di-contain dalam kotak 44px. */
+:is(#appLivinFitur, .lf-app) .lf-logo {
+  position: relative; flex: 0 0 auto; display: block;
+  width: var(--lf-logo-size); height: var(--lf-logo-size);
+  border-radius: 16px;
+  background: var(--lf-logo-bg);
+  box-shadow: inset 0 0 0 1px var(--lf-logo-line);
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease;
+}
+:is(#appLivinFitur, .lf-app) .lf-logo__img {
+  position: absolute; left: 10px; top: 10px;
+  width: calc(var(--lf-logo-size) - 20px); height: calc(var(--lf-logo-size) - 20px);
+  object-fit: contain; object-position: center;
+  transform-origin: 50% 50%;
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+/* Setelah diukur JS: img memenuhi tile, transform dari JS yang menentukan ukuran */
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-fit .lf-logo__img { left: 0; top: 0; width: 100%; height: 100%; transform: translate(var(--lf-lx, 0%), var(--lf-ly, 0%)) scale(var(--lf-ls, 1)); }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-knock .lf-logo__img { mix-blend-mode: multiply; }
+/* Logo berbentuk tile penuh (punya latar sendiri): isi tile utuh */
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-tile { background: transparent; }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-tile .lf-logo__img { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform: none; }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-pending .lf-logo__img { opacity: 0; transform: scale(0.85); }
+:is(#appLivinFitur, .lf-app) .lf-logo .lf-logo__fb { position: absolute; left: 50%; top: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px; color: var(--lf-blue-deep); display: none; }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-err .lf-logo__img { display: none; }
+:is(#appLivinFitur, .lf-app) .lf-logo.lf-is-err .lf-logo__fb { display: inline-block; }
+:is(#appLivinFitur, .lf-app) .lf-logo__halo {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.75) 48%, transparent 66%);
+  background-size: 250% 100%; background-position: 130% 0; background-repeat: no-repeat;
+  font-size: 0; line-height: 0; color: transparent;
+}
+
+/* CTA: link menutupi seluruh kartu lewat ::after */
+:is(#appLivinFitur, .lf-app) .lf-card__cta {
+  position: static; margin-top: auto;
+  display: inline-flex; align-items: center; gap: 10px; align-self: flex-start;
+  font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--lf-text);
+  text-decoration: none;
+}
+:is(#appLivinFitur, .lf-app) .lf-card__cta::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: calc(var(--lf-radius) - 1px); }
+:is(#appLivinFitur, .lf-app) .lf-card__cta-label { position: relative; background-image: linear-gradient(var(--lf-blue), var(--lf-blue)); background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 2px; padding-bottom: 2px; transition: background-size 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
+:is(#appLivinFitur, .lf-app) .lf-card__cta-ic {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--lf-arrow-bg); border: 1px solid var(--lf-line-hi); color: var(--lf-text);
+  overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:is(#appLivinFitur, .lf-app) .lf-card__cta-ic .lf-ic { width: 14px; height: 14px; }
+:is(#appLivinFitur, .lf-app) .lf-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---------- 9. Hover / fokus ---------- */
+:is(#appLivinFitur, .lf-app) .lf-card:hover,
+:is(#appLivinFitur, .lf-app) .lf-card:focus-within {
+  transform: rotateX(var(--lf-rx)) rotateY(var(--lf-ry)) translateY(-6px);
+  box-shadow: var(--lf-shadow-hi);
+  background: var(--lf-line-hi);
+}
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__ring,
+:is(#appLivinFitur, .lf-app) .lf-card:focus-within .lf-card__ring { opacity: 1; animation-play-state: running; }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__spot { opacity: 1; }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-logo,
+:is(#appLivinFitur, .lf-app) .lf-card:focus-within .lf-logo { transform: translateY(-2px) rotate(-4deg); box-shadow: inset 0 0 0 1px var(--lf-logo-line), 0 12px 26px -12px var(--lf-blue); }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-logo__halo { animation: lfSheen 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__cta-label,
+:is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible .lf-card__cta-label { background-size: 100% 2px; }
+:is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__cta-ic,
+:is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible .lf-card__cta-ic { background: var(--lf-pill-on); border-color: var(--lf-pill-on); color: var(--lf-on-blue); transform: rotate(45deg); }
+:is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible { outline: none; }
+:is(#appLivinFitur, .lf-app) .lf-card__cta:focus-visible::after { outline: 2px solid var(--lf-blue); outline-offset: -3px; }
+
+/* ---------- 10. Motion masuk (kelas lf-motion ditambah JS) ---------- */
+:is(#appLivinFitur, .lf-app).lf-motion .lf-head,
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item { opacity: 0; }
+:is(#appLivinFitur, .lf-app).lf-motion .lf-head.lf-is-in { opacity: 1; animation: lfRise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in {
+  opacity: 1;
+  animation: lfBoot 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--lf-i, 0) * 80ms);
+}
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card__scan {
+  animation: lfScanOnce 1.1s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  animation-delay: calc(var(--lf-i, 0) * 80ms + 250ms);
+}
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card__idx {
+  animation: lfFlicker 0.9s steps(1, end) backwards;
+  animation-delay: calc(var(--lf-i, 0) * 80ms + 300ms);
+}
+:is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card:hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+:is(#appLivinFitur, .lf-app).lf-static .lf-bg__grid,
+:is(#appLivinFitur, .lf-app).lf-static .lf-bg__orb,
+:is(#appLivinFitur, .lf-app).lf-static .lf-crumb__dot::after { animation: none; }
+
+/* ---------- 11. Keyframes ---------- */
+@keyframes lfSpin { to { transform: rotate(360deg); } }
+@keyframes lfDrift { from { background-position: 0 0; } to { background-position: 28px 56px; } }
+@keyframes lfFloat { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-60px, 40px, 0) scale(1.12); } }
+@keyframes lfPulse { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(1.8); opacity: 0; } }
+@keyframes lfRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes lfBoot {
+  0% { opacity: 0; transform: translateY(28px) scale(0.97); filter: blur(8px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+@keyframes lfScan { 0% { top: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes lfScanOnce { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes lfFlicker { 0% { opacity: 0; } 20% { opacity: 1; } 35% { opacity: 0.2; } 50% { opacity: 1; } 65% { opacity: 0.4; } 80% { opacity: 1; } }
+@keyframes lfSheen { from { background-position: 130% 0; } to { background-position: -30% 0; } }
+
+/* ---------- 12. Ikon (CSS mask, pengganti svg inline) ---------- */
+:is(#appLivinFitur, .lf-app) .lf-ic {
+  display: inline-block; flex: 0 0 auto; width: 20px; height: 20px;
+  font-size: 0; line-height: 0; color: inherit;
+  background-color: currentColor;
+  -webkit-mask: var(--lf-ic-img) center / contain no-repeat;
+  mask: var(--lf-ic-img) center / contain no-repeat;
+}
+:is(#appLivinFitur, .lf-app) .lf-ic--arrow { --lf-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 11l6-6'/%3E%3Cpath d='M6 5h5v5'/%3E%3C/svg%3E"); }
+:is(#appLivinFitur, .lf-app) .lf-ic--spark { --lf-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z'/%3E%3Cpath d='M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z'/%3E%3C/svg%3E"); }
+
+/* ---------- 13. Responsive ---------- */
+@media (max-width: 960px) {
+  :is(#appLivinFitur, .lf-app) .lf-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  :is(#appLivinFitur, .lf-app) .lf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  :is(#appLivinFitur, .lf-app) { --lf-logo-size: 56px; }
+  :is(#appLivinFitur, .lf-app) .lf-grid { grid-template-columns: minmax(0, 1fr); }
+  :is(#appLivinFitur, .lf-app) .lf-card__body { min-height: 0; padding: 24px; }
+  :is(#appLivinFitur, .lf-app) .lf-card__top { margin-bottom: 24px; }
+  :is(#appLivinFitur, .lf-app) .lf-filters { border-radius: 18px; }
+  :is(#appLivinFitur, .lf-app) .lf-filters__ind { border-radius: 14px; }
+  :is(#appLivinFitur, .lf-app) .lf-filter { border-radius: 14px; }
+  :is(#appLivinFitur, .lf-app) .lf-lede { font-size: 16px; }
+  :is(#appLivinFitur, .lf-app) .lf-bg__orb { width: 360px; height: 360px; }
+}
+@media (hover: none) {
+  :is(#appLivinFitur, .lf-app) .lf-card__ring { opacity: 0.5; animation-play-state: running; animation-duration: 6s; }
+}
+
+/* ---------- 14. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :is(#appLivinFitur, .lf-app) *,
+  :is(#appLivinFitur, .lf-app) *::before,
+  :is(#appLivinFitur, .lf-app) *::after { animation: none !important; transition-duration: 0.01ms !important; }
+  :is(#appLivinFitur, .lf-app).lf-motion .lf-head,
+  :is(#appLivinFitur, .lf-app).lf-motion .lf-item { opacity: 1; }
+  :is(#appLivinFitur, .lf-app) .lf-card,
+  :is(#appLivinFitur, .lf-app) .lf-card:hover { transform: none; }
+  :is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__ring { opacity: 1; }
+}

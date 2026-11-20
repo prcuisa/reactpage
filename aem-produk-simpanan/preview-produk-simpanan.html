@@ -7,9 +7,10 @@
 <style>
 body{margin:0;font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;background:#fff}
 html[data-theme="dark"] body{background:#141414}
-.pv-bar{position:sticky;top:0;z-index:50;display:flex;gap:8px;align-items:center;padding:10px 16px;background:#111;color:#eee;font-size:13px}
+.pv-bar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;background:#111;color:#eee;font-size:13px}
 .pv-bar button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid #444;background:#1c1c1c;color:#eee;cursor:pointer}
 .pv-bar button.on{background:#01a4d8;border-color:#01a4d8;color:#001}
+.pv-note{color:#f5c26b}
 .pv-pad{height:40vh}
 </style>
 <style>
@@ -644,7 +645,7 @@ html[data-theme="dark"] body{background:#141414}
       re.lastIndex = 0;
       while ((m = re.exec(cls)) !== null) {
         var name = 'data-' + m[1].replace(/_x/g, '-').toLowerCase();
-        var val = m[2] === undefined ? '' : m[2].replace(/p/g, '.');
+        var val = m[2] === undefined ? '' : m[2].replace(/([0-9])p([0-9])/g, '$1.$2');
         if (!els[i].hasAttribute(name)) els[i].setAttribute(name, val);
       }
     }
