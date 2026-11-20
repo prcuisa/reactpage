@@ -100,7 +100,7 @@ export function initNavigation({ reduced = false } = {}) {
       if (link) { link.classList.add("lv-is-active"); link.setAttribute('aria-current', 'true'); }
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  __lvRoot().querySelectorAll('main > section[id]').forEach((s) => io.observe(s));
+  __lvRoot().querySelectorAll(".lv-el-main > .lv-el-section[id]").forEach((s) => io.observe(s));
   cleanups.push(() => io.disconnect());
 
   return () => cleanups.forEach((fn) => fn());

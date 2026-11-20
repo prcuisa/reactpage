@@ -10,6 +10,7 @@ export function makeRenamer({ classes, idMap, P = 'lv-' }) {
   const tokens = (s) => s.replace(/[^\s]+/g, (t) => cls(t));
   const id = (t) => idMap[t] || t;
   const selector = (s) => s
+    .replace(/(^|[\s>+~,(])(main|section|header|footer|nav|article|aside)(?=[\s.\[:#>+~,)]|$)/g, '$1.el-$2')
     .replace(/\.([A-Za-z_][\w-]*)/g, (m, c) => (isClass(c) ? '.' + P + c : m))
     .replace(/#([A-Za-z_][\w-]*)/g, (m, i) => (idMap[i] ? '#' + idMap[i] : m));
   // template text: class="..." (possibly unterminated), id/aria refs, url(#..), href="#.."

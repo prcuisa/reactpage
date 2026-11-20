@@ -53,6 +53,13 @@ kena (style mati) dan JS tidak menemukan root (konten render JS kosong).
 Diuji dengan semua `id` **dan** `data-*` dibuang: tinggi semua section identik dengan versi asli (1440 & 390px),
 tanpa error JS, dan anchor menu, menu mobile, serta Dark mode jalan.
 
+## Update: tag HTML5 dibuang filter HTML AEM (penyebab utama blank)
+Bukti dari Inspect di server corpweb: di dalam `#appLivinLanding`, `<header>`, `<nav>`, `<main>`, `<section>` hilang dan
+sisa konten ikut rusak/hilang (hanya navbar yang tersisa). **Perbaikan (sudah diterapkan):** semua tag HTML5
+(`header, nav, main, section, article, footer, aside`) diganti `<div>` + class penanda `lv-el-<tag>` + atribut `role`.
+Selector tag di CSS/JS (`main > section`, `closest('section')`, `section[id]`) diubah ke class. HTML kini hanya
+memakai tag HTML4. Diuji: tinggi semua section identik dengan versi asli, juga saat id & data-* dibuang.
+
 ## Update: CSS tag dari template corpweb bocor (layout berantakan)
 Gejala: konten menyamping, blur, navbar melebar. Penyebabnya CSS situs yang menyasar tag langsung (`main`, `section`,
 `nav`, `header`, `footer`, `div`) dan class generik ikut kena ke elemen di dalam komponen. Reset di skill hanya

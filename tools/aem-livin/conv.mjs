@@ -30,6 +30,17 @@ let body = bodyM[2].replace(/class="([^"]*)"/g, (m, c) => {
   return `class="${[...keep, hit[1]].join(' ')}"`;
 });
 
+// AEM's HTML filter strips HTML5 sectioning tags (header/nav/main/section/article/footer/aside) and
+// mangles the tree -> use <div> + marker class "el-<tag>" + ARIA role.
+const TAGS5 = ['header', 'nav', 'main', 'section', 'article', 'footer', 'aside'];
+const ROLE5 = { header: '', nav: 'navigation', main: 'main', section: 'region', article: 'article', footer: 'contentinfo', aside: 'complementary' };
+body = body.replace(new RegExp('<(' + TAGS5.join('|') + ')(\\s[^>]*)?>', 'g'), (m, tag, attrs = '') => {
+  let role = ROLE5[tag]; if (tag === 'header' && /\sid="nav"/.test(attrs)) role = 'banner';
+  attrs = /\sclass="/.test(attrs) ? attrs.replace(/\sclass="/, ` class="el-${tag} `) : ` class="el-${tag}"` + attrs;
+  return `<div${attrs}${role && !/\srole="/.test(attrs) ? ` role="${role}"` : ''}>`;
+}).replace(new RegExp('</(' + TAGS5.join('|') + ')>', 'g'), '</div>');
+if (new RegExp('<(' + TAGS5.join('|') + ')[\\s>]').test(body)) throw new Error('HTML5 tag left');
+
 /* ============================ 2. Class & id inventory ============================ */
 const NOPREFIX = (c) => c === 'lucide' || c.startsWith('lucide-');
 const ROOT_STATE = new Set(['motion', 'has-cursor', 'js', 'no-js']);
@@ -45,7 +56,7 @@ for (const f of jsFiles) { const s = read('js/' + f);
   for (const m of s.matchAll(/className\s*=\s*([^;]+)/g)) for (const q of m[1].matchAll(/'([^']*)'/g)) addTok(q[1]);
   for (const m of s.matchAll(/(?:querySelector(?:All)?|closest)\('([^']+)'/g)) for (const c of m[1].matchAll(/\.([A-Za-z_][\w-]*)/g)) classes.add(c[1]);
 }
-MAP.forEach(([, b]) => classes.add(b)); ['app', 'store__ic', 'store__ic--play', 'store__ic--apple', 'pv__bar-fill--68'].forEach((c) => classes.add(c));
+MAP.forEach(([, b]) => classes.add(b)); TAGS5.forEach((t) => classes.add('el-' + t)); ['app', 'store__ic', 'store__ic--play', 'store__ic--apple', 'pv__bar-fill--68'].forEach((c) => classes.add(c));
 for (const s of ROOT_STATE) classes.add(s);
 const ids = new Set([...body.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
 for (const f of jsFiles) for (const m of read('js/' + f).matchAll(/getElementById\('([^']+)'\)|'#([a-z][\w-]*)'/g)) ids.add(m[1] || m[2]);
@@ -96,9 +107,10 @@ const ind = (s, n) => s.replace(/^(?=.)/gm, ' '.repeat(n));
 const outHtml = `<!-- ============================================================
      LIVIN LANDING - HTML Structure
      Copy-paste ke komponen HTML di halaman AEM
-     (tanpa <html>, <head>, <body>; font mengikuti CMS)
+     (tanpa tag html, head, body; font mengikuti CMS)
+     Hanya tag HTML4 (div/span/a/p/h1-h3/ul/li/img/button): tag HTML5 dibuang filter AEM.
      CSS: ${NAME}.css (clientlib CSS) | JS: ${NAME}.js (clientlib JS, footer)
-     Color mode Light/Dark/Half otomatis ikut <html data-theme>.
+     Color mode Light/Dark/Half otomatis ikut atribut data-theme di tag html.
      Paksa mode: tambahkan class lv-mode-light | lv-mode-dark | lv-mode-half di root.
      Gambar: ${DAM}assets/... (upload folder assets/ ke DAM)
      ============================================================ -->
@@ -120,6 +132,7 @@ const baseCss = tw('@tailwind base;\n', 'tw.conv.base.css'), utilCss = tw('@tail
 
 const splitTop = (sel) => { const o = []; let d = 0, c = ''; for (const ch of sel) { if ('(['.includes(ch)) d++; if (')]'.includes(ch)) d--; if (ch === ',' && !d) { o.push(c.trim()); c = ''; } else c += ch; } if (c.trim()) o.push(c.trim()); return o; };
 const renameSel = (s) => s
+  .replace(/(^|[\s>+~,(])(main|section|header|footer|nav|article|aside)(?=[\s.\[:#>+~,)]|$)/g, '$1.el-$2')
   .replace(/\[data-tone="corp"\]/g, '.lv-tone-corp')
   .replace(/\.([A-Za-z_][\w-]*)/g, (m, c) => (c.startsWith('lv-') ? m : NOPREFIX(c) ? m : classes.has(c) ? '.' + P + c : m))
   .replace(/#([A-Za-z_][\w-]*)/g, (m, i) => (idMap[i] ? '#' + idMap[i] : m));

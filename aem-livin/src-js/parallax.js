@@ -14,7 +14,7 @@ export function initScrollParallax(gsap, { factor = 1 } = {}) {
   __lvRoot().querySelectorAll('[data-speed]').forEach((el) => {
     const speed = parseFloat(el.dataset.speed) || 0;
     if (!speed) return;
-    const trigger = el.closest('section') || el;
+    const trigger = el.closest(".lv-el-section") || el;
     const distance = speed * 260 * factor;
     tweens.push(
       gsap.fromTo(el,

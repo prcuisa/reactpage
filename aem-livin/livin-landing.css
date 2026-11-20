@@ -528,8 +528,8 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 
 :is(#appLivinLanding, .lv-app) { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 :is(#appLivinLanding, .lv-app) { overflow-x: clip; background: var(--lv-white); color: var(--lv-charcoal); }
-:is(#appLivinLanding, .lv-app) section[id],
-:is(#appLivinLanding, .lv-app) main[id] { scroll-margin-top: calc(var(--lv-nav-h) - 8px); }
+:is(#appLivinLanding, .lv-app) .lv-el-section[id],
+:is(#appLivinLanding, .lv-app) .lv-el-main[id] { scroll-margin-top: calc(var(--lv-nav-h) - 8px); }
 :is(#appLivinLanding, .lv-app) img { max-width: 100%; display: block; }
 :is(#appLivinLanding, .lv-app) [data-lucide],
 :is(#appLivinLanding, .lv-app) svg.lucide { width: 1em; height: 1em; stroke-width: 2; flex-shrink: 0; }

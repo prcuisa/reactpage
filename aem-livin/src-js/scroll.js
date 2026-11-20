@@ -115,7 +115,7 @@ export function pauseOffscreen() {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((en) => en.target.classList.toggle("lv-is-offscreen", !en.isIntersecting));
   }, { rootMargin: '100px' });
-  __lvRoot().querySelectorAll('main > section').forEach((s) => io.observe(s));
+  __lvRoot().querySelectorAll(".lv-el-main > .lv-el-section").forEach((s) => io.observe(s));
   return () => io.disconnect();
 }
 
