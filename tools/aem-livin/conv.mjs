@@ -23,6 +23,17 @@ const MAP = [
 const html0 = read('index.html');
 const bodyM = html0.match(/<body([^>]*)>([\s\S]*)<\/body>/);
 const bodyUtils = bodyM[1].match(/class="([^"]*)"/)[1].split(' ');
+const NOCHROME = !!process.env.NOCHROME;   // tanpa navbar & footer (pakai header/footer CMS)
+if (NOCHROME) {
+  let b = bodyM[2];
+  const navStart = b.lastIndexOf('<!-- ====', b.indexOf('NAVIGATION')); const mainAt = b.indexOf('<main');
+  b = b.slice(0, navStart) + b.slice(mainAt);
+  const footStart = b.lastIndexOf('<!-- ====', b.indexOf('09. FOOTER')); const footEnd = b.indexOf('</footer>') + '</footer>'.length;
+  b = b.slice(0, footStart) + b.slice(footEnd);
+  b = b.replace(/\s*<a href="#main" class="skip-link">[^<]*<\/a>/, '');
+  if (/class="(nav|mmenu|footer|skip-link)[" ]/.test(b)) throw new Error('chrome left');
+  bodyM[2] = b;
+}
 const twAll = new Set(MAP.flatMap(([u]) => u.split(' ')));
 let body = bodyM[2].replace(/class="([^"]*)"/g, (m, c) => {
   const t = c.split(/\s+/).filter(Boolean), keep = t.filter((x) => !twAll.has(x) || x === 'ring'), u = t.filter((x) => twAll.has(x) && x !== 'ring');
@@ -261,6 +272,18 @@ ${parts.map(([t, c]) => `\n/* --------------------------------------------------
 css = fixKeyframeRefs(css).replace(/--tw-/g, '--lv-tw-').replace(/·/g, '|').replace(/[^\x00-\x7f]/g, (c) => ({ '—': '-', '–': '-', '≥': '>=', '→': '->', '…': '...' }[c] ?? c));
 // Root matches #id OR .lv-app (AEM may strip id); :is() keeps id-level specificity
 css = css.replace(/#appLivinLanding(?![\w-])/g, ':is(#appLivinLanding, .lv-app)').replace('Semua selector di-scope ke :is(#appLivinLanding, .lv-app).', 'Semua selector di-scope ke :is(#appLivinLanding, .lv-app):\n   cocok lewat id ATAU class (bila AEM membuang id), specificity tetap setara id.');
+if (NOCHROME) {
+  const CH = /\.lv-(nav|mmenu|burger|footer|skip-link|brand)(?=__|--|[^\w-]|$)/;
+  const root = postcss.parse(css); let pruned = 0;
+  root.walkRules((r) => {
+    if (r.parent?.type === 'atrule' && /keyframes$/.test(r.parent.name)) return;
+    const keep = splitTop(r.selector).filter((x) => !CH.test(x.replace(/:(is|where)\([^)]*\)/g, '')));
+    if (keep.length !== splitTop(r.selector).length) { pruned++; if (keep.length) r.selector = keep.join(',\n'); else r.remove(); }
+  });
+  root.walkAtRules('media', (a) => { if (!a.nodes || !a.nodes.length) a.remove(); });
+  css = root.toString() + `\n/* ------------------------------------------------------------\n   11. TANPA NAVBAR & FOOTER - header/footer CMS yang dipakai (paling akhir: menimpa --lv-nav-h di responsive)\n   ------------------------------------------------------------ */\n:is(#appLivinLanding, .lv-app) { --lv-nav-h: 0px; --lv-anchor-offset: 0px; /* isi tinggi header CMS bila header-nya sticky */ }\n:is(#appLivinLanding, .lv-app) .lv-el-section[id],\n:is(#appLivinLanding, .lv-app) .lv-el-main[id] { scroll-margin-top: var(--lv-anchor-offset); }\n`;
+  console.log('nochrome: pruned rules', pruned);
+}
 fs.writeFileSync(path.join(OUT, NAME + '.css'), css);
 console.log('css bytes', css.length, 'keyframes', Object.values(KEYFRAMES).join(','));
 
@@ -433,6 +456,11 @@ wpatch('scroll.js', [[`document.documentElement.classList`, `__lvRoot().classLis
 for (const f of ['scroll.js', 'navigation.js']) { const p = path.join(WJ, f); let s = fs.readFileSync(p, 'utf8');
   s = s.replace(/(\n\s*)(const \w+ = new IntersectionObserver\()/g, `$1if (!('IntersectionObserver' in window)) return () => {};$1$2`); fs.writeFileSync(p, s); }
 
+{ const p = path.join(WJ, 'navigation.js'); let s = fs.readFileSync(p, 'utf8');
+  s = s.replace("  /* ---- Sticky + hide on scroll down / show on scroll up ---- */", "  // Navbar & mobile menu are optional (e.g. the CMS header is used instead)\n  if (nav && burger && menu) {\n  /* ---- Sticky + hide on scroll down / show on scroll up ---- */");
+  s = s.replace("  /* ---- Smooth anchor scrolling (respects reduced motion) ---- */", "  }\n\n  /* ---- Smooth anchor scrolling (respects reduced motion) ---- */");
+  if (!s.includes('if (nav && burger && menu) {')) throw new Error('nav guard patch failed');
+  fs.writeFileSync(p, s); }
 const rename = makeRenamer({ classes, idMap, P });
 for (const f of fs.readdirSync(WJ)) if (f.endsWith('.js') && !['dom.js', 'env.js', 'icons.js'].includes(f)) {
   const p = path.join(WJ, f); fs.writeFileSync(p, rename(fs.readFileSync(p, 'utf8'), p)); }
