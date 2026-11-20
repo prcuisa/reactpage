@@ -11,7 +11,7 @@ import { ScrollTrigger as ST } from 'gsap/ScrollTrigger';
 import { createIcons } from 'lucide';
 import { ICONS } from './icons.js';
 import { initEnv, initTheme, state } from './env.js';
-import { ROOT_ID, __lvSetRoot, restoreData, restoreIds, findRoot } from './dom.js';
+import { ROOT_ID, __lvSetRoot, restoreData, restoreIds, restoreAria, findRoot } from './dom.js';
 import { LINKS } from './data.js';
 import { renderAll } from './render.js';
 import { renderScreen } from './screens.js';
@@ -37,6 +37,7 @@ function boot() {
   const fixed = restoreIds(root);
   if (fixed) console.warn('[Livin] ' + fixed + ' id di dalam komponen dipulihkan dari class cadangan lv-id--*.');
   restoreData(root);
+  restoreAria(root);
   initTheme(root);
   initEnv(root);
   if (state.static) REDUCE = 'all';

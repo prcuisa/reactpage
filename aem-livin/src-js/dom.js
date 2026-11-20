@@ -19,6 +19,17 @@ export function __lvById(id) { return __lvRoot().querySelector('#' + (ID_MAP[id]
 export function __lvQ(sel) { return __lvRoot().querySelectorAll(sel); }
 export function __lvQS(sel) { return __lvRoot().querySelector(sel); }
 
+const ARIA_MAP = [{"aria-hidden":"true"},{"role":"banner"},{"aria-label":"Livin' by Mandiri — kembali ke atas"},{"aria-hidden":"true"},{"aria-label":"Navigasi utama","role":"navigation"},{"aria-hidden":"true"},{"aria-label":"Buka menu","aria-expanded":"false","aria-controls":"lvMobileMenu"},{"aria-hidden":"true","inert":""},{"aria-label":"Navigasi seluler","role":"navigation"},{"aria-hidden":"true"},{"role":"main"},{"aria-labelledby":"lvHeroTitle","role":"region"},{"aria-hidden":"true"},{"aria-hidden":"true"},{"aria-hidden":"true"},{"aria-hidden":"true"},{"aria-label":"Gulir ke bagian berikutnya"},{"aria-labelledby":"lvStatsTitle","role":"region"},{"aria-labelledby":"lvPosTitle","role":"region"},{"role":"article"},{"aria-hidden":"true"},{"role":"article"},{"aria-hidden":"true"},{"role":"article"},{"aria-hidden":"true"},{"aria-labelledby":"lvExpTitle","role":"region"},{"aria-hidden":"true"},{"aria-hidden":"true"},{"aria-label":"Navigasi pengalaman","role":"navigation"},{"aria-labelledby":"lvSolTitle","role":"region"},{"aria-labelledby":"lvPromoTitle","role":"region"},{"aria-labelledby":"lvEduTitle","role":"region"},{"aria-labelledby":"lvCtaTitle","role":"region"},{"aria-hidden":"true"},{"aria-hidden":"true"},{"aria-hidden":"true"},{"aria-hidden":"true"},{"role":"img","aria-label":"Kode QR untuk mengunduh Livin' by Mandiri"},{"aria-hidden":"true"},{"role":"contentinfo"},{"aria-label":"Livin' by Mandiri"},{"aria-hidden":"true"},{"aria-label":"Tautan footer","role":"navigation"},{"aria-hidden":"true"}];
+export function restoreAria(root) {
+  let n = 0;
+  Array.prototype.slice.call(root.querySelectorAll('[class*="lv-r-"]')).forEach(function (el) {
+    const m = (' ' + el.className + ' ').match(/ lv-r-([0-9]+) /);
+    const set = m && ARIA_MAP[+m[1]];
+    if (!set) return;
+    Object.keys(set).forEach(function (k) { if (!el.hasAttribute(k)) { el.setAttribute(k, set[k]); n++; } });
+  });
+  return n;
+}
 // Restore data-* from fallback classes "lv-x-<attr>[--<value>]"
 export function restoreData(root) {
   Array.prototype.slice.call(root.querySelectorAll('[class*="lv-x-"]')).forEach(function (el) {

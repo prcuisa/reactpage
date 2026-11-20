@@ -53,6 +53,16 @@ kena (style mati) dan JS tidak menemukan root (konten render JS kosong).
 Diuji dengan semua `id` **dan** `data-*` dibuang: tinggi semua section identik dengan versi asli (1440 & 390px),
 tanpa error JS, dan anchor menu, menu mobile, serta Dark mode jalan.
 
+## Update: div kosong ditulis ulang AEM jadi `<div/>` (penyebab layout bersarang/rusak)
+Bukti dari `test.html` (halaman tersimpan dari AEM): `<div class="lv-hero__grid"></div>` menjadi `<div/>`, dan browser
+membacanya sebagai tag pembuka, sehingga blob, ring, dan seluruh `lv-hero__inner` ikut bersarang di dalam elemen
+dekoratif absolute. Hal yang sama terjadi pada `lv-mmenu__bg`. Selain itu `aria-*`, `role`, dan `inert` dibuang.
+**Perbaikan (sudah diterapkan):**
+- Tidak ada lagi `div`/`ul`/`ol`/`p` kosong: 26 elemen diberi zero-width space `&#8203;` (tak terlihat, tinggi section tetap identik).
+- `aria-*`/`role`/`inert` disimpan di class `lv-r-<n>` dan dipulihkan JS.
+
+Simulasi AEM (div kosong → `<div/>`, aria dibuang): versi lama rusak persis seperti `test.html`, versi baru identik dengan desain.
+
 ## Update: tag HTML5 dibuang filter HTML AEM (penyebab utama blank)
 Bukti dari Inspect di server corpweb: di dalam `#appLivinLanding`, `<header>`, `<nav>`, `<main>`, `<section>` hilang dan
 sisa konten ikut rusak/hilang (hanya navbar yang tersisa). **Perbaikan (sudah diterapkan):** semua tag HTML5

@@ -5,7 +5,7 @@
    Prefix class: lv- | variabel: --lv-* | keyframes: lv*
    Font mengikuti CMS (tidak ada font-family khusus).
    Color mode: :is(#appLivinLanding, .lv-app).lv-theme-dark (Dark & Half), :is(#appLivinLanding, .lv-app).lv-theme-half (override Half),
-   diatur JS dari <html data-theme="light|dark|half">.
+   diatur JS dari atribut data-theme (light|dark|half) di tag html.
    ============================================================ */
 
 /* ------------------------------------------------------------

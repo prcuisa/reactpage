@@ -30,4 +30,7 @@ Paksa mode dengan menambah class `lv-mode-light`, `lv-mode-dark`, atau `lv-mode-
 - `data-*` dipulihkan dari class `lv-x-*`.
 
 Di Console akan muncul peringatan `[Livin] … fallback aktif` bila ini terjadi.
-Jangan hapus class `lv-app`, `lv-id--*`, dan `lv-x-*` dari HTML.
+Juga `aria-*`/`role`/`inert` dipulihkan dari class `lv-r-*`.
+Elemen yang tampak kosong berisi zero-width space (`&#8203;`) supaya AEM tidak mengubahnya jadi `<div/>`; jangan dihapus.
+
+Jangan hapus class `lv-app`, `lv-id--*`, `lv-x-*`, dan `lv-r-*` dari HTML.

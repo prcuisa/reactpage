@@ -99,6 +99,22 @@ body = body.replace(/<([a-z][a-z0-9]*)(\s[^>]*?)(\/?)>/g, (m, tag, attrs, sl) =>
   return `<${tag}${attrs}${sl}>`;
 });
 if (/<svg|style="|<script|<style|<noscript/.test(body)) throw new Error('forbidden markup left');
+// aria-* / role / inert are stripped by AEM: keep them, plus a restore class lv-r-<n> + map in JS
+const ARIA = [];
+body = body.replace(/<([a-z][a-z0-9]*)(\s[^>]*?)?(\/?)>/g, (m, tag, attrs = '', sl) => {
+  const found = {}; for (const a of attrs.matchAll(/\s(aria-[a-z]+|role|inert)(?:="([^"]*)")?(?=[\s\/]|$)/g)) found[a[1]] = a[2] ?? '';
+  if (!Object.keys(found).length) return m;
+  const n = ARIA.push(found) - 1;
+  attrs = /\sclass="/.test(attrs) ? attrs.replace(/\sclass="([^"]*)"/, (a, c) => ` class="${c} ${P}r-${n}"`) : attrs + ` class="${P}r-${n}"`;
+  return `<${tag}${attrs}${sl}>`;
+});
+// AEM rewrites an empty <div></div> to <div/>, which the browser parses as an OPEN tag and nests everything
+// after it. Never ship empty block elements: give them an invisible zero-width space.
+let emptyCount = 0;
+body = body.replace(/<(div|ul|ol|li|p|h[1-6])(\s[^>]*)?><\/\1>/g, (m, tag, attrs = '') => { emptyCount++; return `<${tag}${attrs}>&#8203;</${tag}>`; });
+if (/<(div|ul|ol)(\s[^>]*)?><\/(div|ul|ol)>/.test(body)) throw new Error('empty block left');
+console.log('empty blocks filled', emptyCount, 'aria groups', ARIA.length);
+
 // typographic characters -> entities
 const ENT = { '’': '&rsquo;', '‘': '&lsquo;', '“': '&ldquo;', '”': '&rdquo;', '—': '&mdash;', '–': '&ndash;', '•': '&bull;', '©': '&copy;', '…': '&hellip;', '·': '&middot;', '→': '&rarr;' };
 body = body.replace(/[^\x00-\x7f]/g, (c) => ENT[c] || `&#x${c.codePointAt(0).toString(16).toUpperCase()};`);
@@ -239,7 +255,7 @@ let css = `/* ============================================================
    Prefix class: ${P} · variabel: --lv-* · keyframes: lv*
    Font mengikuti CMS (tidak ada font-family khusus).
    Color mode: ${R}.lv-theme-dark (Dark & Half), ${R}.lv-theme-half (override Half),
-   diatur JS dari <html data-theme="light|dark|half">.
+   diatur JS dari atribut data-theme (light|dark|half) di tag html.
    ============================================================ */
 ${parts.map(([t, c]) => `\n/* ------------------------------------------------------------\n   ${t}\n   ------------------------------------------------------------ */\n${c.trim()}\n`).join('')}`;
 css = fixKeyframeRefs(css).replace(/--tw-/g, '--lv-tw-').replace(/·/g, '|').replace(/[^\x00-\x7f]/g, (c) => ({ '—': '-', '–': '-', '≥': '>=', '→': '->', '…': '...' }[c] ?? c));
@@ -276,6 +292,17 @@ export function __lvById(id) { return __lvRoot().querySelector('#' + (ID_MAP[id]
 export function __lvQ(sel) { return __lvRoot().querySelectorAll(sel); }
 export function __lvQS(sel) { return __lvRoot().querySelector(sel); }
 
+const ARIA_MAP = ${JSON.stringify(ARIA)};
+export function restoreAria(root) {
+  let n = 0;
+  Array.prototype.slice.call(root.querySelectorAll('[class*="lv-r-"]')).forEach(function (el) {
+    const m = (' ' + el.className + ' ').match(/ lv-r-([0-9]+) /);
+    const set = m && ARIA_MAP[+m[1]];
+    if (!set) return;
+    Object.keys(set).forEach(function (k) { if (!el.hasAttribute(k)) { el.setAttribute(k, set[k]); n++; } });
+  });
+  return n;
+}
 // Restore data-* from fallback classes "lv-x-<attr>[--<value>]"
 export function restoreData(root) {
   Array.prototype.slice.call(root.querySelectorAll('[class*="lv-x-"]')).forEach(function (el) {
@@ -374,7 +401,7 @@ for (const f of jsFiles) { const p = path.join(WJ, f); let s = fs.readFileSync(p
   if (/(['"])assets\//.test(s)) { s = s.replace(/src="assets\//g, 'src="${IMG_BASE}assets/').replace(/(['"])assets\//g, 'IMG_BASE + $1assets/'); s = `import { IMG_BASE } from './dom.js';\n` + s; fs.writeFileSync(p, s); } }
 
 wpatch('main.js', [
-  [`import { LINKS } from './data.js';`, `import { gsap as GSAP } from 'gsap';\nimport { ScrollTrigger as ST } from 'gsap/ScrollTrigger';\nimport { createIcons } from 'lucide';\nimport { ICONS } from './icons.js';\nimport { initEnv, initTheme, state } from './env.js';\nimport { ROOT_ID, __lvSetRoot, restoreData, restoreIds, findRoot } from './dom.js';\nimport { LINKS } from './data.js';`],
+  [`import { LINKS } from './data.js';`, `import { gsap as GSAP } from 'gsap';\nimport { ScrollTrigger as ST } from 'gsap/ScrollTrigger';\nimport { createIcons } from 'lucide';\nimport { ICONS } from './icons.js';\nimport { initEnv, initTheme, state } from './env.js';\nimport { ROOT_ID, __lvSetRoot, restoreData, restoreIds, restoreAria, findRoot } from './dom.js';\nimport { LINKS } from './data.js';`],
   [`const REDUCE = window.__livinStatic ? 'all' : '(prefers-reduced-motion: reduce)';`, `let REDUCE = '(prefers-reduced-motion: reduce)';`],
   [`function boot() {\n`, `function boot() {
   const root = findRoot();
@@ -386,6 +413,7 @@ wpatch('main.js', [
   const fixed = restoreIds(root);
   if (fixed) console.warn('[Livin] ' + fixed + ' id di dalam komponen dipulihkan dari class cadangan lv-id--*.');
   restoreData(root);
+  restoreAria(root);
   initTheme(root);
   initEnv(root);
   if (state.static) REDUCE = 'all';
@@ -420,7 +448,7 @@ const header = `/* ============================================================
    Pasang di clientlib JS (footer). Semua query lewat root #${ROOT}.
    Isi: modul halaman + GSAP 3.12.5 & ScrollTrigger (GreenSock standard license),
    Lucide 0.460.0 (ISC, subset ikon), qrcodejs 1.0.0 (MIT).
-   Color mode: baca <html data-theme> -> class lv-theme-dark / lv-theme-half di root;
+   Color mode: baca atribut data-theme di tag html -> class lv-theme-dark / lv-theme-half di root;
    paksa dengan class lv-mode-light|dark|half di root.
    Gambar: IMG_BASE = '${DAM}'
    ============================================================ */
