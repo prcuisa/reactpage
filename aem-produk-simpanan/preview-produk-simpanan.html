@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="id" data-theme="half">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produk Simpanan Preview</title>
+<style>
+body{margin:0;font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;background:#fff}
+html[data-theme="dark"] body{background:#141414}
+.pv-bar{position:sticky;top:0;z-index:50;display:flex;gap:8px;align-items:center;padding:10px 16px;background:#111;color:#eee;font-size:13px}
+.pv-bar button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid #444;background:#1c1c1c;color:#eee;cursor:pointer}
+.pv-bar button.on{background:#01a4d8;border-color:#01a4d8;color:#001}
+.pv-pad{height:40vh}
+</style>
+<style>
+/* ============================================================
+   PRODUK SIMPANAN (HIGH-TECH MOTION) - Styles
+   Scope: :is(#appProdukSimpanan, .ps-app) | prefix ps- | var --ps-* | keyframes ps*
+   Color mode ikut CMS (atribut data-theme di tag html): Light / Dark / Half
+   ============================================================ */
+
+/* ---------- 1. Isolasi dari CSS template AEM ---------- */
+:is(#appProdukSimpanan, .ps-app) :where(:not(svg, svg *, img)) { all: revert; }
+
+/* ---------- 2. Reset dasar ---------- */
+:is(#appProdukSimpanan, .ps-app) *,
+:is(#appProdukSimpanan, .ps-app) *::before,
+:is(#appProdukSimpanan, .ps-app) *::after { box-sizing: border-box; font-family: inherit; }
+:is(#appProdukSimpanan, .ps-app) :where(h1, h2, h3, h4, h5, h6) { font-family: inherit; text-transform: none; margin: 0; padding: 0; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
+:is(#appProdukSimpanan, .ps-app) :where(p) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
+:is(#appProdukSimpanan, .ps-app) :where(a, a:hover, a:focus, a:visited, a:active) { color: inherit; text-decoration: inherit; }
+:is(#appProdukSimpanan, .ps-app) :where(img) { margin: 0; border: 0; display: block; }
+:is(#appProdukSimpanan, .ps-app) :where(ul, ol, li) { margin: 0; padding: 0; list-style: none; }
+:is(#appProdukSimpanan, .ps-app) :where(ul, ol, li)::before,
+:is(#appProdukSimpanan, .ps-app) :where(ul, ol, li)::marker { content: none; }
+:is(#appProdukSimpanan, .ps-app) :where(div) { display: block; }
+
+/* ---------- 3. Root + token ---------- */
+:is(#appProdukSimpanan, .ps-app) {
+  display: block; position: relative; margin: 0; padding: 0;
+  font-size: 16px; line-height: 1.5; text-align: left; text-transform: none;
+  letter-spacing: normal; visibility: visible;
+
+  --ps-cms-light-bg: #F3F1EC;
+  --ps-cms-light-font: #1A1A1A;
+  --ps-cms-dark-bg: #0A0A0A;
+  --ps-cms-dark-font: #F3F1EC;
+  --ps-cms-half-bg: #0A0A0A;
+  --ps-cms-half-font: #F3F1EC;
+
+  --ps-max-width: 1360px;
+  --ps-radius: 20px;
+
+  /* Light (default) */
+  --ps-bg: var(--ps-cms-light-bg);
+  --ps-text: var(--ps-cms-light-font);
+  --ps-surface: #FFFFFF;
+  --ps-title: #0B2F5B;
+  --ps-desc: #45484E;
+  --ps-dim: #5B5750;
+  --ps-line: rgba(26, 26, 26, 0.10);
+  --ps-line-hi: rgba(0, 61, 121, 0.28);
+  --ps-accent: #005FA8;
+  --ps-accent-2: #F5B400;
+  --ps-cyan: #01A4D8;
+  --ps-tag-bg: rgba(0, 95, 168, 0.08);
+  --ps-tag-text: #00508E;
+  --ps-icon-bg: linear-gradient(140deg, rgba(1, 164, 216, 0.14), rgba(0, 61, 121, 0.08));
+  --ps-icon-color: #00508E;
+  --ps-cta-bg: transparent;
+  --ps-cta-text: #1A1A1A;
+  --ps-cta-hover-bg: #0B2F5B;
+  --ps-cta-hover-text: #FFFFFF;
+  --ps-grid-dot: rgba(0, 61, 121, 0.16);
+  --ps-orb-a: rgba(1, 164, 216, 0.16);
+  --ps-orb-b: rgba(245, 180, 0, 0.14);
+  --ps-spot: rgba(1, 164, 216, 0.12);
+  --ps-scan: rgba(1, 164, 216, 0.55);
+  --ps-shadow: 0 1px 2px rgba(11, 47, 91, 0.04), 0 8px 24px -16px rgba(11, 47, 91, 0.18);
+  --ps-shadow-hi: 0 2px 6px rgba(11, 47, 91, 0.06), 0 28px 48px -24px rgba(11, 47, 91, 0.38);
+
+  /* runtime (diisi JS) */
+  --ps-rx: 0deg;
+  --ps-ry: 0deg;
+  --ps-mx: 50%;
+  --ps-my: 0%;
+
+  color: var(--ps-text);
+  background: var(--ps-bg);
+  color-scheme: light;
+}
+
+/* Dark & Half */
+:is(#appProdukSimpanan, .ps-app).ps-theme-dark {
+  --ps-bg: var(--ps-cms-dark-bg);
+  --ps-text: var(--ps-cms-dark-font);
+  --ps-surface: #121417;
+  --ps-title: #F3F1EC;
+  --ps-desc: #BDB8B0;
+  --ps-dim: #A9A39A;
+  --ps-line: rgba(243, 241, 236, 0.10);
+  --ps-line-hi: rgba(61, 181, 232, 0.45);
+  --ps-accent: #3DB5E8;
+  --ps-cyan: #3DB5E8;
+  --ps-tag-bg: rgba(61, 181, 232, 0.12);
+  --ps-tag-text: #8FD7F5;
+  --ps-icon-bg: linear-gradient(140deg, rgba(61, 181, 232, 0.20), rgba(61, 181, 232, 0.04));
+  --ps-icon-color: #8FD7F5;
+  --ps-cta-bg: rgba(243, 241, 236, 0.03);
+  --ps-cta-text: #F3F1EC;
+  --ps-cta-hover-bg: #F3F1EC;
+  --ps-cta-hover-text: #0A0A0A;
+  --ps-grid-dot: rgba(143, 215, 245, 0.14);
+  --ps-orb-a: rgba(61, 181, 232, 0.14);
+  --ps-orb-b: rgba(245, 180, 0, 0.07);
+  --ps-spot: rgba(61, 181, 232, 0.14);
+  --ps-scan: rgba(143, 215, 245, 0.7);
+  --ps-shadow: 0 1px 0 rgba(243, 241, 236, 0.04) inset, 0 10px 30px -18px rgba(0, 0, 0, 0.9);
+  --ps-shadow-hi: 0 1px 0 rgba(243, 241, 236, 0.06) inset, 0 30px 60px -28px rgba(0, 0, 0, 1), 0 0 40px -12px rgba(61, 181, 232, 0.35);
+  color-scheme: dark;
+}
+:is(#appProdukSimpanan, .ps-app).ps-theme-half {
+  --ps-bg: var(--ps-cms-half-bg);
+  --ps-text: var(--ps-cms-half-font);
+}
+
+/* ---------- 4. Section + latar teknologi ---------- */
+:is(#appProdukSimpanan, .ps-app) .ps-section {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 24px 80px;
+  background: var(--ps-bg);
+  color: var(--ps-text);
+  isolation: isolate;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-bg {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  font-size: 0; line-height: 0; color: transparent;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-bg__grid {
+  position: absolute; inset: -40px;
+  background-image: radial-gradient(var(--ps-grid-dot) 1.2px, transparent 1.6px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  animation: psDrift 24s linear infinite;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-bg__orb {
+  position: absolute; width: 520px; height: 520px; border-radius: 50%;
+  filter: blur(60px);
+  animation: psFloat 16s ease-in-out infinite alternate;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-bg__orb--a { top: -180px; right: -120px; background: radial-gradient(circle, var(--ps-orb-a), transparent 70%); }
+:is(#appProdukSimpanan, .ps-app) .ps-bg__orb--b { bottom: -220px; left: -160px; background: radial-gradient(circle, var(--ps-orb-b), transparent 70%); animation-delay: -8s; }
+
+:is(#appProdukSimpanan, .ps-app) .ps-wrap { position: relative; width: 100%; max-width: var(--ps-max-width); margin: 0 auto; }
+
+/* ---------- 5. Header ---------- */
+:is(#appProdukSimpanan, .ps-app) .ps-head { margin: 0 0 36px; max-width: 720px; }
+:is(#appProdukSimpanan, .ps-app) .ps-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 0 0 14px; padding: 6px 14px 6px 10px;
+  border: 1px solid var(--ps-line); border-radius: 999px;
+  background: var(--ps-surface);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ps-tag-text);
+}
+:is(#appProdukSimpanan, .ps-app) .ps-eyebrow__dot {
+  position: relative; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ps-cyan); font-size: 0; line-height: 0; color: transparent;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-eyebrow__dot::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%;
+  border: 1px solid var(--ps-cyan);
+  animation: psPulse 2s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-eyebrow__count { color: var(--ps-dim); font-variant-numeric: tabular-nums; letter-spacing: 0.08em; }
+:is(#appProdukSimpanan, .ps-app) .ps-title {
+  font-size: 36px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em;
+  color: var(--ps-title);
+}
+
+/* ---------- 6. Grid ---------- */
+:is(#appProdukSimpanan, .ps-app) .ps-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-item { display: flex; min-width: 0; perspective: 1000px; }
+
+/* ---------- 7. Kartu ---------- */
+:is(#appProdukSimpanan, .ps-app) .ps-card {
+  position: relative; flex: 1 1 auto; display: flex;
+  border-radius: var(--ps-radius);
+  padding: 1px;                      /* ruang untuk ring berputar */
+  background: var(--ps-line);
+  box-shadow: var(--ps-shadow);
+  overflow: hidden;
+  transform: rotateX(var(--ps-rx)) rotateY(var(--ps-ry)) translateY(0);
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease, background-color 0.3s ease;
+  will-change: transform;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__ring {
+  position: absolute; left: 50%; top: 50%; width: 200%; aspect-ratio: 1 / 1;
+  margin: -100% 0 0 -100%;
+  background: conic-gradient(from 0deg, transparent 0deg, var(--ps-cyan) 50deg, var(--ps-accent-2) 90deg, transparent 140deg, transparent 360deg);
+  opacity: 0;
+  font-size: 0; line-height: 0; color: transparent;
+  transition: opacity 0.4s ease;
+  animation: psSpin 3.2s linear infinite;
+  animation-play-state: paused;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__body {
+  position: relative; z-index: 1; flex: 1 1 auto;
+  display: flex; flex-direction: column;
+  padding: 26px 24px 24px;
+  border-radius: calc(var(--ps-radius) - 1px);
+  background: var(--ps-surface);
+  overflow: hidden;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__spot {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(260px circle at var(--ps-mx) var(--ps-my), var(--ps-spot), transparent 70%);
+  opacity: 0; transition: opacity 0.35s ease;
+  font-size: 0; line-height: 0; color: transparent;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__scan {
+  position: absolute; left: 0; right: 0; top: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--ps-scan), transparent);
+  box-shadow: 0 0 12px 1px var(--ps-scan);
+  opacity: 0;
+  font-size: 0; line-height: 0; color: transparent;
+}
+
+:is(#appProdukSimpanan, .ps-app) .ps-card__top {
+  position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin: 0 0 22px;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--ps-icon-bg);
+  border: 1px solid var(--ps-line);
+  color: var(--ps-icon-color);
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__icon .ps-ic { width: 22px; height: 22px; }
+:is(#appProdukSimpanan, .ps-app) .ps-card__meta { display: inline-flex; align-items: center; gap: 10px; }
+:is(#appProdukSimpanan, .ps-app) .ps-card__tag {
+  display: inline-block; padding: 4px 10px; border-radius: 999px;
+  background: var(--ps-tag-bg); color: var(--ps-tag-text);
+  font-size: 11px; font-weight: 600; line-height: 1.4; letter-spacing: 0.06em; text-transform: uppercase;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__idx {
+  font-size: 12px; font-weight: 600; line-height: 1.4; letter-spacing: 0.08em;
+  color: var(--ps-dim); font-variant-numeric: tabular-nums;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__title {
+  position: relative; margin: 0 0 10px;
+  font-size: 19px; line-height: 1.3; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--ps-title);
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__desc {
+  position: relative; margin: 0 0 24px;
+  font-size: 14px; line-height: 1.6; color: var(--ps-desc);
+}
+
+/* CTA (link menutupi seluruh kartu lewat ::after) */
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta {
+  position: static; margin-top: auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 0 8px 0 18px; min-height: 50px;
+  border: 1px solid var(--ps-line); border-radius: 12px;
+  background: var(--ps-cta-bg);
+  color: var(--ps-cta-text);
+  font-size: 15px; font-weight: 600; line-height: 1.2;
+  text-decoration: none;
+  background-image: linear-gradient(var(--ps-cta-hover-bg), var(--ps-cta-hover-bg));
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 0% 100%;
+  transition: color 0.35s ease, border-color 0.35s ease, background-size 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta::after {
+  content: ""; position: absolute; inset: 0; z-index: 3; border-radius: calc(var(--ps-radius) - 1px);
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta-label { position: relative; }
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta-ic {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--ps-text); color: var(--ps-bg);
+  overflow: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta-ic .ps-ic {
+  width: 16px; height: 16px;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:is(#appProdukSimpanan, .ps-app) .ps-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- 8. Hover / fokus ---------- */
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover,
+:is(#appProdukSimpanan, .ps-app) .ps-card:focus-within {
+  transform: rotateX(var(--ps-rx)) rotateY(var(--ps-ry)) translateY(-6px);
+  box-shadow: var(--ps-shadow-hi);
+  background: var(--ps-line-hi);
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__ring,
+:is(#appProdukSimpanan, .ps-app) .ps-card:focus-within .ps-card__ring { opacity: 1; animation-play-state: running; }
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__spot { opacity: 1; }
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__scan { animation: psScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__icon,
+:is(#appProdukSimpanan, .ps-app) .ps-card:focus-within .ps-card__icon {
+  transform: translateZ(0) translateY(-2px) rotate(-6deg);
+  box-shadow: 0 10px 24px -10px var(--ps-cyan);
+}
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__cta,
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible { color: var(--ps-cta-hover-text); border-color: transparent; }
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__cta,
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible { background-size: 100% 100%; }
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__cta-ic,
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible .ps-card__cta-ic { background: var(--ps-cyan); color: #0A0A0A; }
+:is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__cta-ic .ps-ic { animation: psArrow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible { outline: none; }
+:is(#appProdukSimpanan, .ps-app) .ps-card__cta:focus-visible::after { outline: 2px solid var(--ps-cyan); outline-offset: -3px; }
+
+/* ---------- 9. Motion masuk (kelas ps-motion ditambah JS) ---------- */
+:is(#appProdukSimpanan, .ps-app).ps-motion .ps-head,
+:is(#appProdukSimpanan, .ps-app).ps-motion .ps-item { opacity: 0; }
+:is(#appProdukSimpanan, .ps-app).ps-motion .ps-head.ps-is-in {
+  opacity: 1;
+  animation: psRise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+:is(#appProdukSimpanan, .ps-app).ps-motion .ps-item.ps-is-in {
+  opacity: 1;
+  animation: psBoot 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--ps-i, 0) * 90ms);
+}
+:is(#appProdukSimpanan, .ps-app).ps-motion .ps-item.ps-is-in .ps-card__scan {
+  animation: psScanOnce 1.1s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  animation-delay: calc(var(--ps-i, 0) * 90ms + 250ms);
+}
+:is(#appProdukSimpanan, .ps-app).ps-motion .ps-item.ps-is-in .ps-card__idx {
+  animation: psFlicker 0.9s steps(1, end) backwards;
+  animation-delay: calc(var(--ps-i, 0) * 90ms + 300ms);
+}
+:is(#appProdukSimpanan, .ps-app).ps-motion .ps-item.ps-is-in .ps-card:hover .ps-card__scan { animation: psScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+/* Mode statis (iframe editor AEM / ?static): tanpa animasi berjalan */
+:is(#appProdukSimpanan, .ps-app).ps-static .ps-bg__grid,
+:is(#appProdukSimpanan, .ps-app).ps-static .ps-bg__orb,
+:is(#appProdukSimpanan, .ps-app).ps-static .ps-eyebrow__dot::after { animation: none; }
+
+/* ---------- 10. Keyframes ---------- */
+@keyframes psSpin { to { transform: rotate(360deg); } }
+@keyframes psDrift { from { background-position: 0 0; } to { background-position: 28px 56px; } }
+@keyframes psFloat { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-60px, 40px, 0) scale(1.12); } }
+@keyframes psPulse { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(1.8); opacity: 0; } }
+@keyframes psRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes psBoot {
+  0% { opacity: 0; transform: translateY(28px) scale(0.97); filter: blur(8px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+@keyframes psScan { 0% { top: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes psScanOnce { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes psFlicker { 0% { opacity: 0; } 20% { opacity: 1; } 35% { opacity: 0.2; } 50% { opacity: 1; } 65% { opacity: 0.4; } 80% { opacity: 1; } }
+@keyframes psArrow {
+  0% { transform: translate(0, 0); }
+  45% { transform: translate(18px, -18px); }
+  46% { transform: translate(-18px, 18px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- 11. Ikon (CSS mask, pengganti svg inline) ---------- */
+:is(#appProdukSimpanan, .ps-app) .ps-ic {
+  display: inline-block; flex: 0 0 auto;
+  width: 20px; height: 20px;
+  font-size: 0; line-height: 0; color: inherit;
+  background-color: currentColor;
+  -webkit-mask: var(--ps-ic-img) center / contain no-repeat;
+  mask: var(--ps-ic-img) center / contain no-repeat;
+}
+:is(#appProdukSimpanan, .ps-app) .ps-ic--phone { --ps-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='2.5' width='12' height='19' rx='2.5'/%3E%3Cpath d='M10.5 18.5h3'/%3E%3C/svg%3E"); }
+:is(#appProdukSimpanan, .ps-app) .ps-ic--users { --ps-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20'/%3E%3Ccircle cx='9.5' cy='7.5' r='3.5'/%3E%3Cpath d='M21 20v-1.5a4 4 0 0 0-3-3.85'/%3E%3Cpath d='M15.5 4.2a3.5 3.5 0 0 1 0 6.6'/%3E%3C/svg%3E"); }
+:is(#appProdukSimpanan, .ps-app) .ps-ic--trend { --ps-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 7l-8 8-4-4-6 6'/%3E%3Cpath d='M15 7h6v6'/%3E%3C/svg%3E"); }
+:is(#appProdukSimpanan, .ps-app) .ps-ic--clock { --ps-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='17' rx='2.5'/%3E%3Cpath d='M3 9h18'/%3E%3Cpath d='M8 2.5v3M16 2.5v3'/%3E%3Cpath d='M12 12.5v2.5l1.8 1.2'/%3E%3C/svg%3E"); }
+:is(#appProdukSimpanan, .ps-app) .ps-ic--cheque { --ps-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='6' width='19' height='12' rx='2'/%3E%3Cpath d='M6 14.5h5'/%3E%3Cpath d='M14.5 10h4'/%3E%3Cpath d='M14.5 14.5h4'/%3E%3C/svg%3E"); }
+:is(#appProdukSimpanan, .ps-app) .ps-ic--globe { --ps-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3a13.5 13.5 0 0 1 0 18a13.5 13.5 0 0 1 0-18z'/%3E%3C/svg%3E"); }
+:is(#appProdukSimpanan, .ps-app) .ps-ic--target { --ps-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3Ccircle cx='12' cy='12' r='1.2'/%3E%3C/svg%3E"); }
+:is(#appProdukSimpanan, .ps-app) .ps-ic--arrow { --ps-ic-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7'/%3E%3Cpath d='M8.5 7H17v8.5'/%3E%3C/svg%3E"); }
+
+/* ---------- 12. Responsive ---------- */
+@media (max-width: 1199px) {
+  :is(#appProdukSimpanan, .ps-app) .ps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 899px) {
+  :is(#appProdukSimpanan, .ps-app) .ps-section { padding: 56px 20px 64px; }
+  :is(#appProdukSimpanan, .ps-app) .ps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  :is(#appProdukSimpanan, .ps-app) .ps-title { font-size: 30px; }
+}
+@media (max-width: 599px) {
+  :is(#appProdukSimpanan, .ps-app) .ps-section { padding: 48px 16px 56px; }
+  :is(#appProdukSimpanan, .ps-app) .ps-head { margin-bottom: 28px; }
+  :is(#appProdukSimpanan, .ps-app) .ps-title { font-size: 26px; }
+  :is(#appProdukSimpanan, .ps-app) .ps-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  :is(#appProdukSimpanan, .ps-app) .ps-card__body { padding: 22px 20px 20px; }
+  :is(#appProdukSimpanan, .ps-app) .ps-bg__orb { width: 360px; height: 360px; }
+}
+
+/* Perangkat sentuh: tanpa tilt, ring tampil tipis supaya tetap terasa "hidup" */
+@media (hover: none) {
+  :is(#appProdukSimpanan, .ps-app) .ps-card__ring { opacity: 0.55; animation-play-state: running; animation-duration: 6s; }
+}
+
+/* ---------- 13. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :is(#appProdukSimpanan, .ps-app) *,
+  :is(#appProdukSimpanan, .ps-app) *::before,
+  :is(#appProdukSimpanan, .ps-app) *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  :is(#appProdukSimpanan, .ps-app).ps-motion .ps-head,
+  :is(#appProdukSimpanan, .ps-app).ps-motion .ps-item { opacity: 1; }
+  :is(#appProdukSimpanan, .ps-app) .ps-card,
+  :is(#appProdukSimpanan, .ps-app) .ps-card:hover { transform: none; }
+  :is(#appProdukSimpanan, .ps-app) .ps-card:hover .ps-card__ring { opacity: 1; }
+}
+
+</style>
+</head>
+<body>
+<div class="pv-bar"><span>Preview mode:</span><button data-m="">Auto</button><button data-m="light">Light</button><button data-m="dark">Dark</button><button data-m="half" class="on">Half</button></div>
+<!-- ============================================================
+     PRODUK SIMPANAN (HIGH-TECH MOTION) - HTML Structure
+     Copy-paste ke komponen HTML di halaman AEM (bukan custom-css-js)
+     (tanpa tag html, head, body; font mengikuti CMS)
+     ============================================================ -->
+<div id="appProdukSimpanan" class="ps-app ps-r-region">
+  <div class="ps-el-section ps-section">
+    <div class="ps-bg ps-r-hide">
+      <div class="ps-bg__grid">&#8203;</div>
+      <div class="ps-bg__orb ps-bg__orb--a">&#8203;</div>
+      <div class="ps-bg__orb ps-bg__orb--b">&#8203;</div>
+    </div>
+    <div class="ps-wrap">
+      <div class="ps-head">
+        <p class="ps-eyebrow"><span class="ps-eyebrow__dot ps-r-hide">&#8203;</span>Produk Simpanan<span class="ps-eyebrow__count ps-r-hide">/ 07</span></p>
+        <h2 id="psTitle" class="ps-title ps-id--psTitle">Pilih Simpanan yang Sesuai Kebutuhan Anda</h2>
+      </div>
+      <ul class="ps-grid ps-r-list">
+        <li class="ps-item ps-x-i--0">
+          <div class="ps-card">
+            <span class="ps-card__ring ps-r-hide">&#8203;</span>
+            <div class="ps-card__body">
+              <span class="ps-card__spot ps-r-hide">&#8203;</span>
+              <span class="ps-card__scan ps-r-hide">&#8203;</span>
+              <div class="ps-card__top">
+                <span class="ps-card__icon ps-r-hide"><span class="ps-ic ps-ic--phone">&#8203;</span></span>
+                <span class="ps-card__meta ps-r-hide"><span class="ps-card__tag">Online</span><span class="ps-card__idx">01</span></span>
+              </div>
+              <h3 class="ps-card__title">Tabungan NOW</h3>
+              <p class="ps-card__desc">Siapkan dokumen identitas Anda, dan rekening pun siap dibuka. Baik Anda berada di Indonesia maupun di luar negeri, pendaftaran dapat dilakukan langsung secara online.</p>
+              <a class="ps-card__cta" href="/content/bankmandiri/id/personal/simpanan/tabungan-now.html"><span class="ps-card__cta-label">Lihat Selengkapnya<span class="ps-sr"> Tabungan NOW</span></span><span class="ps-card__cta-ic ps-r-hide"><span class="ps-ic ps-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ps-item ps-x-i--1">
+          <div class="ps-card">
+            <span class="ps-card__ring ps-r-hide">&#8203;</span>
+            <div class="ps-card__body">
+              <span class="ps-card__spot ps-r-hide">&#8203;</span>
+              <span class="ps-card__scan ps-r-hide">&#8203;</span>
+              <div class="ps-card__top">
+                <span class="ps-card__icon ps-r-hide"><span class="ps-ic ps-ic--users">&#8203;</span></span>
+                <span class="ps-card__meta ps-r-hide"><span class="ps-card__tag">Keluarga</span><span class="ps-card__idx">02</span></span>
+              </div>
+              <h3 class="ps-card__title">Tabungan Next-G</h3>
+              <p class="ps-card__desc">Kelola keuangan keluarga dalam satu tabungan. Buka Tabungan Next-G dan berikan akses kepada anak Anda (usia 12 s.d &lt; 17 tahun), sementara Anda tetap memegang kendali penuh.</p>
+              <a class="ps-card__cta" href="/content/bankmandiri/id/personal/simpanan/tabungan-next-g.html"><span class="ps-card__cta-label">Lihat Selengkapnya<span class="ps-sr"> Tabungan Next-G</span></span><span class="ps-card__cta-ic ps-r-hide"><span class="ps-ic ps-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ps-item ps-x-i--2">
+          <div class="ps-card">
+            <span class="ps-card__ring ps-r-hide">&#8203;</span>
+            <div class="ps-card__body">
+              <span class="ps-card__spot ps-r-hide">&#8203;</span>
+              <span class="ps-card__scan ps-r-hide">&#8203;</span>
+              <div class="ps-card__top">
+                <span class="ps-card__icon ps-r-hide"><span class="ps-ic ps-ic--trend">&#8203;</span></span>
+                <span class="ps-card__meta ps-r-hide"><span class="ps-card__tag">Investasi</span><span class="ps-card__idx">03</span></span>
+              </div>
+              <h3 class="ps-card__title">Tabungan Investor</h3>
+              <p class="ps-card__desc">Rekening Dana Nasabah menjadi sarana penyelesaian transaksi investasi Anda, menghubungkan rekening utama dengan aktivitas jual beli saham maupun reksadana secara aman dan resmi.</p>
+              <a class="ps-card__cta" href="/content/bankmandiri/id/personal/simpanan/tabungan-investor.html"><span class="ps-card__cta-label">Lihat Selengkapnya<span class="ps-sr"> Tabungan Investor</span></span><span class="ps-card__cta-ic ps-r-hide"><span class="ps-ic ps-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ps-item ps-x-i--3">
+          <div class="ps-card">
+            <span class="ps-card__ring ps-r-hide">&#8203;</span>
+            <div class="ps-card__body">
+              <span class="ps-card__spot ps-r-hide">&#8203;</span>
+              <span class="ps-card__scan ps-r-hide">&#8203;</span>
+              <div class="ps-card__top">
+                <span class="ps-card__icon ps-r-hide"><span class="ps-ic ps-ic--clock">&#8203;</span></span>
+                <span class="ps-card__meta ps-r-hide"><span class="ps-card__tag">Digital</span><span class="ps-card__idx">04</span></span>
+              </div>
+              <h3 class="ps-card__title">e-Deposito</h3>
+              <p class="ps-card__desc">Buka e-Deposito sepenuhnya secara digital, dengan pilihan tenor yang fleksibel dan pencairan otomatis saat jatuh tempo.</p>
+              <a class="ps-card__cta" href="/content/bankmandiri/id/personal/simpanan/e-deposito.html"><span class="ps-card__cta-label">Lihat Selengkapnya<span class="ps-sr"> e-Deposito</span></span><span class="ps-card__cta-ic ps-r-hide"><span class="ps-ic ps-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ps-item ps-x-i--4">
+          <div class="ps-card">
+            <span class="ps-card__ring ps-r-hide">&#8203;</span>
+            <div class="ps-card__body">
+              <span class="ps-card__spot ps-r-hide">&#8203;</span>
+              <span class="ps-card__scan ps-r-hide">&#8203;</span>
+              <div class="ps-card__top">
+                <span class="ps-card__icon ps-r-hide"><span class="ps-ic ps-ic--cheque">&#8203;</span></span>
+                <span class="ps-card__meta ps-r-hide"><span class="ps-card__tag">Transaksi</span><span class="ps-card__idx">05</span></span>
+              </div>
+              <h3 class="ps-card__title">Rekening Giro Perorangan</h3>
+              <p class="ps-card__desc">Dirancang untuk kebutuhan transaksi yang lebih besar, dengan fleksibilitas penggunaan cek atau bilyet giro serta mutasi tanpa batasan seperti pada tabungan reguler.</p>
+              <a class="ps-card__cta" href="/content/bankmandiri/id/personal/simpanan/giro-perorangan.html"><span class="ps-card__cta-label">Lihat Selengkapnya<span class="ps-sr"> Rekening Giro Perorangan</span></span><span class="ps-card__cta-ic ps-r-hide"><span class="ps-ic ps-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ps-item ps-x-i--5">
+          <div class="ps-card">
+            <span class="ps-card__ring ps-r-hide">&#8203;</span>
+            <div class="ps-card__body">
+              <span class="ps-card__spot ps-r-hide">&#8203;</span>
+              <span class="ps-card__scan ps-r-hide">&#8203;</span>
+              <div class="ps-card__top">
+                <span class="ps-card__icon ps-r-hide"><span class="ps-ic ps-ic--globe">&#8203;</span></span>
+                <span class="ps-card__meta ps-r-hide"><span class="ps-card__tag">Valas</span><span class="ps-card__idx">06</span></span>
+              </div>
+              <h3 class="ps-card__title">Tabungan Multicurrency</h3>
+              <p class="ps-card__desc">Nikmati kemudahan menabung berbagai valuta asing dan kontrol penuh atas saldo valas Anda.</p>
+              <a class="ps-card__cta" href="/content/bankmandiri/id/personal/simpanan/tabungan-multicurrency.html"><span class="ps-card__cta-label">Lihat Selengkapnya<span class="ps-sr"> Tabungan Multicurrency</span></span><span class="ps-card__cta-ic ps-r-hide"><span class="ps-ic ps-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+        <li class="ps-item ps-x-i--6">
+          <div class="ps-card">
+            <span class="ps-card__ring ps-r-hide">&#8203;</span>
+            <div class="ps-card__body">
+              <span class="ps-card__spot ps-r-hide">&#8203;</span>
+              <span class="ps-card__scan ps-r-hide">&#8203;</span>
+              <div class="ps-card__top">
+                <span class="ps-card__icon ps-r-hide"><span class="ps-ic ps-ic--target">&#8203;</span></span>
+                <span class="ps-card__meta ps-r-hide"><span class="ps-card__tag">Berencana</span><span class="ps-card__idx">07</span></span>
+              </div>
+              <h3 class="ps-card__title">Mandiri Tabungan Rencana</h3>
+              <p class="ps-card__desc">Temukan segala kemudahan untuk menabung rutin dengan miliki produk simpanan Mandiri Tabungan Rencana.</p>
+              <a class="ps-card__cta" href="/content/bankmandiri/id/personal/simpanan/mandiri-tabungan-rencana.html"><span class="ps-card__cta-label">Lihat Selengkapnya<span class="ps-sr"> Mandiri Tabungan Rencana</span></span><span class="ps-card__cta-ic ps-r-hide"><span class="ps-ic ps-ic--arrow">&#8203;</span></span></a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="pv-pad"></div>
+<script>
+(function(){var bs=document.querySelectorAll('.pv-bar button');for(var i=0;i<bs.length;i++)bs[i].addEventListener('click',function(){for(var k=0;k<bs.length;k++)bs[k].classList.remove('on');this.classList.add('on');var m=this.getAttribute('data-m');var d=document.documentElement;if(m)d.setAttribute('data-theme',m);else d.setAttribute('data-theme',matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');});})();
+</script>
+<script>
+/* ============================================================
+   PRODUK SIMPANAN (HIGH-TECH MOTION) - Script (ES5)
+   Root: #appProdukSimpanan / .ps-app | semua query lewat root
+   Color mode ikut atribut data-theme di tag html (light/dark/half)
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var ROOT_ID = 'appProdukSimpanan';
+  var BUILD = '2026-11-20';
+  var TAG = '[ProdukSimpanan]';
+
+  /* Peta pemulih atribut aria/role (AEM bisa membuang aria-*, role) */
+  var ARIA_MAP = {
+    'ps-r-region': { 'role': 'region', 'aria-labelledby': 'psTitle' },
+    'ps-r-list': { 'role': 'list' },
+    'ps-r-hide': { 'aria-hidden': 'true' }
+  };
+
+  function findRoot() {
+    return document.getElementById(ROOT_ID) || document.querySelector('.ps-app');
+  }
+
+  function toArray(list) {
+    var out = [];
+    for (var i = 0; i < list.length; i++) out.push(list[i]);
+    return out;
+  }
+
+  function hasClass(el, c) {
+    return (' ' + el.className + ' ').indexOf(' ' + c + ' ') > -1;
+  }
+
+  function addClass(el, c) {
+    if (el.classList) el.classList.add(c);
+    else if (!hasClass(el, c)) el.className += ' ' + c;
+  }
+
+  function removeClass(el, c) {
+    if (el.classList) el.classList.remove(c);
+    else el.className = (' ' + el.className + ' ').replace(' ' + c + ' ', ' ').replace(/^\s+|\s+$/g, '');
+  }
+
+  function toggleClass(el, c, on) {
+    if (on) addClass(el, c); else removeClass(el, c);
+  }
+
+  function allWithin(root) {
+    return [root].concat(toArray(root.querySelectorAll('*')));
+  }
+
+  /* ---------- Pemulih atribut (A3 - A5) ---------- */
+  function restoreIds(root) {
+    var els = allWithin(root);
+    for (var i = 0; i < els.length; i++) {
+      var m = (' ' + els[i].className + ' ').match(/ ps-id--([A-Za-z0-9_-]+) /);
+      if (m && !els[i].id) els[i].id = m[1];
+    }
+  }
+
+  function restoreData(root) {
+    var els = allWithin(root);
+    var re = / ps-x-([A-Za-z0-9_]+)(?:--([A-Za-z0-9_-]+))? /g;
+    for (var i = 0; i < els.length; i++) {
+      var cls = ' ' + els[i].className.split(/\s+/).join('  ') + ' ';
+      var m;
+      re.lastIndex = 0;
+      while ((m = re.exec(cls)) !== null) {
+        var name = 'data-' + m[1].replace(/_x/g, '-').toLowerCase();
+        var val = m[2] === undefined ? '' : m[2].replace(/p/g, '.');
+        if (!els[i].hasAttribute(name)) els[i].setAttribute(name, val);
+      }
+    }
+  }
+
+  function restoreAria(root) {
+    for (var key in ARIA_MAP) {
+      if (!ARIA_MAP.hasOwnProperty(key)) continue;
+      var els = hasClass(root, key) ? [root] : [];
+      els = els.concat(toArray(root.querySelectorAll('.' + key)));
+      for (var i = 0; i < els.length; i++) {
+        var attrs = ARIA_MAP[key];
+        for (var a in attrs) {
+          if (attrs.hasOwnProperty(a) && !els[i].hasAttribute(a)) els[i].setAttribute(a, attrs[a]);
+        }
+      }
+    }
+  }
+
+  /* ---------- Color mode ---------- */
+  function parseRgb(str) {
+    var m = str && str.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s\/]+([\d.]+%?))?/);
+    if (!m) return null;
+    var a = m[4] === undefined ? 1 : (m[4].indexOf('%') > -1 ? parseFloat(m[4]) / 100 : parseFloat(m[4]));
+    return { r: +m[1], g: +m[2], b: +m[3], a: a };
+  }
+
+  function luminance(c) {
+    function ch(v) { v = v / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+    return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b);
+  }
+
+  function isCmsDark(root) {
+    var el = root.parentElement;
+    while (el) {
+      var c = parseRgb(window.getComputedStyle(el).backgroundColor);
+      if (c && c.a >= 0.5) return luminance(c) < 0.35;
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  function forcedMode(root) {
+    var m = (' ' + root.className + ' ').match(/ ps-mode-(light|dark|half) /);
+    return m ? m[1] : '';
+  }
+
+  function cmsTheme() {
+    var t = (document.documentElement.getAttribute('data-theme') || '').toLowerCase();
+    return (t === 'light' || t === 'dark' || t === 'half') ? t : '';
+  }
+
+  function setMode(root, mode) {
+    toggleClass(root, 'ps-theme-dark', mode === 'dark' || mode === 'half');
+    toggleClass(root, 'ps-theme-half', mode === 'half');
+  }
+
+  function initTheme(root) {
+    var timer = null;
+    function apply() {
+      var forced = forcedMode(root);
+      setMode(root, forced || cmsTheme() || (isCmsDark(root) ? 'dark' : 'light'));
+    }
+    function schedule() { apply(); clearTimeout(timer); timer = setTimeout(apply, 400); }
+    apply();
+    if ('MutationObserver' in window) {
+      var opts = { attributes: true, attributeFilter: ['class', 'style', 'data-theme', 'data-mode', 'data-color-scheme', 'data-bs-theme'] };
+      var mo = new MutationObserver(schedule);
+      mo.observe(document.documentElement, opts);
+      if (document.body) mo.observe(document.body, opts);
+      /* class paksa ps-mode-* ditambah/dicabut saat runtime */
+      var moRoot = new MutationObserver(function () {
+        var want = forcedMode(root);
+        if (want !== root.getAttribute('data-ps-forced')) {
+          root.setAttribute('data-ps-forced', want);
+          apply();
+        }
+      });
+      moRoot.observe(root, { attributes: true, attributeFilter: ['class'] });
+    }
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) mq.addEventListener('change', schedule);
+      else if (mq.addListener) mq.addListener(schedule);
+    }
+    window.addEventListener('load', schedule);
+  }
+
+  /* ---------- Lingkungan: iframe editor, static, reduced motion ---------- */
+  function inIframe() {
+    try { return window.self !== window.top; } catch (e) { return true; }
+  }
+
+  function prefersReduced() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
+  function initEnv(root) {
+    var isStatic = inIframe() || /[?&]static\b/.test(window.location.search) || prefersReduced();
+    toggleClass(root, 'ps-static', isStatic);
+    return isStatic;
+  }
+
+  /* ---------- Motion masuk (reveal bertahap) ---------- */
+  function initReveal(root, isStatic) {
+    var items = toArray(root.querySelectorAll('.ps-item'));
+    var head = root.querySelector('.ps-head');
+    var targets = head ? [head].concat(items) : items;
+
+    for (var i = 0; i < items.length; i++) {
+      var idx = items[i].getAttribute('data-i');
+      items[i].style.setProperty('--ps-i', idx !== null && idx !== '' ? idx : String(i));
+    }
+
+    if (isStatic || !('IntersectionObserver' in window)) return;
+
+    addClass(root, 'ps-motion');
+
+    /* failsafe: bila observer tidak pernah jalan, tampilkan semua */
+    var failsafe = setTimeout(function () {
+      if (!root.querySelector('.ps-is-in')) removeClass(root, 'ps-motion');
+    }, 3000);
+
+    var pending = targets.slice();
+    var ticking = false;
+
+    function reveal(el) {
+      addClass(el, 'ps-is-in');
+      io.unobserve(el);
+      clearTimeout(failsafe);
+    }
+
+    /* scroll loncat (anchor / End): elemen yang sudah terlewati juga ditampilkan */
+    function sweep() {
+      ticking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var rest = [];
+      for (var s = 0; s < pending.length; s++) {
+        if (pending[s].getBoundingClientRect().top < vh - 40) reveal(pending[s]);
+        else rest.push(pending[s]);
+      }
+      pending = rest;
+      if (!pending.length) {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(sweep);
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) {
+        if (entries[k].isIntersecting) onScroll();
+      }
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    for (var j = 0; j < targets.length; j++) io.observe(targets[j]);
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+  }
+
+  /* ---------- Tilt 3D + spotlight ikut kursor ---------- */
+  function initTilt(root, isStatic) {
+    var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var cards = toArray(root.querySelectorAll('.ps-card'));
+    var MAX = 6;
+
+    function bind(card) {
+      var raf = 0;
+      var px = 0.5;
+      var py = 0;
+
+      function paint() {
+        raf = 0;
+        card.style.setProperty('--ps-mx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--ps-my', (py * 100).toFixed(1) + '%');
+        if (fine && !isStatic) {
+          card.style.setProperty('--ps-rx', ((0.5 - py) * MAX).toFixed(2) + 'deg');
+          card.style.setProperty('--ps-ry', ((px - 0.5) * MAX).toFixed(2) + 'deg');
+        }
+      }
+
+      function onMove(e) {
+        var r = card.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        px = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        py = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+        if (!raf) raf = (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(paint);
+      }
+
+      function onLeave() {
+        card.style.setProperty('--ps-rx', '0deg');
+        card.style.setProperty('--ps-ry', '0deg');
+      }
+
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', onLeave);
+    }
+
+    for (var i = 0; i < cards.length; i++) bind(cards[i]);
+  }
+
+  /* ---------- Init ---------- */
+  function init() {
+    var root = findRoot();
+    if (!root) {
+      console.error(TAG + ' Element #' + ROOT_ID + ' / .ps-app tidak ditemukan. Tempel HTML di komponen HTML (bukan custom-css-js).');
+      return;
+    }
+    if (root.getAttribute('data-ps-ready') === '1') return;
+    root.setAttribute('data-ps-ready', '1');
+    if (!root.id) {
+      root.id = ROOT_ID;
+      console.warn(TAG + ' id root dibuang AEM; fallback .ps-app aktif');
+    }
+
+    restoreIds(root);
+    restoreData(root);
+    restoreAria(root);
+
+    initTheme(root);
+    var isStatic = initEnv(root);
+
+    initReveal(root, isStatic);
+    initTilt(root, isStatic);
+
+    console.info(TAG + ' build ' + BUILD + ' - OK');
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+</script>
+</body>
+</html>
