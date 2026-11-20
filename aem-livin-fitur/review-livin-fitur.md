@@ -27,6 +27,13 @@ Secara teknis siap pasang. Yang wajib dibereskan: semua link kartu masih `#` (da
 | Hover: naik 3px + spotlight | Ring neon berputar, spotlight hangat + biru, tilt 3D, kilau di logo, garis bawah CTA, panah berputar |
 | Filter: tombol ganti warna | Indikator pill meluncur ke tombol aktif; kartu yang tampil diputar ulang animasinya |
 
+## Revisi 2 (penyesuaian dengan komponen Livin existing)
+- Glow warna di pojok section dan pola titik dihapus: latar section polos mengikuti token CMS.
+- Eyebrow tanpa pill/titik/penghitung: 12.48px, bold, uppercase, spasi 0.14em, warna `#007596` (= `#00799F` existing, sedikit digelapkan supaya 4.67:1 di latar `#F3F1EC`; `#00799F` hanya 4.39:1).
+- Judul: `clamp(32px, 20.8px + 2.8vw, 57.6px)`, weight 800, line-height 1.04, letter-spacing -0.035em, warna `#141414`, max 18ch (sama dengan judul komponen Livin).
+- Subjudul: `clamp(16.32px, 15.2px + 0.35vw, 20px)`, warna `#5F6368`, jarak 24px dari judul, max 46ch.
+- Lebar konten section: `--lf-max-width: 1500px`.
+
 ## Logo fitur: cara penyamaan ukuran
 1. Setelah logo dimuat, JS menggambar logo ke canvas 160px lalu mencari kotak isi (piksel tidak transparan).
 2. Logo di-skala supaya **akar luas** kotak isinya = 56% tile (sekitar 36px di tile 64px), dengan batas lebar 84% dan tinggi 74% tile. Lalu dipusatkan secara optis.

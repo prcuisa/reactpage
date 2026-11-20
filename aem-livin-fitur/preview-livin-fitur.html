@@ -47,7 +47,7 @@ html[data-theme="dark"] body{background:#141414}
   --lf-cms-half-bg: #0A0A0A;
   --lf-cms-half-font: #F3F1EC;
 
-  --lf-max-width: 1200px;
+  --lf-max-width: 1500px;
   --lf-radius: 22px;
   --lf-logo-size: 64px;
 
@@ -61,6 +61,9 @@ html[data-theme="dark"] body{background:#141414}
   --lf-blue: #1BA3E0;
   --lf-blue-deep: #0B78AD;
   --lf-on-blue: #FFFFFF;
+  --lf-eyebrow: #007596;               /* = eyebrow Livin existing (#00799F), sedikit digelapkan: 4.67:1 di latar #F3F1EC */
+  --lf-ink: #141414;
+  --lf-muted: #5F6368;
   --lf-pill-on: #0B78AD;              /* biru lebih gelap: teks putih 4.88:1 (#1BA3E0 hanya 2.85:1) */
   --lf-gold: #8A6418;
   --lf-gold-bg: rgba(217, 179, 106, 0.16);
@@ -70,9 +73,6 @@ html[data-theme="dark"] body{background:#141414}
   --lf-logo-line: rgba(13, 132, 189, 0.14);
   --lf-pill-bg: #FFFFFF;
   --lf-arrow-bg: #F3F1EC;
-  --lf-grid-dot: rgba(60, 45, 30, 0.14);
-  --lf-orb-a: rgba(255, 190, 110, 0.22);
-  --lf-orb-b: rgba(27, 163, 224, 0.12);
   --lf-spot: rgba(255, 190, 110, 0.20);
   --lf-spot-2: rgba(27, 163, 224, 0.10);
   --lf-scan: rgba(27, 163, 224, 0.6);
@@ -101,6 +101,9 @@ html[data-theme="dark"] body{background:#141414}
   --lf-blue: #3DB5E8;
   --lf-blue-deep: #8FD7F5;
   --lf-on-blue: #06233A;
+  --lf-eyebrow: #8FD7F5;
+  --lf-ink: var(--lf-text);
+  --lf-muted: var(--lf-dim);
   --lf-pill-on: #3DB5E8;
   --lf-gold: #E3C27A;
   --lf-gold-bg: rgba(227, 194, 122, 0.10);
@@ -109,9 +112,6 @@ html[data-theme="dark"] body{background:#141414}
   --lf-logo-line: rgba(243, 241, 236, 0.18);
   --lf-pill-bg: #17171A;
   --lf-arrow-bg: #1E1E22;
-  --lf-grid-dot: rgba(143, 215, 245, 0.12);
-  --lf-orb-a: rgba(255, 190, 110, 0.08);
-  --lf-orb-b: rgba(61, 181, 232, 0.14);
   --lf-spot: rgba(255, 190, 110, 0.10);
   --lf-spot-2: rgba(61, 181, 232, 0.14);
   --lf-scan: rgba(143, 215, 245, 0.75);
@@ -131,38 +131,21 @@ html[data-theme="dark"] body{background:#141414}
   background: var(--lf-bg);
   color: var(--lf-text);
 }
-:is(#appLivinFitur, .lf-app) .lf-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; font-size: 0; line-height: 0; color: transparent; }
-:is(#appLivinFitur, .lf-app) .lf-bg__grid {
-  position: absolute; inset: -40px;
-  background-image: radial-gradient(var(--lf-grid-dot) 1.2px, transparent 1.6px);
-  background-size: 28px 28px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
-  animation: lfDrift 24s linear infinite;
-}
-:is(#appLivinFitur, .lf-app) .lf-bg__orb { position: absolute; width: 560px; height: 560px; border-radius: 50%; filter: blur(60px); animation: lfFloat 16s ease-in-out infinite alternate; }
-:is(#appLivinFitur, .lf-app) .lf-bg__orb--a { top: -220px; right: -120px; background: radial-gradient(circle, var(--lf-orb-a), transparent 70%); }
-:is(#appLivinFitur, .lf-app) .lf-bg__orb--b { bottom: -240px; left: -160px; background: radial-gradient(circle, var(--lf-orb-b), transparent 70%); animation-delay: -8s; }
 :is(#appLivinFitur, .lf-app) .lf-wrap { position: relative; width: 100%; max-width: var(--lf-max-width); margin: 0 auto; }
 
 /* ---------- 5. Header ---------- */
 :is(#appLivinFitur, .lf-app) .lf-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px; margin: 0 0 40px; }
 :is(#appLivinFitur, .lf-app) .lf-crumb {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin: 0 0 16px; padding: 6px 14px 6px 10px;
-  border: 1px solid var(--lf-line); border-radius: 999px; background: var(--lf-pill-bg);
-  font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--lf-blue-deep);
+  display: block; margin: 0 0 20px; padding: 0;
+  font-size: 12.48px; font-weight: 700; line-height: 1.5; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--lf-eyebrow);
 }
-:is(#appLivinFitur, .lf-app) .lf-crumb__dot { position: relative; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--lf-blue); font-size: 0; line-height: 0; color: transparent; }
-:is(#appLivinFitur, .lf-app) .lf-crumb__dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid var(--lf-blue); animation: lfPulse 2s cubic-bezier(0.2, 0.7, 0.2, 1) infinite; }
-:is(#appLivinFitur, .lf-app) .lf-crumb__count { color: var(--lf-dim); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
 :is(#appLivinFitur, .lf-app) .lf-title {
-  margin: 0 0 16px; max-width: 14ch;
-  font-size: clamp(34px, 4.6vw, 56px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em;
-  color: var(--lf-text);
+  margin: 0; max-width: 18ch;
+  font-size: clamp(32px, 20.8px + 2.8vw, 57.6px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em;
+  color: var(--lf-ink);
 }
-:is(#appLivinFitur, .lf-app) .lf-lede { margin: 0; max-width: 46ch; font-size: 17px; line-height: 1.6; color: var(--lf-dim); }
+:is(#appLivinFitur, .lf-app) .lf-lede { margin: 24px 0 0; max-width: 46ch; font-size: clamp(16.32px, 15.2px + 0.35vw, 20px); line-height: 1.5; color: var(--lf-muted); }
 
 /* ---------- 6. Filter + indikator meluncur ---------- */
 :is(#appLivinFitur, .lf-app) .lf-filters {
@@ -342,15 +325,9 @@ html[data-theme="dark"] body{background:#141414}
 }
 :is(#appLivinFitur, .lf-app).lf-motion .lf-item.lf-is-in .lf-card:hover .lf-card__scan { animation: lfScan 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
 
-:is(#appLivinFitur, .lf-app).lf-static .lf-bg__grid,
-:is(#appLivinFitur, .lf-app).lf-static .lf-bg__orb,
-:is(#appLivinFitur, .lf-app).lf-static .lf-crumb__dot::after { animation: none; }
 
 /* ---------- 11. Keyframes ---------- */
 @keyframes lfSpin { to { transform: rotate(360deg); } }
-@keyframes lfDrift { from { background-position: 0 0; } to { background-position: 28px 56px; } }
-@keyframes lfFloat { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-60px, 40px, 0) scale(1.12); } }
-@keyframes lfPulse { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(1.8); opacity: 0; } }
 @keyframes lfRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @keyframes lfBoot {
   0% { opacity: 0; transform: translateY(28px) scale(0.97); filter: blur(8px); }
@@ -386,9 +363,7 @@ html[data-theme="dark"] body{background:#141414}
   :is(#appLivinFitur, .lf-app) .lf-filters { border-radius: 18px; }
   :is(#appLivinFitur, .lf-app) .lf-filters__ind { border-radius: 14px; }
   :is(#appLivinFitur, .lf-app) .lf-filter { border-radius: 14px; }
-  :is(#appLivinFitur, .lf-app) .lf-lede { font-size: 16px; }
-  :is(#appLivinFitur, .lf-app) .lf-bg__orb { width: 360px; height: 360px; }
-}
+  }
 @media (hover: none) {
   :is(#appLivinFitur, .lf-app) .lf-card__ring { opacity: 0.5; animation-play-state: running; animation-duration: 6s; }
 }
@@ -404,7 +379,6 @@ html[data-theme="dark"] body{background:#141414}
   :is(#appLivinFitur, .lf-app) .lf-card:hover { transform: none; }
   :is(#appLivinFitur, .lf-app) .lf-card:hover .lf-card__ring { opacity: 1; }
 }
-
 </style>
 </head>
 <body>
@@ -416,15 +390,10 @@ html[data-theme="dark"] body{background:#141414}
      ============================================================ -->
 <div id="appLivinFitur" class="lf-app lf-el-section lf-r-region">
   <div class="lf-section">
-    <div class="lf-bg lf-r-hide">
-      <div class="lf-bg__grid">&#8203;</div>
-      <div class="lf-bg__orb lf-bg__orb--a">&#8203;</div>
-      <div class="lf-bg__orb lf-bg__orb--b">&#8203;</div>
-    </div>
     <div class="lf-wrap">
       <div class="lf-head">
         <div class="lf-head__text">
-          <p class="lf-crumb"><span class="lf-crumb__dot lf-r-hide">&#8203;</span>Fitur Livin&rsquo; by Mandiri<span class="lf-crumb__count lf-r-hide">/ 06</span></p>
+          <p class="lf-crumb">Fitur Livin&rsquo; by Mandiri</p>
           <h2 id="lfTitle" class="lf-title lf-id--lfTitle">Fitur terbaru, semua di satu aplikasi</h2>
           <p class="lf-lede">Dari menabung emas sampai pesan makan siang, kebutuhan perbankan Anda makin mudah diurus lewat Livin&rsquo;.</p>
         </div>
@@ -537,7 +506,6 @@ html[data-theme="dark"] body{background:#141414}
     </div>
   </div>
 </div>
-
 <div class="pv-pad"></div>
 <script>
 (function(){var bs=document.querySelectorAll('.pv-bar button');for(var i=0;i<bs.length;i++)bs[i].addEventListener('click',function(){for(var k=0;k<bs.length;k++)bs[k].classList.remove('on');this.classList.add('on');var m=this.getAttribute('data-m');var d=document.documentElement;if(m)d.setAttribute('data-theme',m);else d.setAttribute('data-theme',matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');});})();
