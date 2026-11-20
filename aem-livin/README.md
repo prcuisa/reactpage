@@ -23,4 +23,11 @@ Paksa mode dengan menambah class `lv-mode-light`, `lv-mode-dark`, atau `lv-mode-
 2. Console tanpa error.
 3. Tanpa animasi: `?static`. Tone kuning/navy: `?tone=classic`.
 
-Bila AEM membuang atribut `data-*`, JS memulihkannya dari class cadangan `lv-x-*`.
+**Tahan filter AEM:**
+- CSS memakai `:is(#appLivinLanding, .lv-app)`, jadi tetap jalan walau AEM membuang `id`. Specificity tetap setara id.
+- JS mencari root lewat id atau `.lv-app`.
+- 40 id di dalam komponen dipulihkan dari class `lv-id--*`.
+- `data-*` dipulihkan dari class `lv-x-*`.
+
+Di Console akan muncul peringatan `[Livin] … fallback aktif` bila ini terjadi.
+Jangan hapus class `lv-app`, `lv-id--*`, dan `lv-x-*` dari HTML.

@@ -11,7 +11,7 @@ import { ScrollTrigger as ST } from 'gsap/ScrollTrigger';
 import { createIcons } from 'lucide';
 import { ICONS } from './icons.js';
 import { initEnv, initTheme, state } from './env.js';
-import { ROOT_ID, __lvSetRoot, restoreData } from './dom.js';
+import { ROOT_ID, __lvSetRoot, restoreData, restoreIds, findRoot } from './dom.js';
 import { LINKS } from './data.js';
 import { renderAll } from './render.js';
 import { renderScreen } from './screens.js';
@@ -28,11 +28,14 @@ let REDUCE = '(prefers-reduced-motion: reduce)';
 const FINE = '(hover: hover) and (pointer: fine)';
 
 function boot() {
-  const root = document.getElementById(ROOT_ID);
-  if (!root) { console.error('Element #' + ROOT_ID + ' tidak ditemukan. Tempel livin-landing.html di komponen HTML (bukan custom-css-js) dan pastikan id root persis "' + ROOT_ID + '".'); return; }
+  const root = findRoot();
+  if (!root) { console.error('Element #' + ROOT_ID + ' / .lv-app tidak ditemukan. Tempel livin-landing.html di komponen HTML (bukan custom-css-js) dan pastikan id root persis "' + ROOT_ID + '".'); return; }
   if (root.getAttribute('data-lv-ready') === '1') return; // cegah double init (author mode / script dobel)
   root.setAttribute('data-lv-ready', '1');
+  if (!root.id) { root.id = ROOT_ID; console.warn('[Livin] id="' + ROOT_ID + '" dibuang oleh AEM; root ditemukan lewat class .lv-app (fallback aktif).'); }
   __lvSetRoot(root);
+  const fixed = restoreIds(root);
+  if (fixed) console.warn('[Livin] ' + fixed + ' id di dalam komponen dipulihkan dari class cadangan lv-id--*.');
   restoreData(root);
   initTheme(root);
   initEnv(root);

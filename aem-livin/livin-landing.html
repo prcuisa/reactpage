@@ -16,7 +16,7 @@
   <!-- ============================================================ -->
   <!-- NAVIGATION                                                    -->
   <!-- ============================================================ -->
-  <header class="lv-nav" id="lvNav">
+  <header class="lv-nav lv-id--lvNav" id="lvNav">
     <div class="lv-nav__inner lv-wrap">
       <a href="#lvHero" class="lv-brand" aria-label="Livin' by Mandiri &mdash; kembali ke atas">
         <span class="lv-brand__mark" aria-hidden="true">l</span>
@@ -35,7 +35,7 @@
         <a href="#lvDownload" class="lv-btn lv-btn--primary lv-btn--sm lv-nav__cta lv-x-magnetic" data-magnetic>
           <i class="lv-x-lucide--download" data-lucide="download" aria-hidden="true"></i><span>Download Livin'</span>
         </a>
-        <button class="lv-burger" id="lvBurger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="lvMobileMenu">
+        <button class="lv-burger lv-id--lvBurger" id="lvBurger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="lvMobileMenu">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -43,7 +43,7 @@
   </header>
 
   <!-- Mobile menu -->
-  <div class="lv-mmenu" id="lvMobileMenu" aria-hidden="true" inert>
+  <div class="lv-mmenu lv-id--lvMobileMenu" id="lvMobileMenu" aria-hidden="true" inert>
     <div class="lv-mmenu__bg"></div>
     <nav class="lv-mmenu__panel" aria-label="Navigasi seluler">
       <ul class="lv-mmenu__list">
@@ -58,11 +58,11 @@
     </nav>
   </div>
 
-  <main id="lvMain">
+  <main id="lvMain" class="lv-id--lvMain">
     <!-- ============================================================ -->
     <!-- 01. HERO                                                      -->
     <!-- ============================================================ -->
-    <section id="lvHero" class="lv-hero lv-x-mouse-scope" data-mouse-scope aria-labelledby="lvHeroTitle">
+    <section id="lvHero" class="lv-hero lv-x-mouse-scope lv-id--lvHero" data-mouse-scope aria-labelledby="lvHeroTitle">
       <div class="lv-hero__bg" aria-hidden="true">
         <div class="lv-hero__grid"></div>
         <div class="lv-blob lv-blob--yellow lv-x-speed--0p25" data-speed="0.25"></div>
@@ -74,7 +74,7 @@
       <div class="lv-hero__inner lv-wrap">
         <div class="lv-hero__copy">
           <p class="lv-eyebrow lv-x-hero-item" data-hero-item><span class="lv-eyebrow__dot"></span>Livin' by Mandiri</p>
-          <h1 id="lvHeroTitle" class="lv-display lv-hero__title lv-x-split" data-split>
+          <h1 id="lvHeroTitle" class="lv-display lv-hero__title lv-x-split lv-id--lvHeroTitle" data-split>
             Lebih dari Sekadar <em>Perbankan.</em>
           </h1>
           <p class="lv-hero__lead lv-x-hero-item" data-hero-item>
@@ -152,16 +152,16 @@
     <!-- ============================================================ -->
     <!-- 02. NUMBERS & AWARDS                                          -->
     <!-- ============================================================ -->
-    <section id="lvStats" class="lv-stats" aria-labelledby="lvStatsTitle">
+    <section id="lvStats" class="lv-stats lv-id--lvStats" aria-labelledby="lvStatsTitle">
       <div class="lv-section-pad lv-wrap">
         <div class="lv-stats__head">
           <p class="lv-eyebrow lv-eyebrow--light lv-x-reveal" data-reveal>02 &mdash; Livin' dalam Angka</p>
-          <h2 id="lvStatsTitle" class="lv-h2 lv-h2--light lv-x-split" data-split>Dipercaya untuk keseharian jutaan momen finansial.</h2>
+          <h2 id="lvStatsTitle" class="lv-h2 lv-h2--light lv-x-split lv-id--lvStatsTitle" data-split>Dipercaya untuk keseharian jutaan momen finansial.</h2>
         </div>
-        <ul class="lv-stats__grid lv-x-reveal-stagger" id="lvStatsGrid" data-reveal-stagger></ul>
+        <ul class="lv-stats__grid lv-x-reveal-stagger lv-id--lvStatsGrid" id="lvStatsGrid" data-reveal-stagger></ul>
         <div class="lv-awards">
           <p class="lv-awards__label lv-x-reveal" data-reveal>Penghargaan</p>
-          <ul class="lv-awards__list lv-x-reveal-stagger" id="lvAwardsList" data-reveal-stagger></ul>
+          <ul class="lv-awards__list lv-x-reveal-stagger lv-id--lvAwardsList" id="lvAwardsList" data-reveal-stagger></ul>
         </div>
         <p class="lv-stats__note lv-x-reveal" data-reveal>Angka dan penghargaan ditampilkan hanya dari sumber resmi Bank Mandiri.</p>
       </div>
@@ -170,11 +170,11 @@
     <!-- ============================================================ -->
     <!-- 03. POSITIONING                                               -->
     <!-- ============================================================ -->
-    <section id="lvPositioning" class="lv-positioning" aria-labelledby="lvPosTitle">
+    <section id="lvPositioning" class="lv-positioning lv-id--lvPositioning" aria-labelledby="lvPosTitle">
       <div class="lv-section-pad lv-wrap">
         <header class="lv-section-head">
           <p class="lv-eyebrow lv-x-reveal" data-reveal>03 &mdash; Livin' Positioning</p>
-          <h2 id="lvPosTitle" class="lv-h2 lv-x-split" data-split>Perbankan yang menyatu dengan cara Anda menjalani hari.</h2>
+          <h2 id="lvPosTitle" class="lv-h2 lv-x-split lv-id--lvPosTitle" data-split>Perbankan yang menyatu dengan cara Anda menjalani hari.</h2>
         </header>
 
         <!-- Pillar 01 -->
@@ -247,45 +247,45 @@
     <!-- ============================================================ -->
     <!-- 04. THE LIVIN' EXPERIENCE &mdash; signature sticky phone             -->
     <!-- ============================================================ -->
-    <section id="lvExperience" class="lv-exp" aria-labelledby="lvExpTitle">
+    <section id="lvExperience" class="lv-exp lv-id--lvExperience" aria-labelledby="lvExpTitle">
       <div class="lv-exp__bgaccent" aria-hidden="true"></div>
       <header class="lv-exp__intro lv-wrap">
         <p class="lv-eyebrow lv-x-reveal" data-reveal>04 &mdash; The Livin' Experience</p>
-        <h2 id="lvExpTitle" class="lv-display lv-exp__title lv-x-split" data-split>Satu Aplikasi.<br /><em>Banyak Pengalaman.</em></h2>
+        <h2 id="lvExpTitle" class="lv-display lv-exp__title lv-x-split lv-id--lvExpTitle" data-split>Satu Aplikasi.<br /><em>Banyak Pengalaman.</em></h2>
         <p class="lv-exp__lead lv-x-reveal" data-reveal>Tujuh pengalaman, satu genggaman. Gulir untuk melihat bagaimana Livin' menemani setiap kebutuhan Anda.</p>
       </header>
 
       <div class="lv-exp__grid lv-wrap">
-        <div class="lv-exp__stories" id="lvExpStories">
+        <div class="lv-exp__stories lv-id--lvExpStories" id="lvExpStories">
         </div>
 
         <div class="lv-exp__aside" aria-hidden="true">
           <div class="lv-exp__sticky">
-            <div class="lv-exp__stage lv-x-mouse-scope" id="lvExpStage" data-mouse-scope>
+            <div class="lv-exp__stage lv-x-mouse-scope lv-id--lvExpStage" id="lvExpStage" data-mouse-scope>
               <div class="lv-exp__halo"></div>
-              <div class="lv-exp__objects" id="lvExpObjects"></div>
+              <div class="lv-exp__objects lv-id--lvExpObjects" id="lvExpObjects"></div>
               <div class="lv-exp__phone lv-x-mouse-depth--0p25" data-mouse-depth="0.25">
                 <div class="lv-phone lv-phone--exp">
                   <span class="lv-phone__btn lv-phone__btn--power"></span>
                   <span class="lv-phone__btn lv-phone__btn--vol1"></span>
                   <span class="lv-phone__btn lv-phone__btn--vol2"></span>
-                  <div class="lv-phone__screen" id="lvExpScreens">
+                  <div class="lv-phone__screen lv-id--lvExpScreens" id="lvExpScreens">
                     <span class="lv-phone__island"></span>
                   </div>
                   <span class="lv-phone__glare"></span>
                 </div>
                 <div class="lv-phone__shadow"></div>
               </div>
-              <div class="lv-exp__chip" id="lvExpChip"><span class="lv-exp__chip-num">01</span><span class="lv-exp__chip-label">Savings</span></div>
+              <div class="lv-exp__chip lv-id--lvExpChip" id="lvExpChip"><span class="lv-exp__chip-num">01</span><span class="lv-exp__chip-label">Savings</span></div>
             </div>
           </div>
         </div>
       </div>
 
-      <nav class="lv-exp__progress" id="lvExpProgress" aria-label="Navigasi pengalaman">
-        <span class="lv-exp__count"><b id="lvExpCount">01</b> / 07</span>
-        <ol class="lv-exp__dots" id="lvExpDots"></ol>
-        <span class="lv-exp__bar"><i id="lvExpBar"></i></span>
+      <nav class="lv-exp__progress lv-id--lvExpProgress" id="lvExpProgress" aria-label="Navigasi pengalaman">
+        <span class="lv-exp__count"><b id="lvExpCount" class="lv-id--lvExpCount">01</b> / 07</span>
+        <ol class="lv-exp__dots lv-id--lvExpDots" id="lvExpDots"></ol>
+        <span class="lv-exp__bar"><i id="lvExpBar" class="lv-id--lvExpBar"></i></span>
       </nav>
       <p class="lv-exp__disclaimer lv-wrap">Tampilan layar merupakan ilustrasi dan dapat berbeda dengan aplikasi.</p>
     </section>
@@ -293,32 +293,32 @@
     <!-- ============================================================ -->
     <!-- 05. FEATURED SOLUTIONS                                        -->
     <!-- ============================================================ -->
-    <section id="lvSolutions" class="lv-solutions" aria-labelledby="lvSolTitle">
+    <section id="lvSolutions" class="lv-solutions lv-id--lvSolutions" aria-labelledby="lvSolTitle">
       <div class="lv-section-pad lv-wrap">
         <header class="lv-section-head lv-section-head--split">
           <div>
             <p class="lv-eyebrow lv-eyebrow--light lv-x-reveal" data-reveal>05 &mdash; Featured Solutions</p>
-            <h2 id="lvSolTitle" class="lv-h2 lv-h2--light lv-x-split" data-split>Solusi pilihan untuk kebutuhan yang lebih spesifik.</h2>
+            <h2 id="lvSolTitle" class="lv-h2 lv-h2--light lv-x-split lv-id--lvSolTitle" data-split>Solusi pilihan untuk kebutuhan yang lebih spesifik.</h2>
           </div>
           <p class="lv-section-head__aside lv-section-head__aside--light lv-x-reveal" data-reveal>Lima solusi unggulan yang melengkapi pengalaman Livin' Anda.</p>
         </header>
-        <div class="lv-sol-grid" id="lvSolutionsGrid"></div>
+        <div class="lv-sol-grid lv-id--lvSolutionsGrid" id="lvSolutionsGrid"></div>
       </div>
     </section>
 
     <!-- ============================================================ -->
     <!-- 06. PROMOTIONS                                                -->
     <!-- ============================================================ -->
-    <section id="lvPromo" class="lv-promo" aria-labelledby="lvPromoTitle">
+    <section id="lvPromo" class="lv-promo lv-id--lvPromo" aria-labelledby="lvPromoTitle">
       <div class="lv-section-pad lv-wrap">
         <header class="lv-section-head lv-section-head--split">
           <div>
             <p class="lv-eyebrow lv-x-reveal" data-reveal>06 &mdash; Promo &amp; Rewards</p>
-            <h2 id="lvPromoTitle" class="lv-h2 lv-x-split" data-split>Lebih banyak alasan untuk Livin'.</h2>
+            <h2 id="lvPromoTitle" class="lv-h2 lv-x-split lv-id--lvPromoTitle" data-split>Lebih banyak alasan untuk Livin'.</h2>
           </div>
           <a href="https://www.bankmandiri.co.id/livin" class="lv-link-arrow lv-x-reveal" target="_blank" rel="noopener" data-reveal>Lihat semua <i class="lv-x-lucide--arrow-up-right" data-lucide="arrow-up-right"></i></a>
         </header>
-        <div class="lv-promo-grid lv-x-reveal-stagger" id="lvPromoGrid" data-reveal-stagger></div>
+        <div class="lv-promo-grid lv-x-reveal-stagger lv-id--lvPromoGrid" id="lvPromoGrid" data-reveal-stagger></div>
         <p class="lv-promo__note lv-x-reveal" data-reveal>Syarat dan ketentuan setiap promo mengikuti informasi resmi Bank Mandiri.</p>
       </div>
     </section>
@@ -326,47 +326,47 @@
     <!-- ============================================================ -->
     <!-- 07. EDUCATION                                                 -->
     <!-- ============================================================ -->
-    <section id="lvEdukasi" class="lv-edu" aria-labelledby="lvEduTitle">
+    <section id="lvEdukasi" class="lv-edu lv-id--lvEdukasi" aria-labelledby="lvEduTitle">
       <div class="lv-section-pad lv-wrap">
         <header class="lv-section-head lv-section-head--split">
           <div>
             <p class="lv-eyebrow lv-x-reveal" data-reveal>07 &mdash; Edukasi</p>
-            <h2 id="lvEduTitle" class="lv-h2 lv-x-split" data-split>Kenali Livin' lebih dekat.</h2>
+            <h2 id="lvEduTitle" class="lv-h2 lv-x-split lv-id--lvEduTitle" data-split>Kenali Livin' lebih dekat.</h2>
           </div>
           <p class="lv-section-head__aside lv-x-reveal" data-reveal>Panduan singkat untuk memaksimalkan setiap fitur, langsung dari kanal resmi.</p>
         </header>
-        <div class="lv-edu-grid lv-x-reveal-stagger" id="lvEduGrid" data-reveal-stagger></div>
+        <div class="lv-edu-grid lv-x-reveal-stagger lv-id--lvEduGrid" id="lvEduGrid" data-reveal-stagger></div>
       </div>
     </section>
 
     <!-- ============================================================ -->
     <!-- 08. DOWNLOAD CTA                                              -->
     <!-- ============================================================ -->
-    <section id="lvDownload" class="lv-cta lv-x-mouse-scope" aria-labelledby="lvCtaTitle" data-mouse-scope>
+    <section id="lvDownload" class="lv-cta lv-x-mouse-scope lv-id--lvDownload" aria-labelledby="lvCtaTitle" data-mouse-scope>
       <div class="lv-cta__bg" aria-hidden="true">
         <div class="lv-ring lv-ring--cta lv-x-speed--0p2" data-speed="0.2"></div>
       </div>
       <div class="lv-cta__inner lv-wrap">
         <div class="lv-cta__copy">
           <p class="lv-eyebrow lv-eyebrow--navy lv-x-reveal" data-reveal>08 &mdash; Download</p>
-          <h2 id="lvCtaTitle" class="lv-display lv-cta__title lv-x-split" data-split>Mulai Pengalaman Perbankan yang Lebih Praktis.</h2>
+          <h2 id="lvCtaTitle" class="lv-display lv-cta__title lv-x-split lv-id--lvCtaTitle" data-split>Mulai Pengalaman Perbankan yang Lebih Praktis.</h2>
           <p class="lv-cta__lead lv-x-reveal" data-reveal>Unduh Livin' by Mandiri dan nikmati kebutuhan finansial serta berbagai pengalaman dalam satu aplikasi.</p>
 
-          <ul class="lv-stores lv-x-reveal-stagger" id="lvStores" data-reveal-stagger>
+          <ul class="lv-stores lv-x-reveal-stagger lv-id--lvStores" id="lvStores" data-reveal-stagger>
             <li>
-              <a class="lv-store lv-x-magnetic" id="lvStorePlay" href="https://play.google.com/store/apps/details?id=id.bmri.livin" target="_blank" rel="noopener" data-magnetic>
+              <a class="lv-store lv-x-magnetic lv-id--lvStorePlay" id="lvStorePlay" href="https://play.google.com/store/apps/details?id=id.bmri.livin" target="_blank" rel="noopener" data-magnetic>
                 <span class="lv-store__ic lv-store__ic--play" aria-hidden="true"></span>
                 <span><small>Dapatkan di</small>Google Play</span>
               </a>
             </li>
             <li>
-              <a class="lv-store lv-x-magnetic" id="lvStoreApple" href="https://apps.apple.com/id/app/livin-by-mandiri/id1555414743" target="_blank" rel="noopener" data-magnetic>
+              <a class="lv-store lv-x-magnetic lv-id--lvStoreApple" id="lvStoreApple" href="https://apps.apple.com/id/app/livin-by-mandiri/id1555414743" target="_blank" rel="noopener" data-magnetic>
                 <span class="lv-store__ic lv-store__ic--apple" aria-hidden="true"></span>
                 <span><small>Unduh di</small>App Store</span>
               </a>
             </li>
             <li>
-              <a class="lv-store lv-x-magnetic" id="lvStoreHuawei" href="https://appgallery.huawei.com/search/Livin%20by%20Mandiri" target="_blank" rel="noopener" data-magnetic>
+              <a class="lv-store lv-x-magnetic lv-id--lvStoreHuawei" id="lvStoreHuawei" href="https://appgallery.huawei.com/search/Livin%20by%20Mandiri" target="_blank" rel="noopener" data-magnetic>
                 <i class="lv-x-lucide--store" data-lucide="store" aria-hidden="true"></i>
                 <span><small>Jelajahi di</small>AppGallery</span>
               </a>
@@ -374,7 +374,7 @@
           </ul>
 
           <div class="lv-qr lv-x-reveal" data-reveal>
-            <div class="lv-qr__code" id="lvQrCode" role="img" aria-label="Kode QR untuk mengunduh Livin' by Mandiri"></div>
+            <div class="lv-qr__code lv-id--lvQrCode" id="lvQrCode" role="img" aria-label="Kode QR untuk mengunduh Livin' by Mandiri"></div>
             <p><b>Pindai untuk download</b><span>Arahkan kamera ponsel Anda ke kode QR ini.</span></p>
           </div>
         </div>
@@ -440,7 +440,7 @@
         </nav>
       </div>
       <div class="lv-footer__bottom">
-        <p>&copy; <span id="lvYear">2026</span> PT Bank Mandiri (Persero) Tbk. PT Bank Mandiri (Persero) Tbk berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK) serta merupakan peserta penjaminan LPS.</p>
+        <p>&copy; <span id="lvYear" class="lv-id--lvYear">2026</span> PT Bank Mandiri (Persero) Tbk. PT Bank Mandiri (Persero) Tbk berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK) serta merupakan peserta penjaminan LPS.</p>
         <p class="lv-footer__safe"><i class="lv-x-lucide--shield-check" data-lucide="shield-check" aria-hidden="true"></i>Bank Mandiri tidak pernah meminta PIN, password, atau kode OTP Anda.</p>
       </div>
     </div>

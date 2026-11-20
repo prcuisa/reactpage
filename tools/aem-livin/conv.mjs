@@ -80,6 +80,13 @@ const SVG = {};
 body = body.replace(/<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="([^"]+)"\/><\/svg>/g, (m, d) => {
   const k = Object.keys(SVG).length ? 'apple' : 'play'; SVG[k] = d; return `<span class="${P}store__ic ${P}store__ic--${k}" aria-hidden="true"></span>`; });
 body = body.replace(/\s*<noscript>[\s\S]*?<\/noscript>/g, '');
+// id fallback classes (AEM may strip id): lv-id--<id>
+body = body.replace(/<([a-z][a-z0-9]*)(\s[^>]*?)(\/?)>/g, (m, tag, attrs, sl) => {
+  const idm = attrs.match(/\sid="([^"]+)"/); if (!idm) return m; const id = idm[1];
+  if (/\sclass="/.test(attrs)) attrs = attrs.replace(/\sclass="([^"]*)"/, (a, c) => ` class="${c} ${P}id--${id}"`);
+  else attrs += ` class="${P}id--${id}"`;
+  return `<${tag}${attrs}${sl}>`;
+});
 if (/<svg|style="|<script|<style|<noscript/.test(body)) throw new Error('forbidden markup left');
 // typographic characters -> entities
 const ENT = { '’': '&rsquo;', '‘': '&lsquo;', '“': '&ldquo;', '”': '&rdquo;', '—': '&mdash;', '–': '&ndash;', '•': '&bull;', '©': '&copy;', '…': '&hellip;', '·': '&middot;', '→': '&rarr;' };
@@ -218,6 +225,8 @@ let css = `/* ============================================================
    ============================================================ */
 ${parts.map(([t, c]) => `\n/* ------------------------------------------------------------\n   ${t}\n   ------------------------------------------------------------ */\n${c.trim()}\n`).join('')}`;
 css = fixKeyframeRefs(css).replace(/--tw-/g, '--lv-tw-').replace(/·/g, '|').replace(/[^\x00-\x7f]/g, (c) => ({ '—': '-', '–': '-', '≥': '>=', '→': '->', '…': '...' }[c] ?? c));
+// Root matches #id OR .lv-app (AEM may strip id); :is() keeps id-level specificity
+css = css.replace(/#appLivinLanding(?![\w-])/g, ':is(#appLivinLanding, .lv-app)').replace('Semua selector di-scope ke :is(#appLivinLanding, .lv-app).', 'Semua selector di-scope ke :is(#appLivinLanding, .lv-app):\n   cocok lewat id ATAU class (bila AEM membuang id), specificity tetap setara id.');
 fs.writeFileSync(path.join(OUT, NAME + '.css'), css);
 console.log('css bytes', css.length, 'keyframes', Object.values(KEYFRAMES).join(','));
 
@@ -233,7 +242,17 @@ export const ROOT_ID = '${ROOT}';
 export const IMG_BASE = '${DAM}';
 let rootEl = null;
 export function __lvSetRoot(el) { rootEl = el; }
-export function __lvRoot() { return rootEl || document.getElementById(ROOT_ID); }
+export function findRoot() { return document.getElementById(ROOT_ID) || document.querySelector('.lv-app'); }
+export function __lvRoot() { return rootEl || findRoot(); }
+// Restore id from fallback class "lv-id--<id>" (AEM may strip id attributes)
+export function restoreIds(root) {
+  let n = 0;
+  Array.prototype.slice.call(root.querySelectorAll('[class*="lv-id--"]')).forEach(function (el) {
+    const m = (' ' + el.className + ' ').match(/ lv-id--([A-Za-z][A-Za-z0-9_-]*) /);
+    if (m && !el.id) { el.id = m[1]; n++; }
+  });
+  return n;
+}
 const ID_MAP = ${JSON.stringify(idMap)};
 export function __lvById(id) { return __lvRoot().querySelector('#' + (ID_MAP[id] || id)); }
 export function __lvQ(sel) { return __lvRoot().querySelectorAll(sel); }
@@ -337,14 +356,17 @@ for (const f of jsFiles) { const p = path.join(WJ, f); let s = fs.readFileSync(p
   if (/(['"])assets\//.test(s)) { s = s.replace(/src="assets\//g, 'src="${IMG_BASE}assets/').replace(/(['"])assets\//g, 'IMG_BASE + $1assets/'); s = `import { IMG_BASE } from './dom.js';\n` + s; fs.writeFileSync(p, s); } }
 
 wpatch('main.js', [
-  [`import { LINKS } from './data.js';`, `import { gsap as GSAP } from 'gsap';\nimport { ScrollTrigger as ST } from 'gsap/ScrollTrigger';\nimport { createIcons } from 'lucide';\nimport { ICONS } from './icons.js';\nimport { initEnv, initTheme, state } from './env.js';\nimport { ROOT_ID, __lvSetRoot, restoreData } from './dom.js';\nimport { LINKS } from './data.js';`],
+  [`import { LINKS } from './data.js';`, `import { gsap as GSAP } from 'gsap';\nimport { ScrollTrigger as ST } from 'gsap/ScrollTrigger';\nimport { createIcons } from 'lucide';\nimport { ICONS } from './icons.js';\nimport { initEnv, initTheme, state } from './env.js';\nimport { ROOT_ID, __lvSetRoot, restoreData, restoreIds, findRoot } from './dom.js';\nimport { LINKS } from './data.js';`],
   [`const REDUCE = window.__livinStatic ? 'all' : '(prefers-reduced-motion: reduce)';`, `let REDUCE = '(prefers-reduced-motion: reduce)';`],
   [`function boot() {\n`, `function boot() {
-  const root = document.getElementById(ROOT_ID);
-  if (!root) { console.error('Element #' + ROOT_ID + ' tidak ditemukan. Tempel livin-landing.html di komponen HTML (bukan custom-css-js) dan pastikan id root persis "' + ROOT_ID + '".'); return; }
+  const root = findRoot();
+  if (!root) { console.error('Element #' + ROOT_ID + ' / .lv-app tidak ditemukan. Tempel livin-landing.html di komponen HTML (bukan custom-css-js) dan pastikan id root persis "' + ROOT_ID + '".'); return; }
   if (root.getAttribute('data-lv-ready') === '1') return; // cegah double init (author mode / script dobel)
   root.setAttribute('data-lv-ready', '1');
+  if (!root.id) { root.id = ROOT_ID; console.warn('[Livin] id="' + ROOT_ID + '" dibuang oleh AEM; root ditemukan lewat class .lv-app (fallback aktif).'); }
   __lvSetRoot(root);
+  const fixed = restoreIds(root);
+  if (fixed) console.warn('[Livin] ' + fixed + ' id di dalam komponen dipulihkan dari class cadangan lv-id--*.');
   restoreData(root);
   initTheme(root);
   initEnv(root);

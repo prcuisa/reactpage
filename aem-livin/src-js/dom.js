@@ -3,7 +3,17 @@ export const ROOT_ID = 'appLivinLanding';
 export const IMG_BASE = '/content/dam/livin/';
 let rootEl = null;
 export function __lvSetRoot(el) { rootEl = el; }
-export function __lvRoot() { return rootEl || document.getElementById(ROOT_ID); }
+export function findRoot() { return document.getElementById(ROOT_ID) || document.querySelector('.lv-app'); }
+export function __lvRoot() { return rootEl || findRoot(); }
+// Restore id from fallback class "lv-id--<id>" (AEM may strip id attributes)
+export function restoreIds(root) {
+  let n = 0;
+  Array.prototype.slice.call(root.querySelectorAll('[class*="lv-id--"]')).forEach(function (el) {
+    const m = (' ' + el.className + ' ').match(/ lv-id--([A-Za-z][A-Za-z0-9_-]*) /);
+    if (m && !el.id) { el.id = m[1]; n++; }
+  });
+  return n;
+}
 const ID_MAP = {"nav":"lvNav","burger":"lvBurger","mobile-menu":"lvMobileMenu","main":"lvMain","hero":"lvHero","hero-title":"lvHeroTitle","stats":"lvStats","stats-title":"lvStatsTitle","stats-grid":"lvStatsGrid","awards-list":"lvAwardsList","positioning":"lvPositioning","pos-title":"lvPosTitle","experience":"lvExperience","exp-title":"lvExpTitle","exp-stories":"lvExpStories","exp-stage":"lvExpStage","exp-objects":"lvExpObjects","exp-screens":"lvExpScreens","exp-chip":"lvExpChip","exp-progress":"lvExpProgress","exp-count":"lvExpCount","exp-dots":"lvExpDots","exp-bar":"lvExpBar","solutions":"lvSolutions","sol-title":"lvSolTitle","solutions-grid":"lvSolutionsGrid","promo":"lvPromo","promo-title":"lvPromoTitle","promo-grid":"lvPromoGrid","edukasi":"lvEdukasi","edu-title":"lvEduTitle","edu-grid":"lvEduGrid","download":"lvDownload","cta-title":"lvCtaTitle","stores":"lvStores","store-play":"lvStorePlay","store-apple":"lvStoreApple","store-huawei":"lvStoreHuawei","qr-code":"lvQrCode","year":"lvYear"};
 export function __lvById(id) { return __lvRoot().querySelector('#' + (ID_MAP[id] || id)); }
 export function __lvQ(sel) { return __lvRoot().querySelectorAll(sel); }

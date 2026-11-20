@@ -42,6 +42,17 @@ Kontras (scripts/contrast.py):
 | Dark/Half: dim di kartu #B8B0A5 / #161616 | 8.44:1 |
 | Dark/Half: chip & store #F3F1EC / #202020 | 14.43:1 |
 
+## Update: id dibuang AEM (style & konten tidak muncul)
+Gejala di AEM: `id="appLivinLanding"` tidak sampai ke halaman, sehingga semua selector `#appLivinLanding …` tidak
+kena (style mati) dan JS tidak menemukan root (konten render JS kosong).
+**Perbaikan (sudah diterapkan):**
+- Root selector CSS jadi `:is(#appLivinLanding, .lv-app)`.
+- JS mencari root lewat class `.lv-app` bila id hilang.
+- Setiap id di dalam komponen punya class cadangan `lv-id--<id>` yang dipulihkan JS sebelum render.
+
+Diuji dengan semua `id` **dan** `data-*` dibuang: tinggi semua section identik dengan versi asli (1440 & 390px),
+tanpa error JS, dan anchor menu, menu mobile, serta Dark mode jalan.
+
 ## Temuan: Prioritas TINGGI
 ### T-1. Navbar halaman ini `position: fixed`, bentrok dengan header corpweb
 Halaman landing membawa navbar sendiri (`.lv-nav`). Di halaman corpweb yang sudah punya header, akan ada dua
