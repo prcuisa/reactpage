@@ -53,6 +53,15 @@ kena (style mati) dan JS tidak menemukan root (konten render JS kosong).
 Diuji dengan semua `id` **dan** `data-*` dibuang: tinggi semua section identik dengan versi asli (1440 & 390px),
 tanpa error JS, dan anchor menu, menu mobile, serta Dark mode jalan.
 
+## Update: CSS tag dari template corpweb bocor (layout berantakan)
+Gejala: konten menyamping, blur, navbar melebar. Penyebabnya CSS situs yang menyasar tag langsung (`main`, `section`,
+`nav`, `header`, `footer`, `div`) dan class generik ikut kena ke elemen di dalam komponen. Reset di skill hanya
+mencakup h/p/a/button/img.
+**Perbaikan (sudah diterapkan):** `:is(#appLivinLanding, .lv-app) :where(:not(svg, svg *, img)) { all: revert; }` di
+awal CSS (specificity setara id) + `display: block` untuk tag struktural. Diuji dengan `main{display:flex}`,
+`section{filter:blur()}`, `nav{display:flex}`, `footer{display:none}`, `div{line-height:3}`: tinggi semua section
+identik dengan versi asli. Yang masih bisa menembus hanya rule situs yang memakai `!important` atau selector id.
+
 ## Temuan: Prioritas TINGGI
 ### T-1. Navbar halaman ini `position: fixed`, bentrok dengan header corpweb
 Halaman landing membawa navbar sendiri (`.lv-nav`). Di halaman corpweb yang sudah punya header, akan ada dua

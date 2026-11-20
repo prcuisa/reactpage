@@ -30,6 +30,10 @@
   letter-spacing: normal;
   visibility: visible;
 }
+/* Isolasi dari CSS situs: batalkan semua rule tag/class milik template AEM (main{display:flex}, section{...},
+   nav{...}, .hero{...}) untuk elemen di dalam komponen. Specificity setara id: menang atas CSS situs tanpa id,
+   kalah dari semua rule Livin' di bawah. SVG & img dikecualikan agar atribut presentasinya tetap berlaku. */
+:is(#appLivinLanding, .lv-app) :where(:not(svg, svg *, img)) { all: revert; }
 :is(#appLivinLanding, .lv-app) *, :is(#appLivinLanding, .lv-app) *::before, :is(#appLivinLanding, .lv-app) *::after { box-sizing: border-box; font-family: inherit; }
 :is(#appLivinLanding, .lv-app) :where(h1, h2, h3, h4, h5, h6) { font-family: inherit; text-transform: none; margin: 0; padding: 0; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
 :is(#appLivinLanding, .lv-app) :where(p) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
@@ -37,6 +41,7 @@
 :is(#appLivinLanding, .lv-app) :where(button) { -webkit-appearance: none; appearance: none; box-shadow: none; min-width: 0; height: auto; margin: 0; line-height: inherit; letter-spacing: normal; text-transform: none; font-family: inherit; }
 :is(#appLivinLanding, .lv-app) :where(img) { margin: 0; border: 0; display: block; }
 :is(#appLivinLanding, .lv-app) :where(ul, ol, li) { margin: 0; padding: 0; list-style: none; }
+:is(#appLivinLanding, .lv-app) :where(main, section, article, aside, header, footer, nav, div) { display: block; }
 
 /* Tailwind preflight (scoped) */
 :is(#appLivinLanding, .lv-app), :is(#appLivinLanding, .lv-app) *,

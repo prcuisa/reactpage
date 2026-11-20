@@ -7,7 +7,7 @@ const babel = require('@babel/core'); const terser = require('terser');
 
 const SRC = process.argv[2], OUT = process.argv[3];
 const ROOT = 'appLivinLanding', R = '#' + ROOT, P = 'lv-', NAME = 'livin-landing';
-const DAM = process.env.DAM || '/content/dam/livin/';
+const DAM = process.env.DAM ?? '/content/dam/livin/';
 fs.mkdirSync(OUT, { recursive: true });
 const read = (f) => fs.readFileSync(path.join(SRC, f), 'utf8');
 const pascal = (s) => s.replace(/(^|[-_])([a-z0-9])/g, (_, __, c) => c.toUpperCase());
@@ -192,6 +192,10 @@ ${R} {
   letter-spacing: normal;
   visibility: visible;
 }
+/* Isolasi dari CSS situs: batalkan semua rule tag/class milik template AEM (main{display:flex}, section{...},
+   nav{...}, .hero{...}) untuk elemen di dalam komponen. Specificity setara id: menang atas CSS situs tanpa id,
+   kalah dari semua rule Livin' di bawah. SVG & img dikecualikan agar atribut presentasinya tetap berlaku. */
+${R} :where(:not(svg, svg *, img)) { all: revert; }
 ${R} *, ${R} *::before, ${R} *::after { box-sizing: border-box; font-family: inherit; }
 ${R} :where(h1, h2, h3, h4, h5, h6) { font-family: inherit; text-transform: none; margin: 0; padding: 0; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
 ${R} :where(p) { margin: 0; padding: 0; font-size: inherit; line-height: inherit; }
@@ -199,6 +203,7 @@ ${R} :where(a, a:hover, a:focus, a:visited, a:active) { color: inherit; text-dec
 ${R} :where(button) { -webkit-appearance: none; appearance: none; box-shadow: none; min-width: 0; height: auto; margin: 0; line-height: inherit; letter-spacing: normal; text-transform: none; font-family: inherit; }
 ${R} :where(img) { margin: 0; border: 0; display: block; }
 ${R} :where(ul, ol, li) { margin: 0; padding: 0; list-style: none; }
+${R} :where(main, section, article, aside, header, footer, nav, div) { display: block; }
 
 /* Tailwind preflight (scoped) */
 ${convertCss(baseCss, { preflight: true })}`],
